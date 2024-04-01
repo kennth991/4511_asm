@@ -89,19 +89,19 @@ public class LoginController extends HttpServlet {
             String role = user.getRole();
             switch (role) {
                 case "user":
-                    response.sendRedirect(request.getContextPath() + "/user/");
+                    response.sendRedirect(request.getContextPath() + "/user");
                     break;
                 case "staff":
-                    response.sendRedirect(request.getContextPath() + "/staff/");
+                    response.sendRedirect(request.getContextPath() + "/staff");
                     break;
                 case "technician":
-                    response.sendRedirect(request.getContextPath() + "/technician/");
+                    response.sendRedirect(request.getContextPath() + "/technician");
                     break;
                 case "courier":
-                    response.sendRedirect(request.getContextPath() + "/courier/");
+                    response.sendRedirect(request.getContextPath() + "/courier");
                     break;
                 case "administrator":
-                    response.sendRedirect(request.getContextPath() + "/admin/");
+                    response.sendRedirect(request.getContextPath() + "/admin");
                     break;
                 default:
                     // User is not authorized, redirect to login page and clear session
