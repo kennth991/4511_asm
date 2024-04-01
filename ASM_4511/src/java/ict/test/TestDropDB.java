@@ -5,6 +5,7 @@
 package ict.test;
 
 import ict.db.CustomerDB;
+import ict.db.EquipmentDB;
 
 /**
  *
@@ -12,11 +13,14 @@ import ict.db.CustomerDB;
  */
 public class TestDropDB {
     public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/ITP4511_DB";
+        String url = "jdbc:mysql://localhost:3306/4511_asm";
         String username = "root";
         String password = "";
-        CustomerDB custDb = new CustomerDB(url, username, password);
+        //CustomerDB custDb = new CustomerDB(url, username, password);
+        EquipmentDB equipDb = new EquipmentDB(url, username, password);
+        
 
         custDb.dropCustTable();
+        custDb
     }
 }
