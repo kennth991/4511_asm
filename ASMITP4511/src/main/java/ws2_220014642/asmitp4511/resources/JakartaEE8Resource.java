@@ -1,4 +1,4 @@
-package com.mycompany.mavenproject1.resources;
+package ws2_220014642.asmitp4511.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

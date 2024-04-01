@@ -1,4 +1,4 @@
-package com.mycompany.mavenproject1;
+package ws2_220014642.asmitp4511;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
