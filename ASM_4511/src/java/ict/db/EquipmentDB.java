@@ -91,8 +91,8 @@ public class EquipmentDB {
         }
         return isSuccess;
     }
-    
-        public ArrayList<EquipmentBean> queryEquip() {
+
+    public ArrayList<EquipmentBean> queryEquip() {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         EquipmentBean cb = null;
@@ -104,7 +104,7 @@ public class EquipmentDB {
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null; // exeute the query and assign to the result
             rs = pStmnt.executeQuery();
-            
+
             while (rs.next()) {
                 cb = new EquipmentBean();
                 cb.setEquipmentId(rs.getString("equipmentID"));
