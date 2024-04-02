@@ -85,22 +85,26 @@ public class LoginController extends HttpServlet {
         UserDB db = new UserDB();
         User user = db.authenticate(username, password);
         if (user != null) {
-            request.getSession().setAttribute("user", user);
             String role = user.getRole();
             switch (role) {
                 case "user":
+                    request.getSession().setAttribute("user", user);
                     response.sendRedirect(request.getContextPath() + "/user");
                     break;
                 case "staff":
+                    request.getSession().setAttribute("staff", user);
                     response.sendRedirect(request.getContextPath() + "/staff");
                     break;
                 case "technician":
+                    request.getSession().setAttribute("technician", user);
                     response.sendRedirect(request.getContextPath() + "/technician");
                     break;
                 case "courier":
+                    request.getSession().setAttribute("courier", user);
                     response.sendRedirect(request.getContextPath() + "/courier");
                     break;
                 case "administrator":
+                    request.getSession().setAttribute("admin", user);
                     response.sendRedirect(request.getContextPath() + "/admin");
                     break;
                 default:
