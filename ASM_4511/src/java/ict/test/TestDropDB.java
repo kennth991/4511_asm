@@ -21,6 +21,6 @@ public class TestDropDB {
         
 
         custDb.dropCustTable();
-        custDb
+        equipDb.dropEquipTable();
     }
 }
