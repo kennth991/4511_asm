@@ -44,7 +44,7 @@ public class EquipmentDB {
             cnnct = getConnection();
             stmnt = cnnct.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS Equipment ("
-                    + "equipmentID varchar(8) NOT NULL,"
+                    + "equipmentID INT AUTO_INCREMENT,"
                     + "name varchar(50) NOT NULL,"
                     + "description varchar(50) NOT NULL,"
                     + "qty int(4) NOT NULL,"
