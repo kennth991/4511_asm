@@ -1,5 +1,5 @@
 <%-- 
-    Document   : index
+    Document   : courier_dashboard
     Created on : 2024年4月2日, 下午2:26:22
     Author     : kenneth
 --%>
@@ -12,29 +12,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Order Main Page</title>
-    <link href="assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-    <link href="assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/datatables/datatables.min.css" rel="stylesheet">
-    <link href="assets/css/master.css" rel="stylesheet">
+    <title>Courier Dashboard</title>
+    <link href="../assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="../assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/datatables/datatables.min.css" rel="stylesheet">
+    <link href="../assets/css/master.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="wrapper">
         <nav id="sidebar" class="active">
             <div class="sidebar-header">
-                <img src="assets/img/logo.png" style="height: 45px; width: 140px;" alt="bootraper logo" class="app-logo">
+                <img src="../assets/img/logo.png" style="height: 60px; width: 60px;" alt="bootraper logo" class="app-logo">
             </div>
             <ul class="list-unstyled components text-secondary">
                 <li>
-                    <a href="staff_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                    <a href="courier_dashboard.html"><i class="fas fa-home"></i> Courier Dashboard</a>
                 </li>
                 <li>
-                    <a href="order.html"><i class="fas fa-file-alt"></i> Order</a>
+                    <a href="delivery_management.html"><i class="fas fa-truck"></i> Delivery Management</a>
                 </li>
                 <li>
-                    <a href="profile.html"><i class="fas fa-address-card"></i>Profile</a>
+                    <a href="profile_management.html"><i class="fas fa-address-card"></i> Profile Management</a>
                 </li>
                 <li>
                     <a href="index.html"> <i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -70,69 +70,21 @@
             <div class="content">
                 <div class="container">
                     <div class="page-title">
-                        <h3> Order</h3>
+                        <h3>Courier Dashboard</h3>
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
                             <div class="card">
-                                <div class="card-header">Recent Order </div>
+                                <!-- Place your courier dashboard content here -->
                                 <div class="card-body">
-                                    <p class="card-title"></p>
-                                    <table class="table table-hover" class="table table-hover" id="dataTables-example" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Order ID</th>
-                                                <th>Purchase Manager ID</th>
-                                                <th>Manager Name</th>
-                                                <th>Order Date &amp; Time</th>
-                                                <th>Delivery Date</th>
-                                                <th>Order Quantity</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>OID-001</td>
-                                                <td>PM001</td>
-                                                <td>Alex Lo</td>
-                                                <td>14-03-2023 20:21</td>
-                                                <td>18-03-2023</td>
-                                                <td>10</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-eye"></i></button>
-                                                    <button type="button" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>OID-002</td>
-                                                <td>PM001</td>
-                                                <td>Antheol Lo</td>
-                                                <td>17-03-2023 10:21</td>
-                                                <td>22-03-2023</td>
-                                                <td>20</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-eye"></i></button>
-                                                    <button type="button" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>OID-003</td>
-                                                <td>PM001</td>
-                                                <td>Anson Lo</td>
-                                                <td>25-03-2023 20:21</td>
-                                                <td>30-03-2023</td>
-                                                <td>30</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-eye"></i></button>
-                                                    <button type="button" class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <button class="btn btn-primary" type="submit"><a href="create_order.html">Create Order</a></button>
+                                    <h5 class="card-title">Active Delivery Requests</h5>
+                                    <!-- List of active delivery requests -->
+                                    <ul>
+                                        <li>View list of available devices</li>
+                                        <li>View personal borrowing records</li>
+                                        <li>Pickup Equipment</li>
+                                        <li>Deliver Equipment to Campus</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -141,9 +93,9 @@
             </div>
         </div>
     </div>
-    <script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 
 </html>
