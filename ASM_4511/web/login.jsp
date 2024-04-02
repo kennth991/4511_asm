@@ -10,7 +10,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/css/login.css">
     </head>
     <div class="login-page">
@@ -30,5 +29,6 @@
             </form>
         </div>
     </div>
-    <script src="assets/js/login.js"></script>
+    <script src="../assets/js/login.js"></script>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
 </html>
