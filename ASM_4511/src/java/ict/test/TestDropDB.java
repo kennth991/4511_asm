@@ -4,9 +4,8 @@
  */
 package ict.test;
 
-import ict.db.CustomerDB;
 import ict.db.EquipmentDB;
-
+import ict.bean.User;
 /**
  *
 * @author Lau Ka Ming Benjamin-
@@ -20,7 +19,7 @@ public class TestDropDB {
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
         
 
-        custDb.dropCustTable();
-        custDb
+//        custDb.dropCustTable();
+//        custDb
     }
 }

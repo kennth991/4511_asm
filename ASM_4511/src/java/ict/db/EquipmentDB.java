@@ -7,9 +7,8 @@ package ict.db;
 import java.io.IOException;
 import java.sql.*;
 
-import ict.bean.CustomerBean;
 import java.util.ArrayList;
-
+import ict.bean.User;
 /**
  *
 * @author Lau Ka Ming Benjamin-
