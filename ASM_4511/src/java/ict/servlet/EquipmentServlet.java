@@ -28,8 +28,6 @@ public class EquipmentServlet extends HttpServlet {
         RequestDispatcher rd;
         rd = getServletContext().getRequestDispatcher("/technician/index.jsp");
         rd.forward(request, response);
-        
-        
     }
 
     @Override

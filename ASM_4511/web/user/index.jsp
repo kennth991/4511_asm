@@ -3,21 +3,16 @@
     Created on : 2024年4月2日, 下午2:25:40
     Author     : kenneth
 --%>
+<%@page import="ict.bean.BorrowingRecord"%>
 <%@page import="ict.bean.User"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <%
     User user = (User) session.getAttribute("user");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;
     }
-
-    // Placeholder for devices and records, replace with actual calls to your backend logic
-    List<?> devices = (List<?>) request.getAttribute("devices");
-    List<?> borrowingRecords = (List<?>) request.getAttribute("borrowingRecords");
 %>
 <!doctype html>
 <html lang="en">
@@ -27,11 +22,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>User Dashboard</title>
-        <link href="../assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-        <link href="../assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
-        <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../assets/vendor/datatables/datatables.min.css" rel="stylesheet">
-        <link href="../assets/css/master.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/assets/vendor/datatables/datatables.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/assets/css/master.css" rel="stylesheet">
     </head>
 
     <body>
@@ -76,12 +71,11 @@
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
                                     <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-user"></i> <span>Alex Lo</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                        <i class="fas fa-user"></i> <span>${user.firstName}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                         <ul class="nav-list">
                                             <li><a href="profile.html" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>
-                                            <div class="dropdown-divider"></div>
                                             <li><a href="index.html" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                                         </ul>
                                     </div>
@@ -93,71 +87,58 @@
                 <div class="content">
                     <div class="container">
                         <div class="page-title">
-                            <h3>Welcome, ${user.name}</h3> <!-- Dynamically greeting the user -->
+                            <h3>Welcome, ${user.firstName}</h3>
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        Available Devices
-                                    </div>
-                                    <div class="card-body">
-                                        <c:if test="${not empty devices}">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Model</th>
-                                                        <!-- other headers -->
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:forEach items="${devices}" var="device">
-                                                        <tr>
-                                                            <td>${device.name}</td>
-                                                            <td>${device.model}</td>
-                                                            <!-- other device details -->
-                                                        </tr>
-                                                    </c:forEach>
-                                                </tbody>
-                                            </table>
-                                        </c:if>
-                                        <c:if test="${empty devices}">
-                                            <p>No available devices at the moment.</p>
-                                        </c:if>
-                                    </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header">
                                         Personal Borrowing Records
                                     </div>
                                     <div class="card-body">
-                                        <c:if test="${not empty borrowingRecords}">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Device Name</th>
-                                                        <th>Checkout Date</th>
-                                                        <th>Return Date</th>
-                                                        <!-- other headers -->
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:forEach items="${borrowingRecords}" var="record">
-                                                        <tr>
-                                                            <td>${record.deviceName}</td>
-                                                            <td>${record.checkoutDate}</td>
-                                                            <td>${record.returnDate}</td>
-                                                            <!-- other record details -->
-                                                        </tr>
-                                                    </c:forEach>
-                                                </tbody>
-                                            </table>
-                                        </c:if>
-                                        <c:if test="${empty borrowingRecords}">
-                                            <p>You have no borrowing records.</p>
-                                        </c:if>
+                                        <%
+                                            List<BorrowingRecord> borrowingRecords = (List<BorrowingRecord>) request.getAttribute("borrowingRecords");
+                                            if (borrowingRecords == null || borrowingRecords.isEmpty()) {
+                                        %>
+                                        <p>You have no borrowing records.</p>
+                                        <%
+                                        } else {
+                                        %>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Record ID</th>
+                                                    <th>User ID</th>
+                                                    <th>Equipment Name</th>
+                                                    <th>Checkout Date</th>
+                                                    <th>Expected Return Date</th>
+                                                    <th>Actual Return Date</th>
+                                                    <th>Status</th>
+                                                    <th>Comments</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%
+                                                    for (BorrowingRecord record : borrowingRecords) {
+                                                %>
+                                                <tr>
+                                                    <td><%= record.getRecordId()%></td>
+                                                    <td><%= record.getUserId()%></td>
+                                                    <td><%= record.getEquipmentName()%></td>
+                                                    <td><%= record.getCheckoutDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getCheckoutDate()) : "N/A"%></td>
+                                                    <td><%= record.getExpectedReturnDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getExpectedReturnDate()) : "N/A"%></td>
+                                                    <td><%= record.getActualReturnDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getActualReturnDate()) : "N/A"%></td>
+                                                    <td><%= record.getStatus()%></td>
+                                                    <td><%= record.getComments()%></td>
+                                                </tr>
+                                                <%
+                                                    }
+                                                %>
+                                            </tbody>
+                                        </table>
+                                        <%
+                                            }
+                                        %>
                                     </div>
                                 </div>
                             </div>
@@ -166,9 +147,9 @@
                 </div>
             </div>
         </div>
-        <script src="../assets/vendor/jquery/jquery.min.js"></script>
-        <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/js/script.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/vendor/jquery/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
     </body>
 
 </html>
