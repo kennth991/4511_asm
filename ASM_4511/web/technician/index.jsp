@@ -77,11 +77,31 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
-                            <div class="card">
-                                <!-- Add content specific to the technician user role here -->
-                                <ul>
-                                    <li>Keep inventory records</li>
-                                    <li>Handle members' booking records (approval, arrange delivery, check-in/checkout)</li>
-                                    <li>Report damages</li>
-                                    <li>View checkout statistics by equipment and by campus</li>
-                                    <li>Review and confirm damage re
+                             <div class="card">
+                                <div class="card-header">Recent Order </div>
+                                <div class="card-body">
+                                    <p class="card-title"></p>
+                                    <table class="table table-hover" class="table table-hover" id="dataTables-example" width="100%">
+                                        <thead>
+                                       
+                                        </thead>
+                                        <tbody>
+                                           
+                                           
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-primary" type="submit"><a href="create_order.html">Create Order</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/script.js"></script>
+</body>
+
+</html>
