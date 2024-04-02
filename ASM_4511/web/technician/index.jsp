@@ -3,7 +3,14 @@
     Created on : 2024年4月2日, 下午2:25:46
     Author     : kenneth
 --%>
-
+<%@page import="ict.bean.User"%>
+<%
+User user = (User) session.getAttribute("technician");
+if (user == null) {
+    response.sendRedirect(request.getContextPath() + "/login.jsp");
+    return;
+}
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
