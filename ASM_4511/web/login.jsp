@@ -10,7 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" type="text/css" href="assets/css/login.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/login.css">
+        <script src="assets/js/login.js"></script>
     </head>
     <div class="login-page">
         <div class="form">
@@ -29,6 +30,5 @@
             </form>
         </div>
     </div>
-    <script src="../assets/js/login.js"></script>
-    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
 </html>
