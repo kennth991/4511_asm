@@ -107,7 +107,7 @@ public class EquipmentDB {
 
             while (rs.next()) {
                 cb = new EquipmentBean();
-                cb.setEquipmentId(rs.getString("equipmentID"));
+                cb.setEquipmentId(rs.getInt("equipmentID"));
                 cb.setName(rs.getString("name"));
                 cb.setDescription(rs.getString("description"));
                 cb.setQty(rs.getInt("qty"));

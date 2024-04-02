@@ -9,15 +9,15 @@ package ict.bean;
 * @author Lau Ka Ming Benjamin-
  */
 public class EquipmentBean {
-    private String equipmentId;
+    private int equipmentId;
     private String name;
     private String des;
     private int qty;
 
-    public void setEquipmentId(String equipmentId){
+    public void setEquipmentId(int equipmentId){
         this.equipmentId = equipmentId;
     }
-    public String getEquipmentId(){
+    public int getEquipmentId(){
         return equipmentId;
     }
 

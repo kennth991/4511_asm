@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ict.db.UserDB;
 import ict.bean.User;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -84,6 +85,8 @@ public class LoginController extends HttpServlet {
         // compare the username and password from database
         UserDB db = new UserDB();
         User user = db.authenticate(username, password);
+        HttpSession session = request.getSession(true);
+        
         if (user != null) {
             String role = user.getRole();
             switch (role) {
@@ -96,8 +99,8 @@ public class LoginController extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/staff");
                     break;
                 case "technician":
-                    request.getSession().setAttribute("technician", user);
-                    response.sendRedirect(request.getContextPath() + "/technician");
+                    session.setAttribute("technician", user);
+                    response.sendRedirect(request.getContextPath() + "/EquipmentServlet");
                     break;
                 case "courier":
                     request.getSession().setAttribute("courier", user);

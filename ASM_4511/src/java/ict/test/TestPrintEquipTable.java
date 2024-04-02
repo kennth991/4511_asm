@@ -5,6 +5,8 @@
 package ict.test;
 
 import ict.db.EquipmentDB;
+import java.util.ArrayList;
+import ict.bean.EquipmentBean;
 
 /**
  *
@@ -19,6 +21,12 @@ public class TestPrintEquipTable {
 
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
         equipDb.createEquipTable();
-        equipDb.queryEquip();
+        ArrayList<EquipmentBean> allEquipment = equipDb.queryEquip();
+        System.out.println("<tr>");
+        System.out.println("<th>Equipment ID</th>");
+        System.out.println("<th>Name</th>");
+        System.out.println("<th>Description</th>");
+        System.out.println("<th>Quantity</th>");
+        System.out.println("</tr>");
     }
 }
