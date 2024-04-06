@@ -92,6 +92,39 @@ public class EquipmentDB {
         return isSuccess;
     }
 
+    public boolean editRecord(EquipmentBean eb) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean updateSuccessful = false;
+
+        try {
+            cnnct = getConnection(); // get Connection
+            String preQueryStatement = "UPDATE equipment SET name = ?, description = ?, qty = ? WHERE equipmentID = ?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+
+            pStmnt.setString(1, eb.getName());
+            pStmnt.setString(2, eb.getDescription());
+            pStmnt.setInt(3, eb.getQty());
+            pStmnt.setInt(4, eb.getEquipmentId());
+
+            int rowCount = pStmnt.executeUpdate();
+            if (rowCount >= 1) {
+                updateSuccessful = true;
+            }
+
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return updateSuccessful;
+    }
+
     public ArrayList<EquipmentBean> queryEquip() {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;

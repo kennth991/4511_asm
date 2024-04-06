@@ -120,8 +120,10 @@
                                                     <td><%= equipment.getDescription()%></td>
                                                     <td><%= equipment.getQty()%></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fas fa-edit"></i></button>
-                                                        <button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
+                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentId()%>', '<%= equipment.getName()%>', '<%= equipment.getDescription()%>', '<%= equipment.getQty()%>')">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentId()%>', '<%= equipment.getName()%>', '<%= equipment.getDescription()%>', '<%= equipment.getQty()%>')"><i class="fa-solid fa-trash"></i></button>
                                                     </td>
                                                 </tr>
                                                 <%
@@ -131,6 +133,30 @@
                                         </table>
                                         <button class="btn btn-primary" type="submit"><a href="create_order.html">Create Order</a></button>
                                     </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="Equipment" method="get">
+                                                    <div class="modal-body">
+                                                        <input id="deleteEquipment" name="deleteEquipment" value="edit" class="editEquipment" hidden="">
+                                                        <input id="id" type="number" name= "id"class="form-control" type="text" readonly>
+                                                        <input id="name" name="name" class="form-control" type="text" >
+                                                        <input id="description" name="description"class="form-control" type="text"  >
+                                                        <input id="qty" name="qty" class="form-control" type="number" >
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">comfirm Delete</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -138,13 +164,19 @@
                                                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Understood</button>
-                                                </div>
+                                                <form action="Equipment" method="get">
+                                                    <div class="modal-body">
+                                                        <input id="editEquipment" name="editEquipment" value="edit" class="editEquipment" hidden="">
+                                                        <input id="id" type="number" name= "id"class="form-control" type="text" readonly>
+                                                        <input id="name" name="name" class="form-control" type="text" >
+                                                        <input id="description" name="description"class="form-control" type="text"  >
+                                                        <input id="qty" name="qty" class="form-control" type="number" >
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Understood</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -155,7 +187,20 @@
                 </div>
             </div>
         </div>
-
+        <script>
+            function displayEquipment(equipmentId, name, description, qty) {
+                document.getElementById("id").value = equipmentId;
+                document.getElementById("name").value = name;
+                document.getElementById("description").value = description;
+                document.getElementById("qty").value = qty;
+            }
+            function deleteEquipment(equipmentId) {
+                document.getElementById("id").value = equipmentId;
+                document.getElementById("name").value = name;
+                document.getElementById("description").value = description;
+                document.getElementById("qty").value = qty;
+            }
+        </script>
         <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
         <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
         <script src="<c:url value='/assets/js/script.js' />"></script>
