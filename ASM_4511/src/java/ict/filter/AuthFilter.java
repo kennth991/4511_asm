@@ -21,7 +21,7 @@
 //
 ///**
 // *
-// * @author fktse
+// * @author kenneth
 // */
 //public class AuthFilter implements Filter {
 //

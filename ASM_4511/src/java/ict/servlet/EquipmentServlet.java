@@ -29,6 +29,7 @@ public class EquipmentServlet extends HttpServlet {
         rd = getServletContext().getRequestDispatcher("/technician/index.jsp");
         rd.forward(request, response);
 
+
     }
 
     protected void editEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,6 +62,7 @@ public class EquipmentServlet extends HttpServlet {
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
         Boolean message = equipDb.editRecord(editbean);
         response.sendRedirect(request.getContextPath() + "/Equipment");
+
 
     }
 

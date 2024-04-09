@@ -92,7 +92,7 @@ public class LoginController extends HttpServlet {
             switch (role) {
                 case "user":
                     request.getSession().setAttribute("user", user);
-                    response.sendRedirect(request.getContextPath() + "/user");
+                    response.sendRedirect(request.getContextPath() + "/BorrowingRecordServlet");
                     break;
                 case "staff":
                     request.getSession().setAttribute("staff", user);

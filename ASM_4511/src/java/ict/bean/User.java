@@ -16,24 +16,26 @@ public class User implements Serializable {
     private String password;
     private String role;
     private String email;
-    private String phone;
+    private String phoneNo;
     private String address;
-    private String name;
+    private String firstName;
+    private String lastName;
 
     public User() {
 
     }
 
-    public User(int id, String username, String password, String role, String email, String phone, String address,
-            String name) {
+    public User(int id, String username, String password, String role, String email, String phoneNo, String address,
+            String firstName, String lastName) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
         this.email = email;
-        this.phone = phone;
+        this.phoneNo = phoneNo;
         this.address = address;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public int getId() {
@@ -56,16 +58,20 @@ public class User implements Serializable {
         return email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNo() {
+        return phoneNo;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
+    }
+    
+    public String getLastName() {
+        return lastName;
     }
 
     public void setId(int id) {
@@ -88,15 +94,19 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
