@@ -38,11 +38,12 @@ public class EquipmentServlet extends HttpServlet {
 
         int equipmentId = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
+        String location = request.getParameter("location");
         String description = request.getParameter("description");
-        int qty = Integer.parseInt(request.getParameter("qty"));
-        EquipmentBean editbean = new EquipmentBean(equipmentId, name, description, qty);
+        String status = request.getParameter("status");
+        EquipmentBean editbean = new EquipmentBean(equipmentId, name,location, description, status);
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
-        Boolean message = equipDb.editRecord(editbean);
+        equipDb.editRecord(editbean);
         response.sendRedirect(request.getContextPath() + "/Equipment");
 
     }
@@ -72,8 +73,6 @@ public class EquipmentServlet extends HttpServlet {
 
             editEquipment(request, response);
 
-        }else if (){
-            
         }else {
 
             processRequest(request, response);

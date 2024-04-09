@@ -12,14 +12,16 @@ public class EquipmentBean {
 
     private int equipmentId;
     private String name;
+    private String location;
     private String des;
-    private int qty;
+    private String status;
 
-    public EquipmentBean(int equipmentId, String name, String des, int qty) {
+    public EquipmentBean(int equipmentId, String name, String location, String des, String status) {
         this.equipmentId = equipmentId;
         this.name = name;
+        this.location = location;
         this.des = des;
-        this.qty = qty;
+        this.status = status;
     }
 
     public void setEquipmentId(int equipmentId) {
@@ -38,6 +40,15 @@ public class EquipmentBean {
         return name;
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     public void setDescription(String des) {
         this.des = des;
     }
@@ -46,12 +57,12 @@ public class EquipmentBean {
         return des;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public int getQty() {
-        return qty;
+    public String getStatus() {
+        return status;
     }
 
     public EquipmentBean() {

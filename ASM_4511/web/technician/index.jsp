@@ -9,11 +9,11 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    User user = (User) session.getAttribute("technician");
-    if (user == null) {
-        response.sendRedirect(request.getContextPath() + "/login.jsp");
-        return;
-    }
+    //User user = (User) session.getAttribute("technician");
+    //if (user == null) {
+    //  response.sendRedirect(request.getContextPath() + "/login.jsp");
+    //return;
+    //}
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -93,7 +93,7 @@
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
                                 <div class="card">
-                                    <div class="card-header">Recent Order </div>
+                                    <div class="card-header">Equipment List</div>
                                     <div class="card-body">
                                         <p class="card-title"></p>
                                         <table class="table table-hover" id="dataTables-example" width="100%">
@@ -101,8 +101,9 @@
                                                 <tr>
                                                     <th>Equipment ID</th>
                                                     <th>Name</th>
+                                                    <th>Location</th>
                                                     <th>Description</th>
-                                                    <th>Quantity</th>
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -117,13 +118,15 @@
                                                 <tr>
                                                     <td><%= equipment.getEquipmentId()%></td>
                                                     <td><%= equipment.getName()%></td>
+                                                    <td><%= equipment.getLocation()%></td>
                                                     <td><%= equipment.getDescription()%></td>
-                                                    <td><%= equipment.getQty()%></td>
+                                                    <td><%= equipment.getStatus()%></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentId()%>', '<%= equipment.getName()%>', '<%= equipment.getDescription()%>', '<%= equipment.getQty()%>')">
+                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentId()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>')">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentId()%>', '<%= equipment.getName()%>', '<%= equipment.getDescription()%>', '<%= equipment.getQty()%>')"><i class="fa-solid fa-trash"></i></button>
+                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentId()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>')">
+                                                            <i class="fa-solid fa-trash"></i></button>
                                                     </td>
                                                 </tr>
                                                 <%
@@ -131,7 +134,7 @@
                                                     }%>
                                             </tbody>
                                         </table>
-                                        <button class="btn btn-primary" type="submit"><a href="create_order.html">Create Order</a></button>
+                                        <button class="btn btn-primary" type="submit"><a href="create_order.html">Create Equipment</a></button>
                                     </div>
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -143,11 +146,13 @@
                                                 </div>
                                                 <form action="Equipment" method="get">
                                                     <div class="modal-body">
-                                                        <input id="deleteEquipment" name="deleteEquipment" value="edit" class="editEquipment" hidden="">
+                                                        <input id="deleteEquipment" name="deleteEquipment" value="edit" class="deleteEquipment" hidden="">
                                                         <input id="id" type="number" name= "id"class="form-control" type="text" readonly>
                                                         <input id="name" name="name" class="form-control" type="text" >
+                                                        <input id="location" name="location" class="form-control" type="text">
                                                         <input id="description" name="description"class="form-control" type="text"  >
-                                                        <input id="qty" name="qty" class="form-control" type="number" >
+                                                        <input id="status" name="status" class="form-control" type="text" >
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -167,10 +172,11 @@
                                                 <form action="Equipment" method="get">
                                                     <div class="modal-body">
                                                         <input id="editEquipment" name="editEquipment" value="edit" class="editEquipment" hidden="">
-                                                        <input id="id" type="number" name= "id"class="form-control" type="text" readonly>
-                                                        <input id="name" name="name" class="form-control" type="text" >
-                                                        <input id="description" name="description"class="form-control" type="text"  >
-                                                        <input id="qty" name="qty" class="form-control" type="number" >
+                                                        <input id="editid" type="number" name= "id"class="form-control" type="text" readonly>
+                                                        <input id="editname" name="name" class="form-control" type="text" >
+                                                        <input id="editlocation" name="location" class="form-control" type="text">
+                                                        <input id="editdescription" name="description"class="form-control" type="text"  >
+                                                        <input id="editstatus" name="status" class="form-control" type="text" >
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -189,16 +195,18 @@
         </div>
         <script>
             function displayEquipment(equipmentId, name, description, qty) {
-                document.getElementById("id").value = equipmentId;
-                document.getElementById("name").value = name;
-                document.getElementById("description").value = description;
-                document.getElementById("qty").value = qty;
+                document.getElementById("editid").value = equipmentId;
+                document.getElementById("editname").value = name;
+                document.getElementById("editlocation").value = location;
+                document.getElementById("editdescription").value = description;
+                document.getElementById("editstatus").value = status;
             }
             function deleteEquipment(equipmentId) {
                 document.getElementById("id").value = equipmentId;
                 document.getElementById("name").value = name;
+                document.getElementById("location").value = location;
                 document.getElementById("description").value = description;
-                document.getElementById("qty").value = qty;
+                document.getElementById("status").value = status;
             }
         </script>
         <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>

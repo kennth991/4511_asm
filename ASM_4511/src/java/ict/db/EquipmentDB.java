@@ -99,13 +99,14 @@ public class EquipmentDB {
 
         try {
             cnnct = getConnection(); // get Connection
-            String preQueryStatement = "UPDATE equipment SET name = ?, description = ?, qty = ? WHERE equipmentID = ?";
+            String preQueryStatement = "UPDATE equipment SET name = ?, location = ?, description = ?, status = ? WHERE equipmentID = ?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
 
             pStmnt.setString(1, eb.getName());
-            pStmnt.setString(2, eb.getDescription());
-            pStmnt.setInt(3, eb.getQty());
-            pStmnt.setInt(4, eb.getEquipmentId());
+            pStmnt.setString(2, eb.getLocation());
+            pStmnt.setString(3, eb.getDescription());
+            pStmnt.setString(4, eb.getStatus());
+            pStmnt.setInt(5, eb.getEquipmentId());
 
             int rowCount = pStmnt.executeUpdate();
             if (rowCount >= 1) {
@@ -142,8 +143,10 @@ public class EquipmentDB {
                 cb = new EquipmentBean();
                 cb.setEquipmentId(rs.getInt("equipmentID"));
                 cb.setName(rs.getString("name"));
+                cb.setLocation(rs.getString("location"));
                 cb.setDescription(rs.getString("description"));
-                cb.setQty(rs.getInt("qty"));
+                cb.setStatus(rs.getString("status"));
+                
                 equipments.add(cb);
             }
 
