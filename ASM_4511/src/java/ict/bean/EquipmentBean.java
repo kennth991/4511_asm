@@ -6,43 +6,67 @@ package ict.bean;
 
 /**
  *
-* @author Lau Ka Ming Benjamin-
+ * @author Lau Ka Ming Benjamin-
  */
 public class EquipmentBean {
+
     private int equipmentId;
     private String name;
+    private String location;
     private String des;
-    private int qty;
+    private String status;
 
-    public void setEquipmentId(int equipmentId){
+    public EquipmentBean(int equipmentId, String name, String location, String des, String status) {
+        this.equipmentId = equipmentId;
+        this.name = name;
+        this.location = location;
+        this.des = des;
+        this.status = status;
+    }
+
+    public void setEquipmentId(int equipmentId) {
         this.equipmentId = equipmentId;
     }
-    public int getEquipmentId(){
+
+    public int getEquipmentId() {
         return equipmentId;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
 
-    public void setDescription(String des){
+    public void setLocation(String location) {
+        this.location = location;
+
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setDescription(String des) {
         this.des = des;
     }
-    public String getDescription(){
+
+    public String getDescription() {
         return des;
     }
 
-    public void setQty(int qty){
-        this.qty = qty;
-    }
-    public int getQty(){
-        return qty;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public EquipmentBean(){
+    public String getStatus() {
+        return status;
+    }
 
-    };
+    public EquipmentBean() {
+
+    }
+;
 }
