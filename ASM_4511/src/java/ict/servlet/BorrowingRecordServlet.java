@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -27,7 +27,7 @@ public class BorrowingRecordServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         if (user != null) {
             BorrowingRecordDB db = new BorrowingRecordDB();
-            List<BorrowingRecord> records = db.getBorrowingRecordsByUserId(user.getId());
+            List<BorrowingRecord> records = db.getBorrowingRecordsByUserId(user.getUserID());
             for (BorrowingRecord record : records) {
                 System.out.println("Record ID: " + record.getRecordId() + ", Equipment Name: " + record.getEquipmentName());
             }

@@ -32,7 +32,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int getuserID() {
+    public int getUserID() {
         return userID;
     }
 
