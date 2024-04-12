@@ -42,10 +42,12 @@ public class UserDB {
             // If user exists, create User object
             if (rs.next()) {
                 user = new User();
-                user.setId(rs.getInt("userID"));
-                user.setUsername(rs.getString("username"));
+                user.setUserID(rs.getInt("userID"));
+                user.setUserName(rs.getString("username"));
+                user.setName(rs.getString("name"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));
+                user.setLocation(rs.getString("location"));
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
