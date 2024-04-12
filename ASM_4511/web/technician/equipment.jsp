@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 2024年4月2日, 下午2:25:46
-    Author     : kenneth
+    Author     : Lau Ka Ming Benjamin
 --%>
 <%@page import="ict.bean.User"%>
 <%@page import="ict.bean.EquipmentBean"%>
@@ -49,7 +49,7 @@
                         <a href="inventory_management.html"><i class="fas fa-clipboard-list"></i> Inventory Management</a>
                     </li>
                     <li>
-                        <a href="booking_management.html"><i class="fas fa-calendar-check"></i> Booking Management</a>
+                        <a href="Booking"><i class="fas fa-calendar-check"></i> Booking Management</a>
                     </li>
                     <li>
                         <a href="damage_reporting.html"><i class="fas fa-exclamation-triangle"></i> Damage Reporting</a>
@@ -111,7 +111,7 @@
                                                 <%
                                                     // Retrieve the "equipments" attribute from the request
                                                     ArrayList<EquipmentBean> equipments = (ArrayList<EquipmentBean>) request.getAttribute("equipments");
-                                                %>
+                                                %>ucas 2023
                                                 <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
                                                 <%
                                                     for (EquipmentBean equipment : equipments) {%>

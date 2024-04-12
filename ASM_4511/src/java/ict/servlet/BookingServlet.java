@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import ict.db.EquipmentDB;
 import javax.servlet.RequestDispatcher;
 
-@WebServlet(name = "EquipmentServlet", urlPatterns = "/Equipment")
-public class EquipmentServlet extends HttpServlet {
+@WebServlet(name = "BookingServlet", urlPatterns = "/Booking")
+public class BookingServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = "jdbc:mysql://localhost:3306/4511_asm";
@@ -26,9 +26,8 @@ public class EquipmentServlet extends HttpServlet {
         request.setAttribute("equipments", allEquipment);
 
         RequestDispatcher rd;
-        rd = getServletContext().getRequestDispatcher("/technician/equipment.jsp");
+        rd = getServletContext().getRequestDispatcher("/technician/booking.jsp");
         rd.forward(request, response);
-
 
     }
 
@@ -42,7 +41,7 @@ public class EquipmentServlet extends HttpServlet {
         String location = request.getParameter("location");
         String description = request.getParameter("description");
         String status = request.getParameter("status");
-        EquipmentBean editbean = new EquipmentBean(equipmentId, name,location, description, status);
+        EquipmentBean editbean = new EquipmentBean(equipmentId, name, location, description, status);
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
         equipDb.editRecord(editbean);
         response.sendRedirect(request.getContextPath() + "/Equipment");
@@ -58,12 +57,11 @@ public class EquipmentServlet extends HttpServlet {
         String name = request.getParameter("name");
         String location = request.getParameter("location");
         String description = request.getParameter("description");
-        String status = request.getParameter("status");;
-        EquipmentBean editbean = new EquipmentBean(equipmentId, name,location, description, status);
+        String status = request.getParameter("status");
+        EquipmentBean editbean = new EquipmentBean(equipmentId, name, location, description, status);
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
         Boolean message = equipDb.editRecord(editbean);
         response.sendRedirect(request.getContextPath() + "/Equipment");
-
 
     }
 
@@ -76,7 +74,7 @@ public class EquipmentServlet extends HttpServlet {
 
             editEquipment(request, response);
 
-        }else {
+        } else {
 
             processRequest(request, response);
         }
