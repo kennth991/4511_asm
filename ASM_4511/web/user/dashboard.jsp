@@ -1,5 +1,5 @@
 <%-- 
-    Document   : index
+    Document   : dashboard
     Created on : 2024年4月2日, 下午2:25:40
     Author     : kenneth
 --%>
@@ -40,7 +40,7 @@
                         <a href="user_index.html"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="view_devices.html"><i class="fas fa-laptop"></i> View Available Devices</a>
+                        <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Available Devices</a>
                     </li>
                     <li>
                         <a href="borrowing_records.html"><i class="fas fa-history"></i> Personal Borrowing Records</a>

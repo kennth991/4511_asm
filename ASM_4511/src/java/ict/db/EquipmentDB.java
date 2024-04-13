@@ -1,41 +1,84 @@
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ict.db;
 
-import java.io.IOException;
-import java.sql.*;
-
 import ict.bean.EquipmentBean;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Lau Ka Ming Benjamin-
  */
+
+
+
+
 public class EquipmentDB {
 
-    private String url = "";
-    private String username = "";
-    private String password = "";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/4511_asm";
+    private static final String JDBC_USERNAME = "root";
+    private static final String JDBC_PASSWORD = "";
 
-    public EquipmentDB(String url, String username, String password) {
-        this.url = url;
-        this.username = username;
-        this.password = password;
-    }
-
-    public Connection getConnection() throws SQLException, IOException {
+    // Ensure the driver is loaded once (optional in newer Java versions)
+    static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace(); // This should be logged properly in a real-world application
         }
-        return DriverManager.getConnection(url, username, password);
     }
 
+    private Connection getConnection() throws SQLException {
+        // Handling only SQLException because the driver is loaded statically
+        return DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+    }
+
+    public ArrayList<EquipmentBean> queryEquip() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        EquipmentBean cb = null;
+        ArrayList<EquipmentBean> equipments = new ArrayList<>();
+
+        try {
+            cnnct = getConnection(); // get Connection
+            String preQueryStatement = "SELECT * FROM Equipment";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null; // exeute the query and assign to the result
+            rs = pStmnt.executeQuery();
+
+            while (rs.next()) {
+                cb = new EquipmentBean();
+                cb.setEquipmentId(rs.getInt("equipmentID"));
+                cb.setName(rs.getString("name"));
+                cb.setLocation(rs.getString("location"));
+                cb.setDescription(rs.getString("description"));
+                cb.setStatus(rs.getString("status"));
+                
+                equipments.add(cb);
+            }
+
+            rs.close();
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return equipments;
+    }
     public void createEquipTable() {
         Statement stmnt = null;
         Connection cnnct = null;
@@ -126,42 +169,27 @@ public class EquipmentDB {
         return updateSuccessful;
     }
 
-    public ArrayList<EquipmentBean> queryEquip() {
-        Connection cnnct = null;
-        PreparedStatement pStmnt = null;
-        EquipmentBean cb = null;
-        ArrayList<EquipmentBean> equipments = new ArrayList<>();
-
-        try {
-            cnnct = getConnection(); // get Connection
-            String preQueryStatement = "SELECT * FROM Equipment";
-            pStmnt = cnnct.prepareStatement(preQueryStatement);
-            ResultSet rs = null; // exeute the query and assign to the result
-            rs = pStmnt.executeQuery();
-
+    public List<EquipmentBean> getAllAvailableEquipment() throws SQLException {
+        List<EquipmentBean> equipments = new ArrayList<>();
+        String sql = "SELECT * FROM equipment WHERE status = 'available'";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                cb = new EquipmentBean();
-                cb.setEquipmentId(rs.getInt("equipmentID"));
-                cb.setName(rs.getString("name"));
-                cb.setLocation(rs.getString("location"));
-                cb.setDescription(rs.getString("description"));
-                cb.setStatus(rs.getString("status"));
-                
-                equipments.add(cb);
+                EquipmentBean equipment = new EquipmentBean();
+                equipment.setEquipmentID(rs.getInt("equipmentID"));
+                equipment.setName(rs.getString("name"));
+                equipment.setDescription(rs.getString("description"));
+                equipment.setLocation(rs.getString("location"));
+                equipment.setStatus(rs.getString("status"));
+                equipment.setCategory(rs.getString("category"));
+                equipment.setImgSrc(rs.getString("imgSrc"));
+                equipments.add(equipment);
             }
-
-            rs.close();
-            pStmnt.close();
-            cnnct.close();
-        } catch (SQLException ex) {
-            while (ex != null) {
-                ex.printStackTrace();
-                ex = ex.getNextException();
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage()); // This should also be logged using a logging framework
+            throw e; // Rethrow the exception to handle it in a higher layer (e.g., in the servlet)
         }
         return equipments;
     }
-
 }

@@ -14,85 +14,48 @@ import javax.servlet.RequestDispatcher;
 @WebServlet(name = "BookingServlet", urlPatterns = "/Booking")
 public class BookingServlet extends HttpServlet {
 
+    private EquipmentDB equipDb = new EquipmentDB(); // This should use the no-arg constructor as intended.
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url = "jdbc:mysql://localhost:3306/4511_asm";
-        String username = "root";
-        String password = "";
-
-        EquipmentDB equipDb = new EquipmentDB(url, username, password);
-        ArrayList<EquipmentBean> allEquipment = equipDb.queryEquip();
-
-        // Set the equipments attribute in the request
+//        ArrayList<Equipment> allEquipment = equipDb.queryEquip(); // Assume this method exists and returns all equipment.
         request.setAttribute("equipments", allEquipment);
-
-        RequestDispatcher rd;
-        rd = getServletContext().getRequestDispatcher("/technician/booking.jsp");
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/technician/booking.jsp");
         rd.forward(request, response);
-
     }
 
     protected void editEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url = "jdbc:mysql://localhost:3306/4511_asm";
-        String username = "root";
-        String password = "";
-
         int equipmentId = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String location = request.getParameter("location");
         String description = request.getParameter("description");
         String status = request.getParameter("status");
-        EquipmentBean editbean = new EquipmentBean(equipmentId, name, location, description, status);
-        EquipmentDB equipDb = new EquipmentDB(url, username, password);
-        equipDb.editRecord(editbean);
-        response.sendRedirect(request.getContextPath() + "/Equipment");
+        EquipmentBean editBean = new EquipmentBean(equipmentId, name, location, description, status);
 
+        equipDb.editRecord(editBean); // Assumes editRecord updates the equipment in the database
+        response.sendRedirect(request.getContextPath() + "/Equipment");
     }
 
     protected void deleteEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url = "jdbc:mysql://localhost:3306/4511_asm";
-        String username = "root";
-        String password = "";
-
         int equipmentId = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String location = request.getParameter("location");
-        String description = request.getParameter("description");
-        String status = request.getParameter("status");
-        EquipmentBean editbean = new EquipmentBean(equipmentId, name, location, description, status);
-        EquipmentDB equipDb = new EquipmentDB(url, username, password);
-        Boolean message = equipDb.editRecord(editbean);
+        equipDb.deleteRecord(equipmentId); // Assumes deleteRecord removes the equipment from the database
         response.sendRedirect(request.getContextPath() + "/Equipment");
-
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String editEquipment = request.getParameter("editEquipment");
-        String deleteEquipment = request.getParameter("deleteEquipment");
-        if (editEquipment != null && !editEquipment.isEmpty()) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
 
+        if ("edit".equals(action)) {
             editEquipment(request, response);
-
+        } else if ("delete".equals(action)) {
+            deleteEquipment(request, response);
         } else {
-
             processRequest(request, response);
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String editEquipment = request.getParameter("editEquipment");
-
-        if (editEquipment != null && !editEquipment.isEmpty()) {
-
-            editEquipment(request, response);
-
-        } else {
-
-            processRequest(request, response);
-        }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
-
 }

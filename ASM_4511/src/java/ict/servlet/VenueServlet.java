@@ -45,7 +45,7 @@ public class VenueServlet {
         String location = request.getParameter("location");
         String description = request.getParameter("description");
         String status = request.getParameter("status");
-        EquipmentBean editbean = new EquipmentBean(equipmentId, name, location, description, status);
+        EquipmentBean editbean = new EquipmentBean();
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
         equipDb.editRecord(editbean);
         response.sendRedirect(request.getContextPath() + "/Equipment");
@@ -61,7 +61,7 @@ public class VenueServlet {
         String location = request.getParameter("location");
         String description = request.getParameter("description");
         String status = request.getParameter("status");
-        EquipmentBean editbean = new EquipmentBean(equipmentId, name, location, description, status);
+        Equipment editbean = new Equipment(equipmentId, name, location, description, status);
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
         equipDb.editRecord(editbean);
         response.sendRedirect(request.getContextPath() + "/Equipment");
@@ -78,7 +78,7 @@ public class VenueServlet {
         String location = request.getParameter("location");
         String description = request.getParameter("description");
         String status = request.getParameter("status");;
-        EquipmentBean editbean = new EquipmentBean(equipmentId, name, location, description, status);
+        Equipment editbean = new Equipment(equipmentId, name, location, description, status);
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
         Boolean message = equipDb.editRecord(editbean);
         response.sendRedirect(request.getContextPath() + "/Equipment");

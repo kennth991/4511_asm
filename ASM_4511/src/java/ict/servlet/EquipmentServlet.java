@@ -15,11 +15,7 @@ import javax.servlet.RequestDispatcher;
 public class EquipmentServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url = "jdbc:mysql://localhost:3306/4511_asm";
-        String username = "root";
-        String password = "";
-
-        EquipmentDB equipDb = new EquipmentDB(url, username, password);
+        EquipmentDB equipDb = new EquipmentDB(); // Assuming the EquipmentDB manages its own connections
         ArrayList<EquipmentBean> allEquipment = equipDb.queryEquip();
 
         // Set the equipments attribute in the request
@@ -28,73 +24,43 @@ public class EquipmentServlet extends HttpServlet {
         RequestDispatcher rd;
         rd = getServletContext().getRequestDispatcher("/technician/equipment.jsp");
         rd.forward(request, response);
-
-
     }
 
     protected void editEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url = "jdbc:mysql://localhost:3306/4511_asm";
-        String username = "root";
-        String password = "";
-
         int equipmentId = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String location = request.getParameter("location");
         String description = request.getParameter("description");
         String status = request.getParameter("status");
-        EquipmentBean editbean = new EquipmentBean(equipmentId, name,location, description, status);
-        EquipmentDB equipDb = new EquipmentDB(url, username, password);
+
+        EquipmentBean editbean = new EquipmentBean();
+        EquipmentDB equipDb = new EquipmentDB();
         equipDb.editRecord(editbean);
         response.sendRedirect(request.getContextPath() + "/Equipment");
-
     }
 
     protected void deleteEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url = "jdbc:mysql://localhost:3306/4511_asm";
-        String username = "root";
-        String password = "";
-
         int equipmentId = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String location = request.getParameter("location");
-        String description = request.getParameter("description");
-        String status = request.getParameter("status");;
-        EquipmentBean editbean = new EquipmentBean(equipmentId, name,location, description, status);
-        EquipmentDB equipDb = new EquipmentDB(url, username, password);
-        Boolean message = equipDb.editRecord(editbean);
+        EquipmentDB equipDb = new EquipmentDB();
+        equipDb.deleteRecord(equipmentId); // Assuming you have a method to delete records
         response.sendRedirect(request.getContextPath() + "/Equipment");
-
-
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String editEquipment = request.getParameter("editEquipment");
-        String deleteEquipment = request.getParameter("deleteEquipment");
-        if (editEquipment != null && !editEquipment.isEmpty()) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
 
+        if ("edit".equals(action)) {
             editEquipment(request, response);
-
-        }else {
-
-            processRequest(request, response);
-        }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String editEquipment = request.getParameter("editEquipment");
-
-        if (editEquipment != null && !editEquipment.isEmpty()) {
-
-            editEquipment(request, response);
-
+        } else if ("delete".equals(action)) {
+            deleteEquipment(request, response);
         } else {
-
             processRequest(request, response);
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 }

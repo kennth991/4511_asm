@@ -5,7 +5,9 @@
         <group>
             <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/VenueServlet.java</file>
             <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/nbproject/build-impl.xml</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/user/index.jsp</file>
+            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/db/EquipmentDB.java</file>
+            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/EquipmentServlet.java</file>
+            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/db/BorrowingRecordDB.java</file>
         </group>
     </open-files>
 </project-private>
