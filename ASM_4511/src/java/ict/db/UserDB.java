@@ -33,7 +33,7 @@ public class UserDB {
             conn = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
 
             // Query the database for the user
-            String sql = "SELECT * FROM user WHERE username=? AND password=?";
+            String sql = "SELECT * FROM user WHERE userName=? AND password=?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
             stmt.setString(2, password);
@@ -43,7 +43,7 @@ public class UserDB {
             if (rs.next()) {
                 user = new User();
                 user.setUserID(rs.getInt("userID"));
-                user.setUserName(rs.getString("username"));
+                user.setUserName(rs.getString("userName"));
                 user.setName(rs.getString("name"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));

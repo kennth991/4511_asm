@@ -4,106 +4,35 @@
  */
 package ict.db;
 
-import ict.bean.EquipmentBean;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+
+import ict.bean.EquipmentBean;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author Lau Ka Ming Benjamin-
  */
-
-
-
-
 public class EquipmentDB {
 
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/4511_asm";
-    private static final String JDBC_USERNAME = "root";
-    private static final String JDBC_PASSWORD = "";
+    private String url = "";
+    private String username = "";
+    private String password = "";
 
-    // Ensure the driver is loaded once (optional in newer Java versions)
-    static {
+    public EquipmentDB(String url, String username, String password) {
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
+
+    public Connection getConnection() throws SQLException, IOException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace(); // This should be logged properly in a real-world application
-        }
-    }
-
-    private Connection getConnection() throws SQLException {
-        // Handling only SQLException because the driver is loaded statically
-        return DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
-    }
-
-    public ArrayList<EquipmentBean> queryEquip() {
-        Connection cnnct = null;
-        PreparedStatement pStmnt = null;
-        EquipmentBean cb = null;
-        ArrayList<EquipmentBean> equipments = new ArrayList<>();
-
-        try {
-            cnnct = getConnection(); // get Connection
-            String preQueryStatement = "SELECT * FROM Equipment";
-            pStmnt = cnnct.prepareStatement(preQueryStatement);
-            ResultSet rs = null; // exeute the query and assign to the result
-            rs = pStmnt.executeQuery();
-
-            while (rs.next()) {
-                cb = new EquipmentBean();
-                cb.setEquipmentId(rs.getInt("equipmentID"));
-                cb.setName(rs.getString("name"));
-                cb.setLocation(rs.getString("location"));
-                cb.setDescription(rs.getString("description"));
-                cb.setStatus(rs.getString("status"));
-                
-                equipments.add(cb);
-            }
-
-            rs.close();
-            pStmnt.close();
-            cnnct.close();
-        } catch (SQLException ex) {
-            while (ex != null) {
-                ex.printStackTrace();
-                ex = ex.getNextException();
-            }
-        } catch (IOException ex) {
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        return equipments;
-    }
-    public void createEquipTable() {
-        Statement stmnt = null;
-        Connection cnnct = null;
-
-        try {
-            cnnct = getConnection();
-            stmnt = cnnct.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS Equipment ("
-                    + "equipmentID INT AUTO_INCREMENT,"
-                    + "name varchar(50) NOT NULL,"
-                    + "description varchar(50) NOT NULL,"
-                    + "qty int(4) NOT NULL,"
-                    + "PRIMARY KEY (equipmentID)"
-                    + ")";
-            stmnt.execute(sql);
-            stmnt.close();
-            cnnct.close();
-        } catch (SQLException ex) {
-            while (ex != null) {
-                ex.printStackTrace();
-                ex = ex.getNextException();
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        return DriverManager.getConnection(url, username, password);
     }
 
     public boolean addRecord(String CustId, String Name, String Tel, int Age) {
@@ -142,14 +71,17 @@ public class EquipmentDB {
 
         try {
             cnnct = getConnection(); // get Connection
-            String preQueryStatement = "UPDATE equipment SET name = ?, location = ?, description = ?, status = ? WHERE equipmentID = ?";
+
+            String preQueryStatement = "UPDATE equipment SET name = ?, location = ?, description = ?, status = ?,category = ?,imgSrc = ? WHERE equipmentID = ?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
 
             pStmnt.setString(1, eb.getName());
             pStmnt.setString(2, eb.getLocation());
             pStmnt.setString(3, eb.getDescription());
             pStmnt.setString(4, eb.getStatus());
-            pStmnt.setInt(5, eb.getEquipmentId());
+            pStmnt.setString(5, eb.getCategory());
+            pStmnt.setString(6, eb.getImgSrc());
+            pStmnt.setInt(7, eb.getEquipmentID());
 
             int rowCount = pStmnt.executeUpdate();
             if (rowCount >= 1) {
@@ -169,26 +101,82 @@ public class EquipmentDB {
         return updateSuccessful;
     }
 
-    public List<EquipmentBean> getAllAvailableEquipment() throws SQLException {
-        List<EquipmentBean> equipments = new ArrayList<>();
-        String sql = "SELECT * FROM equipment WHERE status = 'available'";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+    public ArrayList<EquipmentBean> queryEquip() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        EquipmentBean cb = null;
+        ArrayList<EquipmentBean> equipments = new ArrayList<>();
+
+        try {
+            cnnct = getConnection(); // get Connection
+            String preQueryStatement = "SELECT * FROM Equipment";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null; // exeute the query and assign to the result
+            rs = pStmnt.executeQuery();
+
             while (rs.next()) {
-                EquipmentBean equipment = new EquipmentBean();
-                equipment.setEquipmentID(rs.getInt("equipmentID"));
-                equipment.setName(rs.getString("name"));
-                equipment.setDescription(rs.getString("description"));
-                equipment.setLocation(rs.getString("location"));
-                equipment.setStatus(rs.getString("status"));
-                equipment.setCategory(rs.getString("category"));
-                equipment.setImgSrc(rs.getString("imgSrc"));
-                equipments.add(equipment);
+                cb = new EquipmentBean();
+                cb.setEquipmentID(rs.getInt("equipmentID"));
+                cb.setName(rs.getString("name"));
+                cb.setLocation(rs.getString("location"));
+                cb.setDescription(rs.getString("description"));
+                cb.setStatus(rs.getString("status"));
+                cb.setCategory(rs.getString("category"));
+                cb.setImgSrc(rs.getString("imgSrc"));
+
+                equipments.add(cb);
             }
-        } catch (SQLException e) {
-            System.err.println("SQL Error: " + e.getMessage()); // This should also be logged using a logging framework
-            throw e; // Rethrow the exception to handle it in a higher layer (e.g., in the servlet)
+
+            rs.close();
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return equipments;
+    }
+
+    public ArrayList<EquipmentBean> getAllAvailableEquipment() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        EquipmentBean cb = null;
+        ArrayList<EquipmentBean> equipments = new ArrayList<>();
+
+        try {
+            cnnct = getConnection(); // get Connection
+            String preQueryStatement = "SELECT * FROM Equipment WHERE 'status'= 'available'";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null; // exeute the query and assign to the result
+            rs = pStmnt.executeQuery();
+
+            while (rs.next()) {
+                cb = new EquipmentBean();
+                cb.setEquipmentID(rs.getInt("equipmentID"));
+                cb.setName(rs.getString("name"));
+                cb.setLocation(rs.getString("location"));
+                cb.setDescription(rs.getString("description"));
+                cb.setStatus(rs.getString("status"));
+                cb.setCategory(rs.getString("category"));
+                cb.setImgSrc(rs.getString("imgSrc"));
+
+                equipments.add(cb);
+            }
+
+            rs.close();
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         return equipments;
     }

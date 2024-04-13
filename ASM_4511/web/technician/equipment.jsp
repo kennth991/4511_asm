@@ -111,21 +111,21 @@
                                                 <%
                                                     // Retrieve the "equipments" attribute from the request
                                                     ArrayList<EquipmentBean> equipments = (ArrayList<EquipmentBean>) request.getAttribute("equipments");
-                                                %>ucas 2023
+                                                %>
                                                 <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
                                                 <%
                                                     for (EquipmentBean equipment : equipments) {%>
                                                 <tr>
-                                                    <td><%= equipment.getEquipmentId()%></td>
+                                                    <td><%= equipment.getEquipmentID()%></td>
                                                     <td><%= equipment.getName()%></td>
                                                     <td><%= equipment.getLocation()%></td>
                                                     <td><%= equipment.getDescription()%></td>
                                                     <td><%= equipment.getStatus()%></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentId()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>')">
+                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>')">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentId()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>')">
+                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>')">
                                                             <i class="fa-solid fa-trash"></i></button>
                                                     </td>
                                                 </tr>

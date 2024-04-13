@@ -15,7 +15,10 @@ import javax.servlet.RequestDispatcher;
 public class EquipmentServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        EquipmentDB equipDb = new EquipmentDB(); // Assuming the EquipmentDB manages its own connections
+        String url = "jdbc:mysql://localhost:3306/4511_asm";
+        String username = "root";
+        String password = "";
+        EquipmentDB equipDb = new EquipmentDB(url, username, password); // Assuming the EquipmentDB manages its own connections
         ArrayList<EquipmentBean> allEquipment = equipDb.queryEquip();
 
         // Set the equipments attribute in the request
@@ -27,25 +30,30 @@ public class EquipmentServlet extends HttpServlet {
     }
 
     protected void editEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int equipmentId = Integer.parseInt(request.getParameter("id"));
+       String url = "jdbc:mysql://localhost:3306/4511_asm";
+        String username = "root";
+        String password = "";
+
+        int equipmentID = Integer.parseInt(request.getParameter("equipmentID"));
         String name = request.getParameter("name");
         String location = request.getParameter("location");
         String description = request.getParameter("description");
         String status = request.getParameter("status");
+        String category = request.getParameter("category");
+        String imgSrc = request.getParameter("imgSrc");
 
-        EquipmentBean editbean = new EquipmentBean();
-        EquipmentDB equipDb = new EquipmentDB();
+        EquipmentBean editbean = new EquipmentBean(equipmentID,name,location,description,status,category,imgSrc);
+        EquipmentDB equipDb = new EquipmentDB(url, username, password);
         equipDb.editRecord(editbean);
         response.sendRedirect(request.getContextPath() + "/Equipment");
     }
 
-    protected void deleteEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /* protected void deleteEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int equipmentId = Integer.parseInt(request.getParameter("id"));
         EquipmentDB equipDb = new EquipmentDB();
         equipDb.deleteRecord(equipmentId); // Assuming you have a method to delete records
         response.sendRedirect(request.getContextPath() + "/Equipment");
-    }
-
+    }*/
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -53,7 +61,7 @@ public class EquipmentServlet extends HttpServlet {
         if ("edit".equals(action)) {
             editEquipment(request, response);
         } else if ("delete".equals(action)) {
-            deleteEquipment(request, response);
+            processRequest(request, response);
         } else {
             processRequest(request, response);
         }
