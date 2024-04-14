@@ -3,7 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
 
-    <!-- Authentication Filter -->
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ict.filter.AuthFilter</filter-class>
@@ -12,8 +11,6 @@
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/user/*</url-pattern> <!-- Restrict filter to user-specific paths -->
     </filter-mapping>
-
-    <!-- Servlet for viewing devices -->
     <servlet>
         <servlet-name>ViewDevicesServlet</servlet-name>
         <servlet-class>ict.servlet.ViewDevicesServlet</servlet-class>
@@ -22,15 +19,11 @@
         <servlet-name>ViewDevicesServlet</servlet-name>
         <url-pattern>/user/view_devices</url-pattern>
     </servlet-mapping>
-
-    <!-- Session configuration -->
     <session-config>
         <session-timeout>15</session-timeout> <!-- Session timeout in minutes -->
     </session-config>
-
-    <!-- Welcome file list -->
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
 

@@ -9,6 +9,7 @@ import java.sql.*;
 
 import ict.bean.EquipmentBean;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -149,7 +150,7 @@ public class EquipmentDB {
 
         try {
             cnnct = getConnection(); // get Connection
-            String preQueryStatement = "SELECT * FROM Equipment WHERE 'status'= 'available'";
+            String preQueryStatement = "SELECT * FROM Equipment WHERE status = 'available'";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null; // exeute the query and assign to the result
             rs = pStmnt.executeQuery();
@@ -180,4 +181,64 @@ public class EquipmentDB {
         }
         return equipments;
     }
+
+    public EquipmentBean getEquipmentById(Integer equipmentId) throws SQLException, IOException {
+        EquipmentBean equipment = null;
+        String sql = "SELECT * FROM equipment WHERE equipmentID = ?";
+        try (Connection conn = this.getConnection(); // Assuming getConnection() handles database connections
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, equipmentId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                equipment = new EquipmentBean();
+                equipment.setEquipmentID(rs.getInt("equipmentID"));
+                equipment.setName(rs.getString("name"));
+                equipment.setDescription(rs.getString("description"));
+                equipment.setLocation(rs.getString("location"));
+                equipment.setStatus(rs.getString("status"));
+                // Assume other setters as necessary
+            }
+        }
+        return equipment;
+    }
+
+    public void updateEquipmentStatus(List<String> equipmentIds, String status) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = DriverManager.getConnection(url, username, password);
+            conn.setAutoCommit(false); // Ensure transaction starts
+            stmt = conn.prepareStatement("UPDATE equipment SET status = ? WHERE equipmentID = ?");
+
+            for (String id : equipmentIds) {
+                stmt.setString(1, status);
+                stmt.setInt(2, Integer.parseInt(id));
+                stmt.executeUpdate();
+            }
+
+            conn.commit(); // Commit transaction
+        } catch (SQLException e) {
+            try {
+                if (conn != null) {
+                    conn.rollback(); // Rollback on error
+                }
+            } catch (SQLException se2) {
+                se2.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+
 }
