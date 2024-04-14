@@ -111,7 +111,7 @@
                                                     <th>Serial Number</th>
                                                     <th>Request Time</th>
                                                     <th>Status</th>
-                                                    <th>Action</th>
+                                                    <th>Add to Wish List</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
