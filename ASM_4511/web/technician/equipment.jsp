@@ -49,6 +49,9 @@
                         <a href="inventory_management.html"><i class="fas fa-clipboard-list"></i> Inventory Management</a>
                     </li>
                     <li>
+                        <a href="WishListEquipmentServlet"><i class="fas fa-clipboard-list"></i> Wish List Management</a>
+                    </li>
+                    <li>
                         <a href="Booking"><i class="fas fa-calendar-check"></i> Booking Management</a>
                     </li>
                     <li>
@@ -121,11 +124,13 @@
                                                     <td><%= equipment.getLocation()%></td>
                                                     <td><%= equipment.getDescription()%></td>
                                                     <td><%= equipment.getStatus()%></td>
+                                                    <td><%= equipment.getCategory()%></td>
+                                                    <td><%= equipment.getImgSrc()%></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>')">
+                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>')">
+                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
                                                             <i class="fa-solid fa-trash"></i></button>
                                                     </td>
                                                 </tr>
@@ -147,16 +152,19 @@
                                                 <form action="Equipment" method="get">
                                                     <div class="modal-body">
                                                         <input id="deleteEquipment" name="deleteEquipment" value="edit" class="deleteEquipment" hidden="">
+
                                                         <input id="id" type="number" name= "id"class="form-control" type="text" readonly>
                                                         <input id="name" name="name" class="form-control" type="text" >
                                                         <input id="location" name="location" class="form-control" type="text">
                                                         <input id="description" name="description"class="form-control" type="text"  >
                                                         <input id="status" name="status" class="form-control" type="text" >
+                                                        <input id="category" name="category" class="form-control" type="text" >
+                                                        <src id="imgSrc" name="imgSrc"  >
 
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">comfirm Delete</button>
+                                                        <button type="submit" class="btn btn-primary">comfrim Delete</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -171,12 +179,15 @@
                                                 </div>
                                                 <form action="Equipment" method="get">
                                                     <div class="modal-body">
+                                                        <img id="displaySrc" src="">
                                                         <input id="editEquipment" name="editEquipment" value="edit" class="editEquipment" hidden="">
-                                                        <input id="editid" type="number" name= "id"class="form-control" type="text" readonly>
-                                                        <input id="editname" name="name" class="form-control" type="text" >
-                                                        <input id="editlocation" name="location" class="form-control" type="text">
-                                                        <input id="editdescription" name="description"class="form-control" type="text"  >
-                                                        <input id="editstatus" name="status" class="form-control" type="text" >
+                                                        <input id="editid" type="number" name= "id"class="form-control mb-2" type="text" readonly>
+                                                        <input id="editname" name="name" class="form-control  mb-2" type="text" >
+                                                        <input id="editlocation" name="location" class="form-control  mb-2" type="text">
+                                                        <input id="editdescription" name="description"class="form-control  mb-2" type="text"  >
+                                                        <input id="editstatus" name="status" class="form-control  mb-2" type="text" >
+                                                        <input id="editcategory" name="category" class="form-control" type="text" >
+                                                          <src id="imgSrc" name="imgSrc"  >
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -194,14 +205,19 @@
             </div>
         </div>
         <script>
-            function displayEquipment(equipmentId, name, description, qty) {
+            function displayEquipment(equipmentId, name, location, description, status, category, imgSrc) {
+
                 document.getElementById("editid").value = equipmentId;
                 document.getElementById("editname").value = name;
                 document.getElementById("editlocation").value = location;
                 document.getElementById("editdescription").value = description;
                 document.getElementById("editstatus").value = status;
+                document.getElementById("editcategory").value = category;
+                document.getElementById("displaySrc").src = imgSrc;
+
             }
-            function deleteEquipment(equipmentId) {
+            function deleteEquipment(equipmentId, name, location, description, status, category, imgSrc) {
+
                 document.getElementById("id").value = equipmentId;
                 document.getElementById("name").value = name;
                 document.getElementById("location").value = location;

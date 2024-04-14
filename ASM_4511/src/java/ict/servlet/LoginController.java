@@ -41,6 +41,8 @@ public class LoginController extends HttpServlet {
         HttpSession session = request.getSession();
 
         if (user != null) {
+            session.setAttribute("userName", user.getName()); 
+             session.setAttribute("userId", user.getUserID()); 
             session.setAttribute(user.getRole().toLowerCase(), user);  // Use role-based session attributes
             redirectBasedOnRole(user.getRole(), request, response);
         } else {

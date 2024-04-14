@@ -6,6 +6,8 @@
 <%@page import="ict.bean.BorrowingRecord"%>
 <%@page import="ict.bean.User"%>
 <%@page import="java.util.List"%>
+<%@page import="ict.bean.WishListEquipmentBean"%>
+<%@page import="ict.servlet.EquipmentServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     User user = (User) session.getAttribute("user");
@@ -46,7 +48,7 @@
                         <a href="borrowing_records.html"><i class="fas fa-history"></i> Personal Borrowing Records</a>
                     </li>
                     <li>
-                        <a href="wish_list.html"><i class="fas fa-heart"></i> Wish List</a>
+                        <a href="../WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
                     </li>
                     <li>
                         <a href="reserve_check_out.html"><i class="fas fa-hand-holding"></i> Reserve, Check-out, Return Equipment</a>
