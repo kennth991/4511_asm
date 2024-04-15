@@ -2,15 +2,6 @@
 <web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
-
-    <filter>
-        <filter-name>AuthFilter</filter-name>
-        <filter-class>ict.filter.AuthFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
-        <url-pattern></url-pattern> <!-- Restrict filter to user-specific paths -->
-    </filter-mapping>
     <servlet>
         <servlet-name>ViewDevicesServlet</servlet-name>
         <servlet-class>ict.servlet.ViewDevicesServlet</servlet-class>
@@ -20,13 +11,21 @@
         <url-pattern>/user/view_devices</url-pattern>
     </servlet-mapping>
     <servlet>
-    <servlet-name>CheckoutController</servlet-name>
-    <servlet-class>ict.servlet.CheckoutController</servlet-class>
-</servlet>
-<servlet-mapping>
-    <servlet-name>CheckoutController</servlet-name>
-    <url-pattern>/checkoutController</url-pattern>
-</servlet-mapping>
+        <servlet-name>CheckoutController</servlet-name>
+        <servlet-class>ict.servlet.CheckoutController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckoutController</servlet-name>
+        <url-pattern>/checkoutController</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VenueServlet</servlet-name>
+        <servlet-class>ict.servlet.VenueServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VenueServlet</servlet-name>
+        <url-pattern>/user/view_venue</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>15</session-timeout> <!-- Session timeout in minutes -->
     </session-config>

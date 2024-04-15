@@ -32,7 +32,7 @@ public class BorrowingRecordServlet extends HttpServlet {
                 System.out.println("Record ID: " + record.getRecordId() + ", Equipment Name: " + record.getEquipmentName());
             }
             request.setAttribute("borrowingRecords", records);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/user/index.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/user/dashboard.jsp");
             dispatcher.forward(request, response);
         } else {
             response.sendRedirect("login.jsp");

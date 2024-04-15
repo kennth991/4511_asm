@@ -3,25 +3,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ict.bean;
-
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
 /**
  *
  * @author kenneth
  */
-import java.io.Serializable;
-import java.util.Date;
+
 
 public class BorrowingRecord implements Serializable {
 
-    private int recordId;
+    private int recordId; // Represents the requestId in the context of new requirements
     private int userId;
-    private String equipmentId;
-    private Date checkoutDate;
-    private Date expectedReturnDate;
-    private Date actualReturnDate;
-    private String status;
-    private String comments;
-    private String equipmentName;
+    private String equipmentName; // We'll use equipmentName instead of equipmentId
+    private Timestamp requestDateTime; // Date and time when the request was made
+    private Date startDate; // The start date of the equipment borrowing
+    private Date returnDate; // The expected return date of the equipment borrowing
+    private String status; // The status of the borrowing
 
     // Constructor
     public BorrowingRecord() {
@@ -44,36 +43,36 @@ public class BorrowingRecord implements Serializable {
         this.userId = userId;
     }
 
-    public String getEquipmentId() {
-        return equipmentId;
+    public String getEquipmentName() {
+        return equipmentName;
     }
 
-    public void setEquipmentId(String equipmentId) {
-        this.equipmentId = equipmentId;
+    public void setEquipmentName(String equipmentName) {
+        this.equipmentName = equipmentName;
     }
 
-    public Date getCheckoutDate() {
-        return checkoutDate;
+    public Timestamp getRequestDateTime() {
+        return requestDateTime;
     }
 
-    public void setCheckoutDate(Date checkoutDate) {
-        this.checkoutDate = checkoutDate;
+    public void setRequestDateTime(Timestamp requestDateTime) {
+        this.requestDateTime = requestDateTime;
     }
 
-    public Date getExpectedReturnDate() {
-        return expectedReturnDate;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setExpectedReturnDate(Date expectedReturnDate) {
-        this.expectedReturnDate = expectedReturnDate;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getActualReturnDate() {
-        return actualReturnDate;
+    public Date getReturnDate() {
+        return returnDate;
     }
 
-    public void setActualReturnDate(Date actualReturnDate) {
-        this.actualReturnDate = actualReturnDate;
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
     }
 
     public String getStatus() {
@@ -82,21 +81,5 @@ public class BorrowingRecord implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public String getEquipmentName() {
-        return equipmentName;
-    }
-
-    public void setEquipmentName(String equipmentName) {
-        this.equipmentName = equipmentName;
     }
 }

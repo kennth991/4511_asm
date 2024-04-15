@@ -40,16 +40,16 @@ Author     : kenneth
 
     <body>
         <div class="wrapper">
-            <nav id="sidebar" class="active">
+            <nav id="sidebar" class="active">   
                 <div class="sidebar-header">
                     <img src="../assets/img/logo.png" style="height: 60px; width: 60px;" alt="bootraper logo" class="app-logo">
                 </div>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="user_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="${pageContext.request.contextPath}/BorrowingRecordServlet"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <li class="active">
-                        <a href="view_devices.html"><i class="fas fa-laptop"></i> View Available Devices</a>
+                        <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Available Devices</a>
                     </li>
                     <li>
                         <a href="borrowing_records.html"><i class="fas fa-history"></i> Personal Borrowing Records</a>
@@ -76,7 +76,6 @@ Author     : kenneth
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#cartModal">
                         <i class="fas fa-shopping-cart"></i> Cart <span id="cartCount">0</span>
                     </button>
-
                 </nav>
                 <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -112,7 +111,7 @@ Author     : kenneth
                                             <div class="col">
                                                 <label for="returnDate">Return Date:</label>
                                                 <input type="date" id="returnDate" name="returnDate" class="form-control" required>
-                                                <input type="hidden" id="userId" name="userId" value="<%= user.getUserID() %>">
+                                                <input type="hidden" id="userId" name="userId" value="<%= user.getUserID()%>">
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +190,6 @@ Author     : kenneth
             </div>
         </div>
         <script src="${pageContext.request.contextPath}/assets/js/view_devices.js"></script>
-        <script>
-        </script>
+        <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
     </body>
 </html>
