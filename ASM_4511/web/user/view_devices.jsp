@@ -1,7 +1,7 @@
-                                                                                                                                                                                <%-- 
-    Document   : view_devices
-    Created on : 2024年4月13日
-    Author     : kenneth
+<%-- 
+Document   : view_devices
+Created on : 2024年4月13日
+Author     : kenneth
 --%>
 <%@page import="ict.bean.User"%>
 <%@page import="ict.bean.EquipmentBean"%>
@@ -11,7 +11,7 @@
     User user = (User) session.getAttribute("user");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
-        return;                
+        return;
     }
 %>
 <%
@@ -112,6 +112,7 @@
                                             <div class="col">
                                                 <label for="returnDate">Return Date:</label>
                                                 <input type="date" id="returnDate" name="returnDate" class="form-control" required>
+                                                <input type="hidden" id="userId" name="userId" value="<%= user.getUserID() %>">
                                             </div>
                                         </div>
                                     </div>
@@ -165,12 +166,10 @@
                                                         <form action="${pageContext.request.contextPath}/addToCart" method="post">
                                                             <input type="hidden" name="equipmentId" value="<%= equipment.getEquipmentID()%>" />
                                                             <button type="button" class="btn btn-primary add-to-cart-btn"
-                                                                    onclick="addToCart(this)"
                                                                     data-id="<%= equipment.getEquipmentID()%>"
                                                                     data-name="<%= equipment.getName()%>"
                                                                     data-description="<%= equipment.getDescription()%>"
                                                                     data-location="<%= equipment.getLocation()%>">Add to Cart</button>
-
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -192,5 +191,7 @@
             </div>
         </div>
         <script src="${pageContext.request.contextPath}/assets/js/view_devices.js"></script>
+        <script>
+        </script>
     </body>
 </html>
