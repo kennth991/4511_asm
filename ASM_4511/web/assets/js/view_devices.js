@@ -1,96 +1,68 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
- */
-
-let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 document.addEventListener('DOMContentLoaded', function () {
-    updateCartDisplay();
-});
-
-function addToCart(element) {
-    let equipmentId = element.dataset.id;
-    let item = cart.find(item => item.equipmentId === equipmentId);
-
-    if (item) {
-        cart = cart.filter(item => item.equipmentId !== equipmentId);  // Remove from cart
-        element.innerText = 'Add';
-    } else {
-        item = {
-            equipmentId: equipmentId,
-            name: element.dataset.name,
-            description: element.dataset.description,
-            location: element.dataset.location
-        };
-        cart.push(item);  // Add to cart
-        element.innerText = 'Added';
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || {};
+    if (!cart.items) {
+        cart.items = [];
     }
 
-    sessionStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-}
+    function addToCart(element) {
+        let equipmentId = element.dataset.id;
+        let item = cart.items.find(item => item.equipmentId === equipmentId);
 
-function updateCartDisplay() {
-    const cartItems = document.getElementById('cartItems');
-    cartItems.innerHTML = ''; // Clear existing items
-    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+        if (!item) {
+            item = {
+                equipmentId: equipmentId,
+                name: element.dataset.name,
+                description: element.dataset.description,
+                location: element.dataset.location
+            };
+            cart.items.push(item);
+            element.innerText = 'Added';
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+            updateCartDisplay();
+            updateCartCount();
+        } else {
+            console.log('Item already in cart');
+        }
+    }
 
-    if (cart.length === 0) {
-        cartItems.innerHTML = '<p>No devices currently in the cart.</p>';
-    } else {
-        const list = document.createElement('ul');
-        cart.forEach(item => {
+    function updateCartDisplay() {
+        const cartItems = document.getElementById('cartItems');
+        cartItems.innerHTML = '';
+        cart.items.forEach(item => {
             const listItem = document.createElement('li');
             listItem.textContent = `${item.name} - ${item.description} at ${item.location}`;
-            list.appendChild(listItem);
+            cartItems.appendChild(listItem);
         });
-        cartItems.appendChild(list);
     }
+
+    function updateCartCount() {
+        const cartCount = document.getElementById('cartCount');
+        cartCount.textContent = cart.items.length;
+    }
+
+    // Saving form data in the cart
+    function saveFormData() {
+        const location = document.getElementById('location').value;
+        const startDate = document.getElementById('startDate').value;
+        const returnDate = document.getElementById('returnDate').value;
+        const userId = '<%= user.getId() %>';  // Assuming you have user data available as a JSP variable
+
+        cart.location = location;
+        cart.startDate = startDate;
+        cart.returnDate = returnDate;
+        cart.userId = userId;
+
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Attach event listeners
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            addToCart(this);
+            saveFormData();
+        });
+    });
+
+    updateCartDisplay();
     updateCartCount();
-}
-
-function updateCartCount() {
-    const cartCount = document.getElementById('cartCount');
-    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-    cartCount.textContent = cart.length;
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    updateCartDisplay();  // To update cart on page load
 });
-
-function checkoutCart() {
-    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-    if (cart.length === 0) {
-        alert("No items in cart to checkout.");
-        return;
-    }
-
-    const formData = new FormData();
-    cart.forEach(item => {
-        formData.append('equipmentIds', item.equipmentId);
-    });
-
-    console.log('Submitting form data:', formData); // Add this line to log form data
-
-    fetch('/CheckoutServlet', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log('Checkout successful:', data); // Add this line to log successful checkout
-        document.getElementById('cartItems').innerHTML = '<p>Submission complete. Please wait for confirmation.</p>';
-        // Optionally, clear the cart in session storage if checkout is successful
-        sessionStorage.removeItem('cart');
-        updateCartCount(); // Ensure cart count is updated
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-
-
-
-

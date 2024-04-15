@@ -9,7 +9,6 @@ import java.sql.*;
 
 import ict.bean.EquipmentBean;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -44,7 +43,7 @@ public class EquipmentDB {
             cnnct = getConnection();
             String preQueryStatement = "INSERT INTO Equipment VALUES (?,?,?,?)";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
-            pStmnt.setString(1, CustId);
+//            pStmnt.setString(1, CustId);
             pStmnt.setString(2, Name);
             pStmnt.setString(3, Tel);
             pStmnt.setInt(4, Age);
@@ -201,44 +200,4 @@ public class EquipmentDB {
         }
         return equipment;
     }
-
-    public void updateEquipmentStatus(List<String> equipmentIds, String status) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-
-        try {
-            conn = DriverManager.getConnection(url, username, password);
-            conn.setAutoCommit(false); // Ensure transaction starts
-            stmt = conn.prepareStatement("UPDATE equipment SET status = ? WHERE equipmentID = ?");
-
-            for (String id : equipmentIds) {
-                stmt.setString(1, status);
-                stmt.setInt(2, Integer.parseInt(id));
-                stmt.executeUpdate();
-            }
-
-            conn.commit(); // Commit transaction
-        } catch (SQLException e) {
-            try {
-                if (conn != null) {
-                    conn.rollback(); // Rollback on error
-                }
-            } catch (SQLException se2) {
-                se2.printStackTrace();
-            }
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-        }
-    }
-
 }

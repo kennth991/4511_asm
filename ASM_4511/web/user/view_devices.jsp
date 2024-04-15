@@ -1,4 +1,4 @@
-<%-- 
+                                                                                                                                                                                <%-- 
     Document   : view_devices
     Created on : 2024年4月13日
     Author     : kenneth
@@ -11,7 +11,12 @@
     User user = (User) session.getAttribute("user");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
-        return;
+        return;                
+    }
+%>
+<%
+    List<EquipmentBean> equipmentList = (List<EquipmentBean>) request.getAttribute("availableEquipment");
+    if (equipmentList == null) {
     }
 %>
 <!doctype html>
@@ -79,13 +84,41 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="cartModalLabel">Your Cart</h5>
                             </div>
-                            <div class="modal-body" id="cartItems">
-                                <!-- Items will be added here dynamically -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="checkoutCart()">Checkout</button>
-                            </div>
+                            <form id="cartForm" action="${pageContext.request.contextPath}/checkoutController" method="post">
+                                <div class="modal-body" id="cartItems">
+                                    <!-- Items will be dynamically added here through JavaScript -->
+                                    <!-- No static items should be present -->
+                                    <p>No devices currently in the cart.</p> <!-- Default text -->
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="location">Delivery Location:</label>
+                                                <select id="location" name="location" class="form-control" required>
+                                                    <option value="LWL">LWL</option>
+                                                    <option value="ST">ST</option>
+                                                    <option value="TY">TY</option>
+                                                    <option value="TM">TM</option>
+                                                    <option value="CW">CW</option>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <label for="startDate">Start Date:</label>
+                                                <input type="date" id="startDate" name="startDate" class="form-control"
+                                                       min="<%= new java.sql.Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000).toString()%>"
+                                                       max="<%= new java.sql.Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000).toString()%>" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="returnDate">Return Date:</label>
+                                                <input type="date" id="returnDate" name="returnDate" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Checkout</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -131,7 +164,13 @@
                                                     <td>
                                                         <form action="${pageContext.request.contextPath}/addToCart" method="post">
                                                             <input type="hidden" name="equipmentId" value="<%= equipment.getEquipmentID()%>" />
-                                                            <button type="button" class="btn btn-primary add-to-cart-btn" onclick="addToCart(this)" data-id="<%= equipment.getEquipmentID()%>" data-name="<%= equipment.getName()%>" data-description="<%= equipment.getDescription()%>" data-location="<%= equipment.getLocation()%>">Add</button>
+                                                            <button type="button" class="btn btn-primary add-to-cart-btn"
+                                                                    onclick="addToCart(this)"
+                                                                    data-id="<%= equipment.getEquipmentID()%>"
+                                                                    data-name="<%= equipment.getName()%>"
+                                                                    data-description="<%= equipment.getDescription()%>"
+                                                                    data-location="<%= equipment.getLocation()%>">Add to Cart</button>
+
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -152,14 +191,6 @@
                 </div>
             </div>
         </div>
-        <script>
-            $(document).ready(function () {
-                // This ensures the code runs after the document is fully loaded
-                $('#cartModal').on('show.bs.modal', function (event) {
-                    updateCartDisplay(); // Ensure this function is defined in your script.js or similar
-                });
-            });
-        </script>
+        <script src="${pageContext.request.contextPath}/assets/js/view_devices.js"></script>
     </body>
-
 </html>
