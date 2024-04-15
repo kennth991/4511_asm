@@ -3,15 +3,29 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/bean/EquipmentBean.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/bean/User.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/CheckoutController.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/WEB-INF/web.xml</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/assets/js/view_devices.js</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/db/EquipmentDB.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/db/BorrowingRecordDB.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/user/view_devices.jsp</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/ViewDevicesServlet.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/WishListServlet.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/staff/index.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/technician/booking.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/user/dashboard.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/BorrowingRecordServlet.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/bean/EquipmentBean.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/db/UserDB.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/EquipmentServlet.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/user/wishList.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/db/WishListEquipmentDB.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/technician/wishListEquipment.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/bean/WishListEquipmentBean.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/bean/User.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/WishListEquipmentServlet.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/LoginController.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/login.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/technician/book_venue.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/db/EquipmentDB.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/technician/equipment.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/user/view_devices.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/db/WishListDB.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/bean/WishListBean.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/ViewDevicesServlet.java</file>
         </group>
     </open-files>
 </project-private>
