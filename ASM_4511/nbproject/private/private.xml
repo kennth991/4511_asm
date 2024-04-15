@@ -4,15 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/bean/EquipmentBean.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/BorrowingRecordServlet.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/assets/js/script.js</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/user/cart.jsp</file>
+            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/bean/User.java</file>
+            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/CheckoutController.java</file>
             <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/WEB-INF/web.xml</file>
             <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/assets/js/view_devices.js</file>
             <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/db/EquipmentDB.java</file>
+            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/db/BorrowingRecordDB.java</file>
             <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/user/view_devices.jsp</file>
             <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/ViewDevicesServlet.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/CheckoutServlet.java</file>
         </group>
     </open-files>
 </project-private>

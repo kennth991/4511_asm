@@ -1,8 +1,10 @@
 package ict.bean;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class EquipmentBean implements Serializable {
+
     private int equipmentID;
     private String name;
     private String location;
@@ -10,6 +12,8 @@ public class EquipmentBean implements Serializable {
     private String status;
     private String category;
     private String imgSrc;
+    private Date startDate;
+    private Date returnDate;
 
     // Default constructor
     public EquipmentBean() {
@@ -83,16 +87,32 @@ public class EquipmentBean implements Serializable {
         this.imgSrc = imgSrc;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
+    }
+
     @Override
     public String toString() {
-        return "Equipment{" +
-               "equipmentID=" + equipmentID +
-               ", name='" + name + '\'' +
-               ", location='" + location + '\'' +
-               ", description='" + description + '\'' +
-               ", status='" + status + '\'' +
-               ", category='" + category + '\'' +
-               ", imgSrc='" + imgSrc + '\'' +
-               '}';
+        return "Equipment{"
+                + "equipmentID=" + equipmentID
+                + ", name='" + name + '\''
+                + ", location='" + location + '\''
+                + ", description='" + description + '\''
+                + ", status='" + status + '\''
+                + ", category='" + category + '\''
+                + ", imgSrc='" + imgSrc + '\''
+                + '}';
     }
 }
