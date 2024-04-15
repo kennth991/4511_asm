@@ -38,11 +38,11 @@ public class WishListEquipmentBean implements Serializable {
     }
     // Getters and setters
 
-    public int getWishListwhisID() {
+    public int getWishListwishID() {
         return wishListwishlistID;
     }
 
-    public void setWishListwhisID(int wishListwhislistID) {
+    public void setWishListwishID(int wishListwhislistID) {
         this.wishListwishlistID = wishListwhislistID;
     }
 

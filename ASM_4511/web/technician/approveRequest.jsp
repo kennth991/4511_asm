@@ -4,8 +4,8 @@
     Author     : Lau Ka Ming Benjamin
 --%>
 <%@page import="ict.bean.User"%>
-<%@page import="ict.bean.EquipmentBean"%>
-<%@page import="ict.servlet.EquipmentServlet"%>
+<%@page import="ict.bean.EquipmentRequestBean"%>
+<%@page import="ict.servlet.EquipmentRequestServlet"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
@@ -56,9 +56,6 @@
                     </li>
                     <li>
                         <a href="damage_reporting.html"><i class="fas fa-exclamation-triangle"></i> Damage Reporting</a>
-                    </li>
-                      <li>
-                        <a href="EquipmentRequestServlet"> <i class="fas fa-calendar-check"></i> Logout</a>
                     </li>
                     <li>
                         <a href="index.html"> <i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -116,25 +113,24 @@
                                             <tbody>
                                                 <%
                                                     // Retrieve the "equipments" attribute from the request
-                                                    ArrayList<EquipmentBean> equipments = (ArrayList<EquipmentBean>) request.getAttribute("equipments");
+                                                    ArrayList<EquipmentRequestBean> equipmentRequests = (ArrayList<EquipmentRequestBean>) request.getAttribute("equipmentsRequest");
                                                 %>
                                                 <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
                                                 <%
-                                                    for (EquipmentBean equipment : equipments) {%>
+                                                    for (EquipmentRequestBean equipmentRequest : equipmentRequests) {%>
                                                 <tr>
-                                                    <td><%= equipment.getEquipmentID()%></td>
-                                                    <td><%= equipment.getName()%></td>
-                                                    <td><%= equipment.getLocation()%></td>
-                                                    <td><%= equipment.getDescription()%></td>
-                                                    <td><%= equipment.getStatus()%></td>
-                                                    <td><%= equipment.getCategory()%></td>
-                                                    <td><%= equipment.getImgSrc()%></td>
+                                                    <td><%= equipmentRequest.getRequestID()%></td>
+                                                    <td><%= equipmentRequest.getRequesterID()%></td>
+                                                    <td><%= equipmentRequest.getRequestDateTime()%></td>
+                                                    <td><%= equipmentRequest.getStartDate()%></td>
+                                                    <td><%= equipmentRequest.getStatus()%></td>
+                                                    <td><%= equipmentRequest.getStatus()%></td>
+                                                    <td><%=equipmentRequest.getRequesterName()%></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
+                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
-                                                            <i class="fa-solid fa-trash"></i></button>
+                                                        
                                                     </td>
                                                 </tr>
                                                 <%
