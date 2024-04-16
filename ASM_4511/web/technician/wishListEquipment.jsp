@@ -49,7 +49,7 @@
                         <a href="inventory_management.html"><i class="fas fa-clipboard-list"></i> Inventory Management</a>
                     </li>
                     <li>
-                        <a href="Booking"><i class="fas fa-calendar-check"></i> Booking Management</a>
+                        <a href="<c:url value='/technician/view_booking.jsp'/>"><i class="fas fa-calendar-check"></i> Booking Management</a>
                     </li>
                     <li>
                         <a href="damage_reporting.html"><i class="fas fa-exclamation-triangle"></i> Damage Reporting</a>
