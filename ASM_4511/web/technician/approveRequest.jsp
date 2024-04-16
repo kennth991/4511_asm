@@ -6,6 +6,8 @@
 <%@page import="ict.bean.User"%>
 <%@page import="ict.bean.EquipmentRequestBean"%>
 <%@page import="ict.servlet.EquipmentRequestServlet"%>
+<%@page import="ict.servlet.EquipmentRequestEquipmentServlet"%>
+
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
@@ -102,12 +104,14 @@
                                         <table class="table table-hover" id="dataTables-example" width="100%">
                                             <thead>
                                                 <tr>
+                                                    <th>Request ID</th>  
+
+
+                                                    <th>Request Name</th>
                                                     <th>Equipment ID</th>
-                                                    <th>Name</th>
-                                                    <th>Location</th>
-                                                    <th>Description</th>
+                                                    <th>Request Date and Time</th>
                                                     <th>Status</th>
-                                                    <th>Action</th>
+                                                    <th>Assigned</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -120,17 +124,27 @@
                                                     for (EquipmentRequestBean equipmentRequest : equipmentRequests) {%>
                                                 <tr>
                                                     <td><%= equipmentRequest.getRequestID()%></td>
+                                                    <td><%=equipmentRequest.getRequesterName()%></td>
                                                     <td><%= equipmentRequest.getRequesterID()%></td>
                                                     <td><%= equipmentRequest.getRequestDateTime()%></td>
-                                                    <td><%= equipmentRequest.getStartDate()%></td>
+
                                                     <td><%= equipmentRequest.getStatus()%></td>
-                                                    <td><%= equipmentRequest.getStatus()%></td>
-                                                    <td><%=equipmentRequest.getRequesterName()%></td>
+
+
                                                     <td>
-                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        
+                                                        <form action="EquipmentRequestEquipmentServlet" method="get">
+                                                            <input type="hidden" name="action" value="approve"> <!-- Added hidden field for action -->
+                                                            <input type="hidden" name="requestID" value="<%= equipmentRequest.getRequestID()%>">
+                                                            <% if (equipmentRequest.getStatus().equals("assigned")) { %>
+                                                            <button type="submit" class="btn btn-success btn-sm" disabled>
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <% } else { %>
+                                                            <button type="submit" class="btn btn-success btn-sm">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <% } %>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                                 <%
@@ -138,64 +152,9 @@
                                                     }%>
                                             </tbody>
                                         </table>
-                                        <button class="btn btn-primary" type="submit"><a href="create_order.html">Create Equipment</a></button>
                                     </div>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form action="Equipment" method="get">
-                                                    <div class="modal-body">
-                                                        <input id="deleteEquipment" name="deleteEquipment" value="edit" class="deleteEquipment" hidden="">
 
-                                                        <input id="id" type="number" name= "id"class="form-control" type="text" readonly>
-                                                        <input id="name" name="name" class="form-control" type="text" >
-                                                        <input id="location" name="location" class="form-control" type="text">
-                                                        <input id="description" name="description"class="form-control" type="text"  >
-                                                        <input id="status" name="status" class="form-control" type="text" >
-                                                        <input id="category" name="category" class="form-control" type="text" >
-                                                        <src id="imgSrc" name="imgSrc"  >
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">comfrim Delete</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form action="Equipment" method="get">
-                                                    <div class="modal-body">
-                                                        <img id="displaySrc" src="">
-                                                        <input id="editEquipment" name="editEquipment" value="edit" class="editEquipment" hidden="">
-                                                        <input id="editid" type="number" name= "id"class="form-control mb-2" type="text" readonly>
-                                                        <input id="editname" name="name" class="form-control  mb-2" type="text" >
-                                                        <input id="editlocation" name="location" class="form-control  mb-2" type="text">
-                                                        <input id="editdescription" name="description"class="form-control  mb-2" type="text"  >
-                                                        <input id="editstatus" name="status" class="form-control  mb-2" type="text" >
-                                                        <input id="editcategory" name="category" class="form-control" type="text" >
-                                                          <src id="imgSrc" name="imgSrc"  >
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Understood</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -204,25 +163,7 @@
             </div>
         </div>
         <script>
-            function displayEquipment(equipmentId, name, location, description, status, category, imgSrc) {
 
-                document.getElementById("editid").value = equipmentId;
-                document.getElementById("editname").value = name;
-                document.getElementById("editlocation").value = location;
-                document.getElementById("editdescription").value = description;
-                document.getElementById("editstatus").value = status;
-                document.getElementById("editcategory").value = category;
-                document.getElementById("displaySrc").src = imgSrc;
-
-            }
-            function deleteEquipment(equipmentId, name, location, description, status, category, imgSrc) {
-
-                document.getElementById("id").value = equipmentId;
-                document.getElementById("name").value = name;
-                document.getElementById("location").value = location;
-                document.getElementById("description").value = description;
-                document.getElementById("status").value = status;
-            }
         </script>
         <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
         <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
