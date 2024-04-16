@@ -85,7 +85,7 @@
                     <div class="container">
                         <div class="container mt-5">
                             <h2>User Profile</h2>
-                            <form action="${pageContext.request.contextPath}/UpdateUserProfileServlet" method="POST">
+                            <form action="${pageContext.request.contextPath}/UserProfile" method="POST">
                                 <div class="mb-3">
                                     <label for="userID" class="form-label">User ID</label>
                                     <input type="text" class="form-control" id="userID" name="userID" value="<%= user.getUserID()%>" readonly>
@@ -106,7 +106,7 @@
                                     <label for="location" class="form-label">Location</label>
                                     <input type="text" class="form-control" id="location" name="location" value="<%= user.getLocation()%>" readonly>
                                 </div>
-                                <<div class="mb-3">
+                                <div class="mb-3">
                                     <label for="oldPassword" class="form-label">Old Password (required for any changes)</label>
                                     <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
                                 </div>
@@ -118,7 +118,7 @@
                                     <label for="confirmNewPassword" class="form-label">Confirm New Password (optional)</label>
                                     <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword">
                                 </div>
-                                <button type="button" class="btn btn-primary" onclick="submitProfileUpdate()">Update Profile</button>
+                                <button type="submit" class="btn btn-primary">Update Profile</button>
                             </form>
                         </div>
                     </div>
@@ -128,13 +128,14 @@
         <script src="${pageContext.request.contextPath}/assets/vendor/jquery/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/UserProfile.js"></script>
         <script>
-                                    window.onload = function () {
-                                        const params = new URLSearchParams(window.location.search);
-                                        if (params.has('status')) {
-                                            alert(params.get('status'));
-                                        }
-                                    }
+            $(document).ready(function () {
+            <% if (session.getAttribute("message") != null) {%>
+                alert('<%= session.getAttribute("message")%>');
+            <% session.removeAttribute("message"); %> // Remove attribute after displaying to avoid repeat alerts
+            <% }%>
+            });
         </script>
     </body>
 

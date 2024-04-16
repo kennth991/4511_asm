@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author kenneth
  */
-@WebServlet("/UpdateUserProfileServlet")
+@WebServlet(name = "updateUserProfileServlet", urlPatterns = {"/UserProfile"})
 public class UpdateUserProfileServlet extends HttpServlet {
 
     private String jdbcURL = "jdbc:mysql://localhost:3306/4511_asm";
@@ -35,7 +35,7 @@ public class UpdateUserProfileServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is not logged in");
+            response.sendRedirect("/login.jsp");
             return;
         }
 
@@ -44,69 +44,54 @@ public class UpdateUserProfileServlet extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
         String confirmNewPassword = request.getParameter("confirmNewPassword");
 
-        if (!newPassword.isEmpty() && !newPassword.equals(confirmNewPassword)) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("New passwords do not match");
+        if (!newPassword.equals(confirmNewPassword)) {
+            session.setAttribute("message", "Passwords do not match");
+            response.sendRedirect("/ASM_4511/user/UserProfile.jsp");
             return;
         }
 
-        if (!updateUserProfile(user.getUserID(), username, oldPassword, newPassword)) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("Update failed or incorrect old password");
+        if (validateOldPassword(user.getUserID(), oldPassword)) {
+            if (updateUserProfile(user.getUserID(), username, newPassword)) {
+                session.setAttribute("message", "Update successful");
+            } else {
+                session.setAttribute("message", "Update failed");
+            }
         } else {
-            response.getWriter().write("Update successful");
+            session.setAttribute("message", "Incorrect old password");
         }
+
+        response.sendRedirect("/ASM_4511/user/UserProfile.jsp");
     }
 
-    private boolean updateUserProfile(int userID, String username, String oldPassword, String newPassword) {
-        Connection connection = null;
-        PreparedStatement checkPasswordStmt = null;
-        PreparedStatement updateStmt = null;
-        ResultSet resultSet = null;
-        boolean updateSuccess = false;
-
-        try {
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-            //Verify the old password
-            String checkPasswordSQL = "SELECT password FROM user WHERE userID = ?";
-            checkPasswordStmt = connection.prepareStatement(checkPasswordSQL);
-            checkPasswordStmt.setInt(1, userID);
-            resultSet = checkPasswordStmt.executeQuery();
-
-            if (resultSet.next() && resultSet.getString("password").equals(oldPassword)) {
-                //Update the user information
-                String updateSQL = "UPDATE user SET userName = ?, password = ? WHERE userID = ?";
-                updateStmt = connection.prepareStatement(updateSQL);
-                updateStmt.setString(1, username);
-                // Use the new password if provided, otherwise use the old password to update (effectively making no change to it)
-                updateStmt.setString(2, !newPassword.isEmpty() ? newPassword : oldPassword);
-                updateStmt.setInt(3, userID);
-
-                int rowsAffected = updateStmt.executeUpdate();
-                updateSuccess = rowsAffected > 0;
+    private boolean validateOldPassword(int userID, String oldPassword) {
+        String query = "SELECT password FROM user WHERE userID = ?";
+        try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userID);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getString("password").equals(oldPassword);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Clean up JDBC objects
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (checkPasswordStmt != null) {
-                    checkPasswordStmt.close();
-                }
-                if (updateStmt != null) {
-                    updateStmt.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
         }
+        return false;
+    }
 
-        return updateSuccess;
+    private boolean updateUserProfile(int userID, String username, String newPassword) {
+        String updateSQL = "UPDATE user SET userName = ?, password = ? WHERE userID = ?";
+
+        try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, newPassword);
+            preparedStatement.setInt(3, userID);
+
+            int result = preparedStatement.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
