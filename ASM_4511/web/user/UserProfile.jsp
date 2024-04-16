@@ -1,13 +1,10 @@
 <%-- 
-    Document   : dashboard
-    Created on : 2024年4月2日, 下午2:25:40
+    Document   : UserProfile
+    Created on : 2024年4月16日, 下午11:58:33
     Author     : kenneth
 --%>
-<%@page import="ict.bean.BorrowingRecord"%>
+
 <%@page import="ict.bean.User"%>
-<%@page import="java.util.List"%>
-<%@page import="ict.bean.WishListEquipmentBean"%>
-<%@page import="ict.servlet.EquipmentServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     User user = (User) session.getAttribute("user");
@@ -86,58 +83,43 @@
                 </nav>
                 <div class="content">
                     <div class="container">
-                        <div class="page-title">
-                            <h3>Welcome, ${user.name}</h3>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        Personal Borrowing Records
-                                    </div>
-                                    <div class="card-body">
-                                        <%
-                                            List<BorrowingRecord> borrowingRecords = (List<BorrowingRecord>) request.getAttribute("borrowingRecords");
-                                            if (borrowingRecords == null || borrowingRecords.isEmpty()) {
-                                        %>
-                                        <p>You have no borrowing records.</p>
-                                        <%
-                                        } else {
-                                        %>
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Request ID</th>
-                                                    <th>Equipment Name</th>
-                                                    <th>Request DateTime</th>
-                                                    <th>Start Date</th>
-                                                    <th>Return Date</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%
-                                                    for (BorrowingRecord record : borrowingRecords) {
-                                                %>
-                                                <tr>
-                                                    <td><%= record.getRecordId()%></td>
-                                                    <td><%= record.getEquipmentName()%></td>
-                                                    <td><%= record.getRequestDateTime()%></td>
-                                                    <td><%= record.getStartDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getStartDate()) : "N/A"%></td>
-                                                    <td><%= record.getReturnDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getReturnDate()) : "N/A"%></td>
-                                                    <td><%= record.getStatus()%></td>
-                                                </tr>
-                                                <%
-                                                    }
-                                                %>
-                                            </tbody>
-                                        </table>
-                                        <%
-                                            }
-                                        %>
-                                    </div>
+                        <div class="container mt-5">
+                            <h2>User Profile</h2>
+                            <form action="${pageContext.request.contextPath}/UpdateUserProfileServlet" method="POST">
+                                <div class="mb-3">
+                                    <label for="userID" class="form-label">User ID</label>
+                                    <input type="text" class="form-control" id="userID" name="userID" value="<%= user.getUserID()%>" readonly>
                                 </div>
-                            </div>
+                                <div class="mb-3">
+                                    <label for="userName" class="form-label">Login ID</label>
+                                    <input type="text" class="form-control" id="userName" name="userName" value="<%= user.getuserName()%>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Role" class="form-label">Your Role</label>
+                                    <input type="text" class="form-control" id="Role" name="Role" value="<%= user.getRole()%>" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" value="<%= user.getName()%>" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="location" class="form-label">Location</label>
+                                    <input type="text" class="form-control" id="location" name="location" value="<%= user.getLocation()%>" readonly>
+                                </div>
+                                <<div class="mb-3">
+                                    <label for="oldPassword" class="form-label">Old Password (required for any changes)</label>
+                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="newPassword" class="form-label">New Password (optional)</label>
+                                    <input type="password" class="form-control" id="newPassword" name="newPassword">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirmNewPassword" class="form-label">Confirm New Password (optional)</label>
+                                    <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword">
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="submitProfileUpdate()">Update Profile</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -146,6 +128,14 @@
         <script src="${pageContext.request.contextPath}/assets/vendor/jquery/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
+        <script>
+                                    window.onload = function () {
+                                        const params = new URLSearchParams(window.location.search);
+                                        if (params.has('status')) {
+                                            alert(params.get('status'));
+                                        }
+                                    }
+        </script>
     </body>
 
 </html>
