@@ -64,7 +64,7 @@ Author     : kenneth
                         <a href="update_info.html"><i class="fas fa-user-cog"></i> Update Password and Personal Information</a>
                     </li>
                     <li>
-                        <a href="index.html"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
                 </ul>
             </nav>
@@ -105,14 +105,17 @@ Author     : kenneth
                                             <div class="col">
                                                 <label for="startDate">Start Date:</label>
                                                 <input type="date" id="startDate" name="startDate" class="form-control"
-                                                       min="<%= new java.sql.Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000).toString()%>"
+                                                       min="<%= new java.sql.Date(System.currentTimeMillis() + 24L * 60 * 60 * 1000).toString()%>"
                                                        max="<%= new java.sql.Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000).toString()%>" required>
                                             </div>
                                             <div class="col">
                                                 <label for="returnDate">Return Date:</label>
-                                                <input type="date" id="returnDate" name="returnDate" class="form-control" required>
+                                                <input type="date" id="returnDate" name="returnDate" class="form-control"
+                                                       min="<%= new java.sql.Date(System.currentTimeMillis() + 24L * 60 * 60 * 1000).toString()%>"
+                                                       max="<%= new java.sql.Date(System.currentTimeMillis() + 180L * 24 * 60 * 60 * 1000).toString()%>" required>
                                                 <input type="hidden" id="userId" name="userId" value="<%= user.getUserID()%>">
                                             </div>
+
                                         </div>
                                     </div>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

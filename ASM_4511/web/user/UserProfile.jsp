@@ -52,7 +52,7 @@
                         <a href="${pageContext.request.contextPath}/user/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
                     </li>
                     <li>
-                        <a href="index.html"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
                 </ul>
             </nav>
