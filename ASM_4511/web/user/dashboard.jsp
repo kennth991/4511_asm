@@ -35,17 +35,17 @@
         <div class="wrapper">
             <nav id="sidebar" class="active">
                 <div class="sidebar-header">
-                    <img src="../assets/img/logo.png" style="height: 60px; width: 60px;" alt="bootraper logo" class="app-logo">
+                    <img src="${pageContext.request.contextPath}/assets/img/logo.png" style="height: 60px; width: 60px;" alt="bootraper logo" class="app-logo">
                 </div>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="user_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="${pageContext.request.contextPath}/BorrowingRecordServlet"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Available Devices</a>
                     </li>
                     <li>
-                        <a href="borrowing_records.html"><i class="fas fa-history"></i> Personal Borrowing Records</a>
+                        <a href="${pageContext.request.contextPath}/user/view_venue"><i class="fas fa-history"></i> Personal Borrowing Records</a>
                     </li>
                     <li>
                         <a href="../WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
@@ -86,6 +86,10 @@
                         </ul>
                     </div>
                 </nav>
+
+
+
+
                 <div class="content">
                     <div class="container">
                         <div class="page-title">
@@ -109,14 +113,12 @@
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Record ID</th>
-                                                    <th>User ID</th>
+                                                    <th>Request ID</th>
                                                     <th>Equipment Name</th>
-                                                    <th>Checkout Date</th>
-                                                    <th>Expected Return Date</th>
-                                                    <th>Actual Return Date</th>
+                                                    <th>Request DateTime</th>
+                                                    <th>Start Date</th>
+                                                    <th>Return Date</th>
                                                     <th>Status</th>
-                                                    <th>Comments</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -125,13 +127,11 @@
                                                 %>
                                                 <tr>
                                                     <td><%= record.getRecordId()%></td>
-                                                    <td><%= record.getUserId()%></td>
                                                     <td><%= record.getEquipmentName()%></td>
-                                                    <td><%= record.getCheckoutDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getCheckoutDate()) : "N/A"%></td>
-                                                    <td><%= record.getExpectedReturnDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getExpectedReturnDate()) : "N/A"%></td>
-                                                    <td><%= record.getActualReturnDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getActualReturnDate()) : "N/A"%></td>
+                                                    <td><%= record.getRequestDateTime()%></td>
+                                                    <td><%= record.getStartDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getStartDate()) : "N/A"%></td>
+                                                    <td><%= record.getReturnDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getReturnDate()) : "N/A"%></td>
                                                     <td><%= record.getStatus()%></td>
-                                                    <td><%= record.getComments()%></td>
                                                 </tr>
                                                 <%
                                                     }
