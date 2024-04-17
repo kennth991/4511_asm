@@ -59,7 +59,7 @@ Author     : kenneth
                         <a href="update_info.html"><i class="fas fa-user-cog"></i> Update Password and Personal Information</a>
                     </li>
                     <li>
-                        <a href="index.html"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
                 </ul>
             </nav>

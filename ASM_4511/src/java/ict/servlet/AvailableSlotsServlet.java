@@ -43,24 +43,24 @@ public class AvailableSlotsServlet extends HttpServlet {
     }
 
     private List<String> getAvailableTimeSlots(int venueId, String bookingDate) {
-        List<String> bookedSlots = new ArrayList<>();
-        String query = "SELECT checkinTime FROM venuebooking WHERE VenuevenueID = ? AND bookingDate = ?";
-        try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword); PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, venueId);
-            preparedStatement.setDate(2, java.sql.Date.valueOf(bookingDate));
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                bookedSlots.add(rs.getString("checkinTime"));
-                System.out.println("Booked time slot fetched: " + rs.getString("checkinTime"));
-            }
-        } catch (SQLException e) {
-            System.out.println("SQL Error: " + e.getMessage());
-            e.printStackTrace();
+    List<String> bookedSlots = new ArrayList<>();
+    String query = "SELECT checkinTime FROM venuebooking WHERE VenuevenueID = ? AND bookingDate = ? AND (status = 'approved' OR status = 'reserved')";
+    try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword); PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        preparedStatement.setInt(1, venueId);
+        preparedStatement.setDate(2, java.sql.Date.valueOf(bookingDate));
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            bookedSlots.add(rs.getString("checkinTime"));
+            System.out.println("Booked time slot fetched: " + rs.getString("checkinTime"));
         }
-        List<String> availableSlots = filterAvailableSlots(bookedSlots);
-        System.out.println("Available slots after filtering: " + availableSlots);
-        return availableSlots;
+    } catch (SQLException e) {
+        System.out.println("SQL Error: " + e.getMessage());
+        e.printStackTrace();
     }
+    List<String> availableSlots = filterAvailableSlots(bookedSlots);
+    System.out.println("Available slots after filtering: " + availableSlots);
+    return availableSlots;
+}
 
     private List<String> filterAvailableSlots(List<String> bookedSlots) {
         List<String> allSlots = Arrays.asList("09:00", "11:00", "13:00", "15:00");

@@ -26,6 +26,7 @@
         <servlet-name>VenueServlet</servlet-name>
         <url-pattern>/user/view_venue</url-pattern>
     </servlet-mapping>
+
     <session-config>
         <session-timeout>15</session-timeout> <!-- Session timeout in minutes -->
     </session-config>

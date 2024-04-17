@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 public class VenueBooking {
     private int bookingID;
     private int requesterID;
-    private Integer responderID; // 可以为null
+    private Integer responderID;
     private int venueVenueID;
     private Timestamp requestDatetime;
     private Date bookingDate;
@@ -24,7 +24,6 @@ public class VenueBooking {
     private String checkoutTime;
     private String status;
 
-    // 构造器、getter 和 setter
     public VenueBooking() {
     }
 

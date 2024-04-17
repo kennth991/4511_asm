@@ -6,9 +6,10 @@ function setBookingDetails(venueId, venueName) {
     $('#venueId').val(venueId);
     $('#venueName').val(venueName); // Adjust if using text input or another method to display
     $('#bookingModal').modal('show'); // Show the booking modal
-
-    // Reset the booking date field or set a default/minimum value
-    $('#bookingDate').val('').attr('min', new Date().toISOString().split('T')[0]); // Set minimum date as today
+    var today = new Date();
+    today.setDate(today.getDate() + 2);
+    var tomorrow = today.toISOString().split('T')[0];
+    $('#bookingDate').val(tomorrow).attr('min', tomorrow);// Set minimum date as today
     $('#startTime').empty(); // Clear previous time slots
 
     // Optionally trigger loading available slots when the modal opens if a default date is set

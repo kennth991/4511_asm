@@ -19,7 +19,6 @@
 %>
 <!doctype html>
 <html lang="en">
-
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,7 +30,6 @@
         <link href="${pageContext.request.contextPath}/assets/vendor/datatables/datatables.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/css/master.css" rel="stylesheet">
     </head>
-
     <body>
         <div class="wrapper">
             <nav id="sidebar" class="active">
@@ -43,22 +41,22 @@
                         <a href="${pageContext.request.contextPath}/BorrowingRecordServlet"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Available Devices</a>
+                        <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Devices</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/view_venue"><i class="fas fa-history"></i> Personal Borrowing Records</a>
+                        <a href="${pageContext.request.contextPath}/user/view_venue"><i class="fas fa-history"></i> View Venue</a>
                     </li>
                     <li>
                         <a href="WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
                     </li>
                     <li>
-                        <a href="reserve_check_out.html"><i class="fas fa-hand-holding"></i> Reserve, Check-out, Return Equipment</a>
+                        <a href="reserve_check_out.html"><i class="fas fa-hand-holding"></i>Return Equipment</a>
                     </li>
                     <li>
-                        <a href="update_info.html"><i class="fas fa-user-cog"></i> Update Password and Personal Information</a>
+                        <a href="${pageContext.request.contextPath}/user/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
                     </li>
                     <li>
-                        <a href="index.html"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
                 </ul>
             </nav>
@@ -87,10 +85,6 @@
                         </ul>
                     </div>
                 </nav>
-
-
-
-
                 <div class="content">
                     <div class="container">
                         <div class="page-title">

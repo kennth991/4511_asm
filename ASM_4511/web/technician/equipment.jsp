@@ -52,7 +52,7 @@
                         <a href="WishListEquipmentServlet"><i class="fas fa-clipboard-list"></i> Wish List Management</a>
                     </li>
                     <li>
-                        <a href="Booking"><i class="fas fa-calendar-check"></i> Booking Management</a>
+                        <a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a>
                     </li>
                     <li>
                         <a href="damage_reporting.html"><i class="fas fa-exclamation-triangle"></i> Damage Reporting</a>
