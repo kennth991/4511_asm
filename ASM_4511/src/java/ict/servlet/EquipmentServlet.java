@@ -30,37 +30,41 @@ public class EquipmentServlet extends HttpServlet {
     }
 
     protected void editEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       String url = "jdbc:mysql://localhost:3306/4511_asm";
+        String url = "jdbc:mysql://localhost:3306/4511_asm";
         String username = "root";
         String password = "";
 
-        int equipmentID = Integer.parseInt(request.getParameter("equipmentID"));
-        String name = request.getParameter("name");
-        String location = request.getParameter("location");
-        String description = request.getParameter("description");
-        String status = request.getParameter("status");
-        String category = request.getParameter("category");
-        String imgSrc = request.getParameter("imgSrc");
+        int equipmentID = Integer.parseInt(request.getParameter("id"));  // Change "editid" to "id"
+        String name = request.getParameter("name");  // Change "editname" to "name"
+        String location = request.getParameter("location");  // Change "editlocation" to "location"
+        String description = request.getParameter("description");  // Change "editdescription" to "description"
+        String status = request.getParameter("status");  // Change "editstatus" to "status"
+        String category = request.getParameter("category");  // Change "editcategory" to "category"
+        String imgSrc = "42";
 
-        EquipmentBean editbean = new EquipmentBean(equipmentID,name,location,description,status,category,imgSrc);
+        EquipmentBean editbean = new EquipmentBean(equipmentID, name, location, description, status, category, imgSrc);
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
         equipDb.editRecord(editbean);
         response.sendRedirect(request.getContextPath() + "/Equipment");
     }
 
-    /* protected void deleteEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void deleteEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String url = "jdbc:mysql://localhost:3306/4511_asm";
+        String username = "root";
+        String password = "";
         int equipmentId = Integer.parseInt(request.getParameter("id"));
-        EquipmentDB equipDb = new EquipmentDB();
-        equipDb.deleteRecord(equipmentId); // Assuming you have a method to delete records
+        EquipmentDB equipDb = new EquipmentDB(url, username, password);
+        equipDb.delRecord(equipmentId); // Assuming you have a method to delete records
         response.sendRedirect(request.getContextPath() + "/Equipment");
-    }*/
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if ("edit".equals(action)) {
+        if ("editEquipment".equals(action)) {
             editEquipment(request, response);
-        } else if ("delete".equals(action)) {
+        } else if ("deleteEquipment".equals(action)) {
             processRequest(request, response);
         } else {
             processRequest(request, response);

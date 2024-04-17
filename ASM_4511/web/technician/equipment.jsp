@@ -57,7 +57,7 @@
                     <li>
                         <a href="damage_reporting.html"><i class="fas fa-exclamation-triangle"></i> Damage Reporting</a>
                     </li>
-                      <li>
+                    <li>
                         <a href="EquipmentRequestServlet"> <i class="fas fa-calendar-check"></i> Logout</a>
                     </li>
                     <li>
@@ -110,6 +110,7 @@
                                                     <th>Location</th>
                                                     <th>Description</th>
                                                     <th>Status</th>
+                                                    <th>Category</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -128,7 +129,7 @@
                                                     <td><%= equipment.getDescription()%></td>
                                                     <td><%= equipment.getStatus()%></td>
                                                     <td><%= equipment.getCategory()%></td>
-                                                    <td><%= equipment.getImgSrc()%></td>
+
                                                     <td>
                                                         <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
                                                             <i class="fas fa-edit"></i>
@@ -142,7 +143,7 @@
                                                     }%>
                                             </tbody>
                                         </table>
-                                        <button class="btn btn-primary" type="submit"><a href="create_order.html">Create Equipment</a></button>
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Create Equipment</a></button>
                                     </div>
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -154,20 +155,45 @@
                                                 </div>
                                                 <form action="Equipment" method="get">
                                                     <div class="modal-body">
-                                                        <input id="deleteEquipment" name="deleteEquipment" value="edit" class="deleteEquipment" hidden="">
+                                                        <input type="hidden" name="action" value="deleteEquipment">
 
-                                                        <input id="id" type="number" name= "id"class="form-control" type="text" readonly>
-                                                        <input id="name" name="name" class="form-control" type="text" >
-                                                        <input id="location" name="location" class="form-control" type="text">
-                                                        <input id="description" name="description"class="form-control" type="text"  >
-                                                        <input id="status" name="status" class="form-control" type="text" >
-                                                        <input id="category" name="category" class="form-control" type="text" >
-                                                        <src id="imgSrc" name="imgSrc"  >
+
+                                                        <div class="mb-2">
+                                                            <label for="id" class="form-label">ID:</label>
+                                                            <input id="id" type="number" name="id" class="form-control" readonly>
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="name" class="form-label">Name:</label>
+                                                            <input id="name" name="name" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="location" class="form-label">Location:</label>
+                                                            <input id="location" name="location" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="description" class="form-label">Description:</label>
+                                                            <input id="description" name="description" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="status" class="form-label">Status:</label>
+                                                            <input id="status" name="status" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="category" class="form-label">Category:</label>
+                                                            <input id="category" name="category" class="form-control" type="text">
+                                                        </div>
+
+                                                        <src id="imgSrc" name="imgSrc">
 
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">comfrim Delete</button>
+                                                        <button type="submit" class="btn btn-primary">Confirm Delete</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -182,19 +208,85 @@
                                                 </div>
                                                 <form action="Equipment" method="get">
                                                     <div class="modal-body">
-                                                        <img id="displaySrc" src="">
-                                                        <input id="editEquipment" name="editEquipment" value="edit" class="editEquipment" hidden="">
-                                                        <input id="editid" type="number" name= "id"class="form-control mb-2" type="text" readonly>
-                                                        <input id="editname" name="name" class="form-control  mb-2" type="text" >
-                                                        <input id="editlocation" name="location" class="form-control  mb-2" type="text">
-                                                        <input id="editdescription" name="description"class="form-control  mb-2" type="text"  >
-                                                        <input id="editstatus" name="status" class="form-control  mb-2" type="text" >
-                                                        <input id="editcategory" name="category" class="form-control" type="text" >
-                                                          <src id="imgSrc" name="imgSrc"  >
+                                                        <input type="hidden" name="action" value="editEquipment">
+
+                                                        <div class="mb-2">
+                                                            <label for="editid" class="form-label">ID:</label>
+                                                            <input id="editid" type="number" name="id" class="form-control" readonly>
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="editname" class="form-label">Name:</label>
+                                                            <input id="editname" name="name" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="editlocation" class="form-label">Location:</label>
+                                                            <input id="editlocation" name="location" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="editdescription" class="form-label">Description:</label>
+                                                            <input id="editdescription" name="description" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="editstatus" class="form-label">Status:</label>
+                                                            <input id="editstatus" name="status" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="editcategory" class="form-label">Category:</label>
+                                                            <input id="editcategory" name="category" class="form-control" type="text">
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary">Understood</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="createModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Equipment</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="Equipment" method="get">
+                                                    <div class="modal-body">
+                                                        <input type="hidden" name="action" value="createEquipment">
+
+                                                        <div class="mb-2">
+                                                            <label for="createName" class="form-label">Name:</label>
+                                                            <input id="createName" name="name" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="createLocation" class="form-label">Location:</label>
+                                                            <input id="createLocation" name="location" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="createDescription" class="form-label">Description:</label>
+                                                            <input id="createDescription" name="description" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="createStatus" class="form-label">Status:</label>
+                                                            <input id="createStatus" name="status" class="form-control" type="text">
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="createCategory" class="form-label">Category:</label>
+                                                            <input id="createCategory" name="category" class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Create</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -216,7 +308,6 @@
                 document.getElementById("editdescription").value = description;
                 document.getElementById("editstatus").value = status;
                 document.getElementById("editcategory").value = category;
-                document.getElementById("displaySrc").src = imgSrc;
 
             }
             function deleteEquipment(equipmentId, name, location, description, status, category, imgSrc) {

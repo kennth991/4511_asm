@@ -14,6 +14,7 @@ public class EquipmentBean implements Serializable {
     private String imgSrc;
     private Date startDate;
     private Date returnDate;
+    private int nextID;
 
     // Default constructor
     public EquipmentBean() {
@@ -101,6 +102,14 @@ public class EquipmentBean implements Serializable {
 
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public int getNextID() {
+        return nextID;
+    }
+
+    public void setNextID(int nextID) {
+        this.nextID = nextID;
     }
 
     @Override

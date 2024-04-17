@@ -100,6 +100,35 @@ public class EquipmentDB {
         }
         return updateSuccessful;
     }
+     public boolean delRecord(int equipID) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean deletionSuccessful = false;
+
+        try {
+            cnnct = getConnection(); // get Connection
+            String preQueryStatement = "DELETE FROM equipmentID WHERE equipmentID = ?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement); // get the prepare Statement
+            pStmnt.setInt(1, equipID); // update the placehoder with id
+            
+            int rowCount = pStmnt.executeUpdate();
+            if(rowCount >= 1){
+                deletionSuccessful = true;
+            }
+            
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return deletionSuccessful;
+    }
+    
 
     public ArrayList<EquipmentBean> queryEquip() {
         Connection cnnct = null;
