@@ -1,8 +1,9 @@
 <%-- 
-    Document   : dashboard
-    Created on : 2024年4月2日, 下午2:25:40
+    Document   : return_checkout
+    Created on : 2024年4月18日, 上午12:38:10
     Author     : kenneth
 --%>
+
 <%@page import="ict.bean.BorrowingRecord"%>
 <%@page import="ict.bean.User"%>
 <%@page import="java.util.List"%>
@@ -22,7 +23,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>User Dashboard</title>
+        <title>User Return Dashboard</title>
         <link href="${pageContext.request.contextPath}/assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -49,7 +50,7 @@
                         <a href="../WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/return_checkout.jsp"><i class="fas fa-hand-holding"></i>Return / Checkout</a>
+                        <a href="reserve_check_out.html"><i class="fas fa-hand-holding"></i>Return / Checkout</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/user/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
@@ -89,63 +90,59 @@
                         <div class="page-title">
                             <h3>Welcome, ${user.name}</h3>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        Personal Borrowing Records
-                                    </div>
-                                    <div class="card-body">
-                                        <%
-                                            List<BorrowingRecord> borrowingRecords = (List<BorrowingRecord>) request.getAttribute("borrowingRecords");
-                                            if (borrowingRecords == null || borrowingRecords.isEmpty()) {
-                                        %>
-                                        <p>You have no borrowing records.</p>
-                                        <%
-                                        } else {
-                                        %>
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Request ID</th>
-                                                    <th>Equipment Name</th>
-                                                    <th>Request DateTime</th>
-                                                    <th>Start Date</th>
-                                                    <th>Return Date</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%
-                                                    for (BorrowingRecord record : borrowingRecords) {
-                                                %>
-                                                <tr>
-                                                    <td><%= record.getRecordId()%></td>
-                                                    <td><%= record.getEquipmentName()%></td>
-                                                    <td><%= record.getRequestDateTime()%></td>
-                                                    <td><%= record.getStartDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getStartDate()) : "N/A"%></td>
-                                                    <td><%= record.getReturnDate() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(record.getReturnDate()) : "N/A"%></td>
-                                                    <td><%= record.getStatus()%></td>
-                                                </tr>
-                                                <%
-                                                    }
-                                                %>
-                                            </tbody>
-                                        </table>
-                                        <%
-                                            }
-                                        %>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <select id="returnType" class="form-control mb-3" onchange="showOptions(this.value);">
+                            <option value="">Select Return Type</option>
+                            <option value="equipment">Equipment Record</option>
+                            <option value="venue">Venue Record</option>
+                        </select>
+                        <!-- Placeholder for dynamically loading content -->
+                        <div id="returnDetails"></div>
                     </div>
                 </div>
             </div>
-        </div>
-        <script src="${pageContext.request.contextPath}/assets/vendor/jquery/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
+            <script>
+                var baseUrl = "${pageContext.request.contextPath}";
+                function showOptions(returnType) {
+                    $.ajax({
+                        url: '/ASM_4511/fetchReturnDetails', // Adjust to match the context path and servlet URL pattern
+                        type: 'GET',
+                        data: {returnType: returnType},
+                        success: function (response) {
+                            $('#returnDetails').html(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Failed to fetch data: " + xhr.responseText);
+                            $('#returnDetails').html('<p>Error loading data.</p>');
+                        }
+                    });
+
+                }
+
+                function initiateReturn(bookingId) {
+                    $.ajax({
+                        url: baseUrl + '/returnVenue', // Adjusted to include the base URL dynamically
+                        type: 'POST',
+                        data: {bookingId: bookingId},
+                        success: function (response) {
+                            if (response.status === "success") {
+                                alert(response.message);
+                                window.location.reload(); 
+                            } else {
+                                alert("Error: " + response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert("An error occurred: " + error);
+                        }
+                    });
+                }
+
+
+            </script>
+            <script src="${pageContext.request.contextPath}/assets/vendor/jquery/jquery.min.js"></script>
+            <script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
     </body>
 
 </html>
+
