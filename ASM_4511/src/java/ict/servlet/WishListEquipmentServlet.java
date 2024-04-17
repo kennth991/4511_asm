@@ -21,22 +21,37 @@ public class WishListEquipmentServlet extends HttpServlet {
         String password = "";
         WishListEquipmentDB wEquipDb = new WishListEquipmentDB(url, username, password); // Assuming the EquipmentDB manages its own connections
         ArrayList<WishListEquipmentBean> allWishListEquipment = wEquipDb.queryEquip();
+        ArrayList<WishListEquipmentBean> allWishListEquipmentAvailable = wEquipDb.queryEquipAvailable();
 
         // Set the equipments attribute in the request
         request.setAttribute("wishListEquipment", allWishListEquipment);
+        request.setAttribute("wishListEquipmentAvailable", allWishListEquipmentAvailable);
 
         RequestDispatcher rd;
         rd = getServletContext().getRequestDispatcher("/technician/wishListEquipment.jsp");
         rd.forward(request, response);
     }
-    
-    
+
+    protected void confirmWishList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String url = "jdbc:mysql://localhost:3306/4511_asm";
+        String username = "root";
+        String password = "";
+        int wishListId = Integer.parseInt(request.getParameter("wishListwishID"));
+        int equipmentId = Integer.parseInt(request.getParameter("equipmentID"));
+        WishListEquipmentDB wEquipDb = new WishListEquipmentDB(url, username, password);
+        wEquipDb.confirmWishList(wishListId, equipmentId); // Assuming you have a method to delete records
+        response.sendRedirect(request.getContextPath() + "//WishListEquipmentServlet");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        processRequest(request, response);
+        if ("confirmWishList".equals(action)) {
+            confirmWishList(request, response);
+        } else {
+            processRequest(request, response);
+        }
 
     }
 

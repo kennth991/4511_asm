@@ -4,11 +4,24 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/bean/EquipmentBean.java</file>
-            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/EquipmentServlet.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/FetchBookingsServlet.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/user/addWishlist.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/db/VenueDAO.java</file>
             <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/db/EquipmentDB.java</file>
-            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/technician/wishListEquipment.jsp</file>
             <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/technician/approveRequestEquipment.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/AddWishListServlet.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/WishListServlet.java</file>
             <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/technician/equipment.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/user/view_devices.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/user/wishList.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/WishListEquipmentServlet.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/db/WishListEquipmentDB.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/db/WishListDB.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/bean/WishListBean.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/user/dashboard.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/EquipmentServlet.java</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/technician/wishListEquipment.jsp</file>
+            <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/bean/WishListEquipmentBean.java</file>
         </group>
     </open-files>
 </project-private>

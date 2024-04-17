@@ -94,170 +94,183 @@
                 <div class="content">
                     <div class="container">
                         <div class="page-title">
-                            <h3>Technician Dashboard</h3>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-12">
-                                <div class="card">
-                                    <div class="card-header">Wish List(Available)</div>
-                                    <div class="card-body">
-                                        <p class="card-title"></p>
-                                        <table class="table table-hover" id="dataTables-example" width="100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Responder</th>
-                                                    <th>Serial Number</th>
-                                                    <th>Equipment</th>
-
-                                                    <th>Location</th>
-                                                    <th>Request Time</th>
-                                                    <th>Status</th>
-                                                    <th>Confirm</th>
-
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                <%
-                                                    // Retrieve the "equipments" attribute from the request
-                                                    ArrayList<WishListEquipmentBean> wishEquipmentsApproved = (ArrayList<WishListEquipmentBean>) request.getAttribute("wishListApproved");
-                                                %>
-
-                                                <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
-                                                <%
-                                                    for (WishListEquipmentBean wishEquipmentApproved : wishEquipmentsApproved) {%>
-                                                <tr>
-
-                                                    <td><%= wishEquipmentApproved.getResponderName()%></td>
-                                                    <td><%= wishEquipmentApproved.getEquipmentequipmentID()%></td>
-                                                    <td><%= wishEquipmentApproved.getEquipmentName()%></td>
-                                                    <td><%= wishEquipmentApproved.getLocation()%></td>
-
-                                                    <td><%= wishEquipmentApproved.getRequestDateTime()%></td>
-                                                    <td><%= wishEquipmentApproved.getStatus()%></td>
-                                                    <td>
-
-
-                                                        <form action="WishListServlet" method="get">
-                                                            <input type="hidden" name="action" value="confirm"> <!-- Added hidden field for action -->
-                                                            <input type="hidden" id="wishListwishID" name="wishListwishID" value="<%= wishEquipmentApproved.getWishListwishID()%>">
-                                                            <input type="hidden" name="equipmentID" id="equipmentID" value="<%= wishEquipmentApproved.getEquipmentequipmentID()%>">
-                                                            <button type="submit" class="btn btn-warning btn-sm">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                                <%
-
-                                                    }%>
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                    <!-- Modal -->
-
-
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-lg-12">
-                                <div class="card">
-                                    <div class="card-header">My Wish List</div>
-                                    <div class="card-body">
-                                        <p class="card-title"></p>
-                                        <table class="table table-hover" id="dataTables-example" width="100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Serial Number</th>
-                                                    <th>Equipment</th>
-                                                    <th>Location</th>
-                                                    <th>Request Time</th>
-                                                    <th>Status</th>
-                                                    <th>Remove From Wish List</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%
-                                                    // Retrieve the "equipments" attribute from the request
-                                                    ArrayList<WishListEquipmentBean> wishEquipments = (ArrayList<WishListEquipmentBean>) request.getAttribute("wishList");
-                                                %>
-                                                <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
-                                                <%
-                                                    for (WishListEquipmentBean wishEquipment : wishEquipments) {%>
-                                                <tr>
-
-                                                    <td><%= wishEquipment.getEquipmentequipmentID()%></td>
-
-                                                    <td><%= wishEquipment.getEquipmentName()%></td>
-                                                    <td><%= wishEquipment.getLocation()%></td>
-
-                                                    <td><%= wishEquipment.getRequestDateTime()%></td>
-                                                    <td><%= wishEquipment.getStatus()%></td>
-                                                    <td>
-
-                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeModal" id="actionButton" onclick="removeWishListEquipment('<%= wishEquipment.getWishListwishID()%>', '<%= wishEquipment.getEquipmentequipmentID()%>')">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-
-
-                                                    </td>
-                                                </tr>
-                                                <%
-
-                                                    }%>
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form action="WishListServlet" method="get">
-                                                    <div class="modal-body">
-                                                        Do you confirm to remove?
-                                                        <input type="hidden" name="action" value="remove"> <!-- Added hidden field for action -->
-                                                        <input type="hidden" id="removeWishListwishID" name="removeWishListwishID" value="">
-                                                        <input type="hidden" name="removeEquipmentID" id="removeEquipmentID" value="">
-
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">confirm</button>
-                                                    </div>
-                                                </form>
-                                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h3>Technician Dashboard</h3>
+                                        </div>
+                                        <div class="col text-right">
+                                            <a href="WishListServlet" class="btn btn-info mb-3">Add Wish List</a>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
 
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-header">Wish List(Available)</div>
+                                <div class="card-body">
+                                    <p class="card-title"></p>
+                                    <table class="table table-hover" id="dataTables-example" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Responder</th>
+                                                <th>Serial Number</th>
+                                                <th>Equipment</th>
+
+                                                <th>Location</th>
+                                                <th>Request Time</th>
+                                                <th>Status</th>
+                                                <th>Confirm</th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <%
+                                                // Retrieve the "equipments" attribute from the request
+                                                ArrayList<WishListEquipmentBean> wishEquipmentsApproved = (ArrayList<WishListEquipmentBean>) request.getAttribute("wishListApproved");
+                                            %>
+
+                                            <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
+                                            <%
+                                                    for (WishListEquipmentBean wishEquipmentApproved : wishEquipmentsApproved) {%>
+                                            <tr>
+
+                                                <td><%= wishEquipmentApproved.getResponderName()%></td>
+                                                <td><%= wishEquipmentApproved.getEquipmentequipmentID()%></td>
+                                                <td><%= wishEquipmentApproved.getEquipmentName()%></td>
+                                                <td><%= wishEquipmentApproved.getLocation()%></td>
+
+                                                <td><%= wishEquipmentApproved.getRequestDateTime()%></td>
+                                                <td><%= wishEquipmentApproved.getStatus()%></td>
+                                                <td>
+
+
+                                                    <form action="WishListServlet" method="get">
+                                                        <input type="hidden" name="action" value="confirm"> <!-- Added hidden field for action -->
+                                                        <input type="hidden" id="wishListwishID" name="wishListwishID" value="<%= wishEquipmentApproved.getWishListwishID()%>">
+                                                        <input type="hidden" name="equipmentID" id="equipmentID" value="<%= wishEquipmentApproved.getEquipmentequipmentID()%>">
+                                                        <button type="submit" class="btn btn-warning btn-sm">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <%
+
+                                                }%>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <!-- Modal -->
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-header">My Wish List</div>
+                                <div class="card-body">
+                                    <p class="card-title"></p>
+                                    <table class="table table-hover" id="dataTables-example" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Serial Number</th>
+                                                <th>Equipment</th>
+                                                <th>Location</th>
+                                                <th>Request Time</th>
+                                                <th>Status</th>
+                                                <th>Remove From Wish List</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                // Retrieve the "equipments" attribute from the request
+                                                ArrayList<WishListEquipmentBean> wishEquipments = (ArrayList<WishListEquipmentBean>) request.getAttribute("wishList");
+                                            %>
+                                            <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
+                                            <%
+                                                    for (WishListEquipmentBean wishEquipment : wishEquipments) {%>
+                                            <tr>
+
+                                                <td><%= wishEquipment.getEquipmentequipmentID()%></td>
+
+                                                <td><%= wishEquipment.getEquipmentName()%></td>
+                                                <td><%= wishEquipment.getLocation()%></td>
+
+                                                <td><%= wishEquipment.getRequestDateTime()%></td>
+                                                <td><%= wishEquipment.getStatus()%></td>
+                                                <td>
+
+                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeModal" id="actionButton" onclick="removeWishListEquipment('<%= wishEquipment.getWishListwishID()%>', '<%= wishEquipment.getEquipmentequipmentID()%>')">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+
+
+                                                </td>
+                                            </tr>
+                                            <%
+
+                                                }%>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="WishListServlet" method="get">
+                                                <div class="modal-body">
+                                                    Do you confirm to remove?
+                                                    <input type="hidden" name="action" value="remove"> <!-- Added hidden field for action -->
+                                                    <input type="hidden" id="removeWishListwishID" name="removeWishListwishID" value="">
+                                                    <input type="hidden" name="removeEquipmentID" id="removeEquipmentID" value="">
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">confirm</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-        <script>
-            function removeWishListEquipment(wishListId, equipmentname) {
+    </div>
+    <script>
+        function removeWishListEquipment(wishListId, equipmentname) {
 
-                document.getElementById("removeWishListwishID").value = wishListId;
-                document.getElementById("removeEquipmentID").value = equipmentname;
+            document.getElementById("removeWishListwishID").value = wishListId;
+            document.getElementById("removeEquipmentID").value = equipmentname;
 
 
-            }
+        }
 
-        </script>
-        <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
-        <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
-        <script src="<c:url value='/assets/js/script.js' />"></script>
-    </body>
+    </script>
+    <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
+    <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+    <script src="<c:url value='/assets/js/script.js' />"></script>
+</body>
 
 </html>

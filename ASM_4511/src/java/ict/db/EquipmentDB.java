@@ -72,7 +72,7 @@ public class EquipmentDB {
         try {
             cnnct = getConnection(); // get Connection
 
-            String preQueryStatement = "UPDATE equipment SET name = ?, location = ?, description = ?, status = ?,category = ?,imgSrc = ? WHERE equipmentID = ?";
+            String preQueryStatement = "UPDATE equipment SET name = ?, location = ?, description = ?, status = ?,category = ?,imgSrc = ?,isStaff = ? WHERE equipmentID = ?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
 
             pStmnt.setString(1, eb.getName());
@@ -81,7 +81,8 @@ public class EquipmentDB {
             pStmnt.setString(4, eb.getStatus());
             pStmnt.setString(5, eb.getCategory());
             pStmnt.setString(6, eb.getImgSrc());
-            pStmnt.setInt(7, eb.getEquipmentID());
+            pStmnt.setString(7, eb.getIsStaff());
+            pStmnt.setInt(8, eb.getEquipmentID());
 
             int rowCount = pStmnt.executeUpdate();
             if (rowCount >= 1) {
@@ -100,22 +101,64 @@ public class EquipmentDB {
         }
         return updateSuccessful;
     }
-     public boolean delRecord(int equipID) {
+
+  public boolean createRecord(EquipmentBean equipment) {
+    String url = "jdbc:mysql://localhost:3306/4511_asm";
+    String username = "root";
+    String password = "";
+
+    try (Connection conn = DriverManager.getConnection(url, username, password)) {
+        // Find the maximum equipmentID in the table
+        String maxIdQuery = "SELECT MAX(equipmentID) AS maxId FROM equipment";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(maxIdQuery);
+        int maxId = 0;
+        if (rs.next()) {
+            maxId = rs.getInt("maxId");
+        }
+
+        // Increment the maxId to generate the next equipmentID
+        int nextId = maxId + 1;
+
+        // Set the equipmentID of the equipment object
+        equipment.setEquipmentID(nextId);
+
+        // Insert the new equipment record into the table
+        String insertQuery = "INSERT INTO equipment (equipmentID, name, location, description, status, category, imgSrc, isStaff) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement pstmt = conn.prepareStatement(insertQuery);
+        pstmt.setInt(1, maxId+1);
+        pstmt.setString(2, equipment.getName());
+        pstmt.setString(3, equipment.getLocation());
+        pstmt.setString(4, equipment.getDescription());
+        pstmt.setString(5, equipment.getStatus());
+        pstmt.setString(6, equipment.getCategory());
+        pstmt.setString(7, equipment.getImgSrc());
+        pstmt.setString(8, equipment.getIsStaff());
+        pstmt.executeUpdate();
+
+        return true;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+    public boolean delRecord(int equipID) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean deletionSuccessful = false;
 
         try {
             cnnct = getConnection(); // get Connection
-            String preQueryStatement = "DELETE FROM equipmentID WHERE equipmentID = ?";
+            String preQueryStatement = "DELETE FROM equipment WHERE equipmentID = ?";
             pStmnt = cnnct.prepareStatement(preQueryStatement); // get the prepare Statement
             pStmnt.setInt(1, equipID); // update the placehoder with id
-            
+
             int rowCount = pStmnt.executeUpdate();
-            if(rowCount >= 1){
+            if (rowCount >= 1) {
                 deletionSuccessful = true;
             }
-            
+
             pStmnt.close();
             cnnct.close();
         } catch (SQLException ex) {
@@ -128,7 +171,6 @@ public class EquipmentDB {
         }
         return deletionSuccessful;
     }
-    
 
     public ArrayList<EquipmentBean> queryEquip() {
         Connection cnnct = null;
@@ -152,7 +194,8 @@ public class EquipmentDB {
                 cb.setStatus(rs.getString("status"));
                 cb.setCategory(rs.getString("category"));
                 cb.setImgSrc(rs.getString("imgSrc"));
-
+               
+                cb.setIsStaff(rs.getString("isStaff"));
                 equipments.add(cb);
             }
 

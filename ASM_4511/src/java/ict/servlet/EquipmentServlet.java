@@ -41,10 +41,32 @@ public class EquipmentServlet extends HttpServlet {
         String status = request.getParameter("status");  // Change "editstatus" to "status"
         String category = request.getParameter("category");  // Change "editcategory" to "category"
         String imgSrc = "42";
+        String isStaff = request.getParameter("editIsStaffDropdown");
 
-        EquipmentBean editbean = new EquipmentBean(equipmentID, name, location, description, status, category, imgSrc);
+        EquipmentBean editbean = new EquipmentBean(equipmentID, name, location, description, status, category, imgSrc, isStaff);
         EquipmentDB equipDb = new EquipmentDB(url, username, password);
         equipDb.editRecord(editbean);
+        response.sendRedirect(request.getContextPath() + "/Equipment");
+    }
+
+    protected void createEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String url = "jdbc:mysql://localhost:3306/4511_asm";
+        String username = "root";
+        String password = "";
+
+        int equipmentID = 999;
+        String name = request.getParameter("name");
+        String location = request.getParameter("location");
+        String description = request.getParameter("description");
+        String status = request.getParameter("status");
+        String category = request.getParameter("category");
+        String imgSrc = "42"; // Set the image source accordingly
+
+        String isStaff = request.getParameter("createIsStaffDropdown");
+
+        EquipmentBean newEquipment = new EquipmentBean(equipmentID, name, location, description, status, category, imgSrc, isStaff);
+        EquipmentDB equipDb = new EquipmentDB(url, username, password);
+        equipDb.createRecord(newEquipment);
         response.sendRedirect(request.getContextPath() + "/Equipment");
     }
 
@@ -65,13 +87,16 @@ public class EquipmentServlet extends HttpServlet {
         if ("editEquipment".equals(action)) {
             editEquipment(request, response);
         } else if ("deleteEquipment".equals(action)) {
-            processRequest(request, response);
+            deleteEquipment(request, response);
+        } else if ("createEquipment".equals(action)) {
+            createEquipment(request, response);
         } else {
             processRequest(request, response);
         }
     }
 
     @Override
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }

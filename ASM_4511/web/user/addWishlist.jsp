@@ -1,10 +1,10 @@
 <%-- 
-    Document   : wishlist
-    Created on : 14 Apr 2024, 2:40:40 am
-    Author     : LauKaMingBenjamin
+    Document   : index
+    Created on : 2024年4月2日, 下午2:25:46
+    Author     : Lau Ka Ming Benjamin
 --%>
 <%@page import="ict.bean.User"%>
-<%@page import="ict.bean.WishListEquipmentBean"%>
+<%@page import="ict.bean.EquipmentBean"%>
 <%@page import="ict.servlet.EquipmentServlet"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -49,10 +49,16 @@
                         <a href="inventory_management.html"><i class="fas fa-clipboard-list"></i> Inventory Management</a>
                     </li>
                     <li>
+                        <a href="WishListEquipmentServlet"><i class="fas fa-clipboard-list"></i> Wish List Management</a>
+                    </li>
+                    <li>
                         <a href="Booking"><i class="fas fa-calendar-check"></i> Booking Management</a>
                     </li>
                     <li>
                         <a href="damage_reporting.html"><i class="fas fa-exclamation-triangle"></i> Damage Reporting</a>
+                    </li>
+                    <li>
+                        <a href="EquipmentRequestServlet"> <i class="fas fa-calendar-check"></i> Logout</a>
                     </li>
                     <li>
                         <a href="index.html"> <i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -93,106 +99,44 @@
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
                                 <div class="card">
-                                    <div class="card-header">Wish List(can approve)</div>
+                                    <div class="card-header">Equipment List</div>
                                     <div class="card-body">
                                         <p class="card-title"></p>
                                         <table class="table table-hover" id="dataTables-example" width="100%">
                                             <thead>
                                                 <tr>
-                                                    <th>Requester</th>
+                                                    <th>Equipment ID</th>
+                                                    <th>Name</th>
                                                     <th>Location</th>
-                                                    <th>Equipment</th>
-                                                    <th>Serial Number</th>
-                                                    <th>Request Time</th>
+                                                    <th>Description</th>
                                                     <th>Status</th>
+                                                    <th>Category</th>
+
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <%
                                                     // Retrieve the "equipments" attribute from the request
-                                                    ArrayList<WishListEquipmentBean> wishEquipments = (ArrayList<WishListEquipmentBean>) request.getAttribute("wishListEquipment");
+                                                    ArrayList<EquipmentBean> equipments = (ArrayList<EquipmentBean>) request.getAttribute("equipments");
                                                 %>
                                                 <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
                                                 <%
-                                                    for (WishListEquipmentBean wishEquipment : wishEquipments) {%>
+                                                    for (EquipmentBean equipment : equipments) {%>
                                                 <tr>
-                                                    <td><%= wishEquipment.getRequesterName()%></td>
+                                                    <td><%= equipment.getEquipmentID()%></td>
+                                                    <td><%= equipment.getName()%></td>
+                                                    <td><%= equipment.getLocation()%></td>
+                                                    <td><%= equipment.getDescription()%></td>
+                                                    <td><%= equipment.getStatus()%></td>
+                                                    <td><%= equipment.getCategory()%></td>
 
-                                                    <td><%= wishEquipment.getLocation()%></td>
-                                                    <td><%= wishEquipment.getEquipmentName()%></td>
-                                                    <td><%= wishEquipment.getEquipmentequipmentID()%></td>
-                                                    <td><%= wishEquipment.getRequestDateTime()%></td>
-                                                    <td><%= wishEquipment.getStatus()%></td>
+
                                                     <td>
-
-                                                        <form action="WishListEquipmentServlet" method="POST">
-                                                            <input type="hidden" name="action" value="confirmWishList">
-                                                            <input type="hidden" id="wishListwishID" name="wishListwishID" value="<%= wishEquipment.getWishListwishID()%>">
-                                                            <input type="hidden" name="equipmentID" id="equipmentID" value="<%= wishEquipment.getEquipmentequipmentID()%>">
-
-                                                            <button type="submit" class="btn btn-success btn-sm" id="actionButton" <% if (wishEquipment.getStatus().equals("approved")) { %>disabled<% } %>>
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </form>
-
-                                                    </td>
-                                                </tr>
-                                                <%
-
-                                                    }%>
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                    <!-- Modal -->
-
-
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header">Wish List</div>
-                                    <div class="card-body">
-                                        <p class="card-title"></p>
-                                        <table class="table table-hover" id="dataTables-example" width="100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Requester</th>
-                                                    <th>Location</th>
-                                                    <th>Equipment</th>
-                                                    <th>Serial Number</th>
-                                                    <th>Request Time</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%
-                                                    // Retrieve the "equipments" attribute from the request
-                                                    ArrayList<WishListEquipmentBean> wishEquipments1 = (ArrayList<WishListEquipmentBean>) request.getAttribute("wishListEquipmentAvailable");
-                                                %>
-                                                <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
-                                                <%
-                                                    for (WishListEquipmentBean wishEquipment : wishEquipments1) {%>
-                                                <tr>
-                                                    <td><%= wishEquipment.getRequesterName()%></td>
-
-                                                    <td><%= wishEquipment.getLocation()%></td>
-                                                    <td><%= wishEquipment.getEquipmentName()%></td>
-                                                    <td><%= wishEquipment.getEquipmentequipmentID()%></td>
-                                                    <td><%= wishEquipment.getRequestDateTime()%></td>
-                                                    <td><%= wishEquipment.getStatus()%></td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" 
-                                                                id="actionButton"
-                                                                <% if (wishEquipment.getStatus().equals("approved")) { %>
-                                                                disabled
-                                                                <% } %>
-                                                                >
-                                                            <i class="fas fa-plus"></i>
+                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>', '<%= equipment.getIsStaff()%>')">
+                                                            <i class="fas fa-edit"></i>
                                                         </button>
-
-
+                                                      
                                                     </td>
                                                 </tr>
                                                 <%
@@ -200,21 +144,19 @@
                                                     }%>
                                             </tbody>
                                         </table>
-
+                                       
                                     </div>
                                     <!-- Modal -->
-
-
+                                    
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <script>
-
+         
         </script>
         <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
         <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>

@@ -15,13 +15,14 @@ public class EquipmentBean implements Serializable {
     private Date startDate;
     private Date returnDate;
     private int nextID;
+    private String isStaff;
 
     // Default constructor
     public EquipmentBean() {
     }
 
     // Constructor with all fields
-    public EquipmentBean(int equipmentID, String name, String location, String description, String status, String category, String imgSrc) {
+    public EquipmentBean(int equipmentID, String name, String location, String description, String status, String category, String imgSrc, String isStaff) {
         this.equipmentID = equipmentID;
         this.name = name;
         this.location = location;
@@ -29,6 +30,7 @@ public class EquipmentBean implements Serializable {
         this.status = status;
         this.category = category;
         this.imgSrc = imgSrc;
+        this.isStaff = isStaff;
     }
 
     // Getters and Setters
@@ -110,6 +112,14 @@ public class EquipmentBean implements Serializable {
 
     public void setNextID(int nextID) {
         this.nextID = nextID;
+    }
+
+    public String getIsStaff() {
+        return isStaff;
+    }
+
+    public void setIsStaff(String isStaff) {
+        this.isStaff= isStaff;
     }
 
     @Override

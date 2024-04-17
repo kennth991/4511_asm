@@ -46,6 +46,7 @@ public class WishListEquipmentDB {
             cnnct = getConnection(); // get Connection
             String preQueryStatement = "SELECT\n"
                     + "    wishlist_equipment.requestDateTime,\n"
+                     + "    wishlist_equipment.WishListwishlistID,\n"
                     + "    wishlist_equipment.status,\n"
                     + "    user.name AS requester,\n"
                     + "    equipment.equipmentID,\n"
@@ -58,7 +59,68 @@ public class WishListEquipmentDB {
                     + "JOIN\n"
                     + "    wishlist ON wishlist_equipment.WishListwishlistID = wishlist.whislistID\n"
                     + "JOIN\n"
-                    + "    user ON wishlist.requesterID = user.userID;";
+                    + "    user ON wishlist.requesterID = user.userID\n"
+                    + "WHERE\n"
+                    + "    equipment.status = 'available'\n"
+                    + "    AND wishlist_equipment.status = 'Pending';";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null; // exeute the query and assign to the result
+            rs = pStmnt.executeQuery();
+
+            while (rs.next()) {
+
+                cb = new WishListEquipmentBean();
+                cb.setWishListwishID(rs.getInt("WishListwishlistID"));
+                cb.setEquipmentequipmentID(rs.getInt("equipmentID"));
+                //cb.setResponderID(rs.getInt("responderID"));
+                cb.setStatus(rs.getString("status"));
+                cb.setRequestDateTime(rs.getString("requestDateTime"));
+                //cb.setRespondDateTime(rs.getString("respondDateTime"));
+                cb.setRequesterName(rs.getString("requester"));
+                cb.setEquipmentName(rs.getString("equipment"));
+                cb.setLocation(rs.getString("location"));
+                equipments.add(cb);
+            }
+
+            rs.close();
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return equipments;
+    }
+
+    public ArrayList<WishListEquipmentBean> queryEquipAvailable() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        WishListEquipmentBean cb = null;
+        ArrayList<WishListEquipmentBean> equipments = new ArrayList<>();
+
+        try {
+            cnnct = getConnection(); // get Connection
+            String preQueryStatement = "SELECT\n"
+                    + "    wishlist_equipment.requestDateTime,\n"
+                    + "    wishlist_equipment.status,\n"
+                    + "    user.name AS requester,\n"
+                    + "    equipment.equipmentID,\n"
+                    + "    equipment.name AS equipment,\n"
+                    + "    equipment.location\n"
+                    + "FROM\n"
+                    + "    equipment\n"
+                    + "JOIN\n"
+                    + "    wishlist_equipment ON wishlist_equipment.EquipmentequipmentID = equipment.equipmentID\n"
+                    + "JOIN\n"
+                    + "    wishlist ON wishlist_equipment.WishListwishlistID = wishlist.whislistID\n"
+                     + "    user ON wishlist.requesterID = user.userID\n"
+                    + "WHERE\n"
+                    + "    equipment.status = 'unavailable'\n"
+                    + "    AND wishlist_equipment.status = 'Pending';";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null; // exeute the query and assign to the result
             rs = pStmnt.executeQuery();
@@ -121,6 +183,36 @@ public class WishListEquipmentDB {
         }
         return deletionSuccessful;
     }
+    
+   public boolean confirmWishList(int wishListID, int equipmentID) {
+    Connection cnnct = null;
+    PreparedStatement pStmnt = null;
+    boolean updateSuccessful = false;
+
+    try {
+        cnnct = getConnection(); // get Connection
+        String preQueryStatement = "UPDATE wishlist_equipment SET status = 'approved' WHERE WishListwishlistID = ? AND EquipmentequipmentID = ?";
+        pStmnt = cnnct.prepareStatement(preQueryStatement); // get the prepare Statement
+        pStmnt.setInt(1, wishListID);
+        pStmnt.setInt(2, equipmentID); // update the placeholder with id
+
+        int rowCount = pStmnt.executeUpdate();
+        if (rowCount >= 1) {
+            updateSuccessful = true;
+        }
+
+        pStmnt.close();
+        cnnct.close();
+    } catch (SQLException ex) {
+        while (ex != null) {
+            ex.printStackTrace();
+            ex = ex.getNextException();
+        }
+    } catch (IOException ex) {
+        ex.printStackTrace();
+    }
+    return updateSuccessful;
+}
 
     public ArrayList<WishListEquipmentBean> queryWishList() {
         Connection cnnct = null;

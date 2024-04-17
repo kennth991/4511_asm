@@ -111,6 +111,7 @@
                                                     <th>Description</th>
                                                     <th>Status</th>
                                                     <th>Category</th>
+
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -130,8 +131,9 @@
                                                     <td><%= equipment.getStatus()%></td>
                                                     <td><%= equipment.getCategory()%></td>
 
+
                                                     <td>
-                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
+                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>', '<%= equipment.getIsStaff()%>')">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
                                                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
@@ -239,6 +241,14 @@
                                                             <label for="editcategory" class="form-label">Category:</label>
                                                             <input id="editcategory" name="category" class="form-control" type="text">
                                                         </div>
+                                                        <div class="mb-2">
+                                                            <label for="editIsStaffDropdown" class="form-label">Role:</label>
+                                                            <select id="editIsStaffDropdown" name="editIsStaffDropdown" class="form-select">
+                                                                <option value="user">For User</option>
+                                                                <option value="staff">Staff only</option>
+
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -261,27 +271,47 @@
 
                                                         <div class="mb-2">
                                                             <label for="createName" class="form-label">Name:</label>
-                                                            <input id="createName" name="name" class="form-control" type="text">
+                                                            <input id="createName" name="name" class="form-control" type="text" required>
                                                         </div>
 
                                                         <div class="mb-2">
                                                             <label for="createLocation" class="form-label">Location:</label>
-                                                            <input id="createLocation" name="location" class="form-control" type="text">
+                                                            <select id="createLocation" name="location" class="form-select" required>
+                                                                <option value="">Select Location</option>
+                                                                <option value="TY">TY</option>
+                                                                <option value="TM">TM</option>
+                                                                <option value="LWL">LWL</option>
+                                                                <option value="CW">CW</option>
+                                                                <option value="ST">ST</option>
+                                                            </select>
                                                         </div>
 
                                                         <div class="mb-2">
                                                             <label for="createDescription" class="form-label">Description:</label>
-                                                            <input id="createDescription" name="description" class="form-control" type="text">
+                                                            <input id="createDescription" name="description" class="form-control" type="text" required>
                                                         </div>
 
                                                         <div class="mb-2">
                                                             <label for="createStatus" class="form-label">Status:</label>
-                                                            <input id="createStatus" name="status" class="form-control" type="text">
+                                                            <select id="createStatus" name="status" class="form-select" required>
+                                                                <option value="available">Available</option>
+                                                                <option value="unavailable">Unavailable</option>
+                                                            </select>
                                                         </div>
 
                                                         <div class="mb-2">
                                                             <label for="createCategory" class="form-label">Category:</label>
-                                                            <input id="createCategory" name="category" class="form-control" type="text">
+                                                            <input id="createCategory" name="category" class="form-control" type="text" required>
+                                                        </div>
+
+                                                        <div class="mb-2">
+                                                            <label for="createIsStaffDropdown" class="form-label">Role:</label>
+                                                            <select id="createIsStaffDropdown" name="createIsStaffDropdown" class="form-select" required>
+                                                                <option value="">Select Role</option>
+                                                                <option value="user">For User</option>
+                                                                <option value="staff">Staff only</option>
+
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -300,8 +330,7 @@
             </div>
         </div>
         <script>
-            function displayEquipment(equipmentId, name, location, description, status, category, imgSrc) {
-
+            function displayEquipment(equipmentId, name, location, description, status, category, imgSrc, isStaff) {
                 document.getElementById("editid").value = equipmentId;
                 document.getElementById("editname").value = name;
                 document.getElementById("editlocation").value = location;
@@ -309,6 +338,12 @@
                 document.getElementById("editstatus").value = status;
                 document.getElementById("editcategory").value = category;
 
+                var dropdown = document.getElementById("editIsStaffDropdown");
+                if (isStaff === "staff") {
+                    dropdown.value = "staff";
+                } else {
+                    dropdown.value = "user";
+                }
             }
             function deleteEquipment(equipmentId, name, location, description, status, category, imgSrc) {
 

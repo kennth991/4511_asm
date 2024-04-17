@@ -56,13 +56,15 @@ public class WishListDB {
                     + "JOIN\n"
                     + "    wishlist ON wishlist_equipment.WishListwishlistID = wishlist.whislistID\n"
                     + "JOIN\n"
-                    + "    user ON wishlist.requesterID = user.userID;";
+                    + "    user ON wishlist.requesterID = user.userID\n"
+                    + "WHERE\n"
+                    + "    wishlist_equipment.status = 'pending';";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null; // exeute the query and assign to the result
             rs = pStmnt.executeQuery();
 
             while (rs.next()) {
-               
+
                 cb = new WishListEquipmentBean();
                 //cb.setWishListwhisID(rs.getInt("WishListwishlistID"));
                 cb.setEquipmentequipmentID(rs.getInt("equipmentID"));
@@ -89,5 +91,7 @@ public class WishListDB {
         }
         return equipments;
     }
+    
+    
 
 }
