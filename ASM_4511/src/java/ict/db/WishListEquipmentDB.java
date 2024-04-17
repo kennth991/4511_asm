@@ -46,7 +46,7 @@ public class WishListEquipmentDB {
             cnnct = getConnection(); // get Connection
             String preQueryStatement = "SELECT\n"
                     + "    wishlist_equipment.requestDateTime,\n"
-                     + "    wishlist_equipment.WishListwishlistID,\n"
+                    + "    wishlist_equipment.WishListwishlistID,\n"
                     + "    wishlist_equipment.status,\n"
                     + "    user.name AS requester,\n"
                     + "    equipment.equipmentID,\n"
@@ -62,7 +62,7 @@ public class WishListEquipmentDB {
                     + "    user ON wishlist.requesterID = user.userID\n"
                     + "WHERE\n"
                     + "    equipment.status = 'available'\n"
-                    + "    AND wishlist_equipment.status = 'Pending';";
+                    + "    AND wishlist_equipment.status = 'pending';";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null; // exeute the query and assign to the result
             rs = pStmnt.executeQuery();
@@ -117,10 +117,11 @@ public class WishListEquipmentDB {
                     + "    wishlist_equipment ON wishlist_equipment.EquipmentequipmentID = equipment.equipmentID\n"
                     + "JOIN\n"
                     + "    wishlist ON wishlist_equipment.WishListwishlistID = wishlist.whislistID\n"
-                     + "    user ON wishlist.requesterID = user.userID\n"
+                    + "JOIN\n"
+                    + "    user ON wishlist.requesterID = user.userID\n"
                     + "WHERE\n"
                     + "    equipment.status = 'unavailable'\n"
-                    + "    AND wishlist_equipment.status = 'Pending';";
+                    + "    AND wishlist_equipment.status = 'pending';";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null; // exeute the query and assign to the result
             rs = pStmnt.executeQuery();
@@ -183,36 +184,36 @@ public class WishListEquipmentDB {
         }
         return deletionSuccessful;
     }
-    
-   public boolean confirmWishList(int wishListID, int equipmentID) {
-    Connection cnnct = null;
-    PreparedStatement pStmnt = null;
-    boolean updateSuccessful = false;
 
-    try {
-        cnnct = getConnection(); // get Connection
-        String preQueryStatement = "UPDATE wishlist_equipment SET status = 'approved' WHERE WishListwishlistID = ? AND EquipmentequipmentID = ?";
-        pStmnt = cnnct.prepareStatement(preQueryStatement); // get the prepare Statement
-        pStmnt.setInt(1, wishListID);
-        pStmnt.setInt(2, equipmentID); // update the placeholder with id
+    public boolean confirmWishList(int wishListID, int equipmentID) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean updateSuccessful = false;
 
-        int rowCount = pStmnt.executeUpdate();
-        if (rowCount >= 1) {
-            updateSuccessful = true;
-        }
+        try {
+            cnnct = getConnection(); // get Connection
+            String preQueryStatement = "UPDATE wishlist_equipment SET status = 'approved' WHERE WishListwishlistID = ? AND EquipmentequipmentID = ?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement); // get the prepare Statement
+            pStmnt.setInt(1, wishListID);
+            pStmnt.setInt(2, equipmentID); // update the placeholder with id
 
-        pStmnt.close();
-        cnnct.close();
-    } catch (SQLException ex) {
-        while (ex != null) {
+            int rowCount = pStmnt.executeUpdate();
+            if (rowCount >= 1) {
+                updateSuccessful = true;
+            }
+
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
             ex.printStackTrace();
-            ex = ex.getNextException();
         }
-    } catch (IOException ex) {
-        ex.printStackTrace();
+        return updateSuccessful;
     }
-    return updateSuccessful;
-}
 
     public ArrayList<WishListEquipmentBean> queryWishList() {
         Connection cnnct = null;
@@ -224,11 +225,11 @@ public class WishListEquipmentDB {
             cnnct = getConnection(); // get Connection
             // Retrieve the userId from the session
 
-            String sql = "SELECT  wishlist_equipment.WishListwishlistID, wishlist_equipment.requestDateTime, wishlist_equipment.status, user.name AS responder, equipment.equipmentID, equipment.name AS equipment, equipment.location "
+            String sql = "SELECT  wishlist_equipment.WishListwishlistID, wishlist_equipment.requestDateTime, wishlist_equipment.status,  equipment.equipmentID, equipment.name AS equipment, equipment.location "
                     + "FROM equipment "
                     + "JOIN wishlist_equipment ON wishlist_equipment.EquipmentequipmentID = equipment.equipmentID "
                     + "JOIN wishlist ON wishlist_equipment.WishListwishlistID = wishlist.whislistID "
-                    + "JOIN user ON wishlist_equipment.responderID = user.userID "
+                  
                     + "WHERE wishlist.requesterID = ? AND wishlist_equipment.status = 'pending'";
             pStmnt = cnnct.prepareStatement(sql);
             pStmnt.setInt(1, userid);
@@ -245,7 +246,7 @@ public class WishListEquipmentDB {
                 cb.setStatus(rs.getString("status"));
                 cb.setRequestDateTime(rs.getString("requestDateTime"));
                 //cb.setRespondDateTime(rs.getString("respondDateTime"));
-                cb.setRequesterName(rs.getString("responder"));
+               
                 cb.setEquipmentName(rs.getString("equipment"));
                 cb.setLocation(rs.getString("location"));
                 equipments.add(cb);
@@ -263,6 +264,86 @@ public class WishListEquipmentDB {
             ex.printStackTrace();
         }
         return equipments;
+    }
+
+    public ArrayList<WishListEquipmentBean> queryAddWishList(HttpSession session) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        WishListEquipmentBean cb = null;
+        ArrayList<WishListEquipmentBean> equipments = new ArrayList<>();
+
+        userid = (int) session.getAttribute("userId");
+
+        try {
+            cnnct = getConnection(); // get Connection
+            // Retrieve the userId from the session
+
+            String sql = "SELECT * FROM Equipment WHERE status = 'unavailable' AND equipmentID NOT IN (SELECT EquipmentequipmentID FROM wishlist_equipment WHERE WishListwishlistID IN (SELECT whislistID FROM wishlist WHERE requesterID = ?))";
+            pStmnt = cnnct.prepareStatement(sql);
+            pStmnt.setInt(1, userid);
+
+            ResultSet rs = null; // exeute the query and assign to the result
+            rs = pStmnt.executeQuery();
+
+            while (rs.next()) {
+
+                cb = new WishListEquipmentBean();
+                cb.setEquipmentequipmentID(rs.getInt("equipmentID"));
+                //cb.setResponderID(rs.getInt("responderID"));
+                cb.setStatus(rs.getString("status"));
+                //cb.setRespondDateTime(rs.getString("respondDateTime"));
+                cb.setEquipmentName(rs.getString("name"));
+                cb.setLocation(rs.getString("location"));
+                equipments.add(cb);
+            }
+
+            rs.close();
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return equipments;
+    }
+
+    public boolean addToWishList(int userId, int equipmentID) throws IOException {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean isSuccess = false;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "INSERT INTO wishlist_equipment (WishListwishlistID, EquipmentequipmentID, responderID, status, requestDateTime, respondDateTime) "
+                    + "VALUES ((SELECT whislistID FROM wishlist WHERE requesterID = ?), ?, NULL, 'pending', NOW(), NULL)";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, userId);
+            pStmnt.setInt(2, equipmentID);
+            int rowCount = pStmnt.executeUpdate();
+            if (rowCount >= 1) {
+                isSuccess = true;
+            }
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } finally {
+            try {
+                if (pStmnt != null) {
+                    pStmnt.close();
+                }
+                if (cnnct != null) {
+                    cnnct.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return isSuccess;
     }
 
     public ArrayList<WishListEquipmentBean> queryWishListApproved(HttpSession session) {

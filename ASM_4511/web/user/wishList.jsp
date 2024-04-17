@@ -101,7 +101,7 @@
                                             <h3>Technician Dashboard</h3>
                                         </div>
                                         <div class="col text-right">
-                                            <a href="WishListServlet" class="btn btn-info mb-3">Add Wish List</a>
+                                            <a href="AddWishList" class="btn btn-info mb-3">Add Wish List</a>
                                         </div>
                                     </div>
                                 </div>

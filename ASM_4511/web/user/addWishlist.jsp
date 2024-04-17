@@ -3,9 +3,11 @@
     Created on : 2024年4月2日, 下午2:25:46
     Author     : Lau Ka Ming Benjamin
 --%>
+
 <%@page import="ict.bean.User"%>
-<%@page import="ict.bean.EquipmentBean"%>
-<%@page import="ict.servlet.EquipmentServlet"%>
+<%@page import="ict.bean.WishListEquipmentBean"%>
+<%@page import="ict.servlet.WishListServlet"%>
+<%@page import="ict.servlet.AddWishListServlet"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
@@ -39,29 +41,29 @@
         <div class="wrapper">
             <nav id="sidebar" class="active">
                 <div class="sidebar-header">
-                    <img src="<c:url value='/assets/img/logo.png'/>" style="height: 60px; width: 60px;" alt="bootraper logo" class="app-logo">
+                    <img src="../assets/img/logo.png" style="height: 60px; width: 60px;" alt="bootraper logo" class="app-logo">
                 </div>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="user_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <a href="view_devices.html"><i class="fas fa-laptop"></i> View Available Devices</a>
                     </li>
                     <li>
-                        <a href="inventory_management.html"><i class="fas fa-clipboard-list"></i> Inventory Management</a>
+                        <a href="borrowing_records.html"><i class="fas fa-history"></i> Personal Borrowing Records</a>
                     </li>
                     <li>
-                        <a href="WishListEquipmentServlet"><i class="fas fa-clipboard-list"></i> Wish List Management</a>
+                        <a href="WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
                     </li>
                     <li>
-                        <a href="Booking"><i class="fas fa-calendar-check"></i> Booking Management</a>
+                        <a href="reserve_check_out.html"><i class="fas fa-hand-holding"></i> Reserve, Check-out, Return Equipment</a>
                     </li>
                     <li>
-                        <a href="damage_reporting.html"><i class="fas fa-exclamation-triangle"></i> Damage Reporting</a>
+                        <a href="update_info.html"><i class="fas fa-user-cog"></i> Update Password and Personal Information</a>
                     </li>
                     <li>
-                        <a href="EquipmentRequestServlet"> <i class="fas fa-calendar-check"></i> Logout</a>
-                    </li>
-                    <li>
-                        <a href="index.html"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
                 </ul>
             </nav>
@@ -94,73 +96,95 @@
                 <div class="content">
                     <div class="container">
                         <div class="page-title">
-                            <h3>Technician Dashboard</h3>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-12">
-                                <div class="card">
-                                    <div class="card-header">Equipment List</div>
-                                    <div class="card-body">
-                                        <p class="card-title"></p>
-                                        <table class="table table-hover" id="dataTables-example" width="100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Equipment ID</th>
-                                                    <th>Name</th>
-                                                    <th>Location</th>
-                                                    <th>Description</th>
-                                                    <th>Status</th>
-                                                    <th>Category</th>
-
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%
-                                                    // Retrieve the "equipments" attribute from the request
-                                                    ArrayList<EquipmentBean> equipments = (ArrayList<EquipmentBean>) request.getAttribute("equipments");
-                                                %>
-                                                <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
-                                                <%
-                                                    for (EquipmentBean equipment : equipments) {%>
-                                                <tr>
-                                                    <td><%= equipment.getEquipmentID()%></td>
-                                                    <td><%= equipment.getName()%></td>
-                                                    <td><%= equipment.getLocation()%></td>
-                                                    <td><%= equipment.getDescription()%></td>
-                                                    <td><%= equipment.getStatus()%></td>
-                                                    <td><%= equipment.getCategory()%></td>
-
-
-                                                    <td>
-                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>', '<%= equipment.getIsStaff()%>')">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                      
-                                                    </td>
-                                                </tr>
-                                                <%
-
-                                                    }%>
-                                            </tbody>
-                                        </table>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h3>Technician Dashboard</h3>
+                                        </div>
                                        
                                     </div>
-                                    <!-- Modal -->
-                                    
                                 </div>
                             </div>
+
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-header">Wish List(Available)</div>
+                                <div class="card-body">
+                                    <p class="card-title"></p>
+                                    <table class="table table-hover" id="dataTables-example" width="100%">
+                                        <thead>
+                                            <tr>
+                                             
+                                                <th>Serial Number</th>
+                                                <th>Equipment</th>
+
+                                                <th>Location</th>
+                                         
+                                                <th>Status</th>
+                                                <th>Add To Wish List</th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <%
+                                                // Retrieve the "equipments" attribute from the request
+                                                ArrayList<WishListEquipmentBean> wishEquipmentsApproved = (ArrayList<WishListEquipmentBean>) request.getAttribute("wishListAdd");
+                                            %>
+
+                                            <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
+                                            <%
+                                                for (WishListEquipmentBean wishEquipmentApproved : wishEquipmentsApproved) {%>
+                                            <tr>
+
+                           
+                                                <td><%= wishEquipmentApproved.getEquipmentequipmentID()%></td>
+                                                <td><%= wishEquipmentApproved.getEquipmentName()%></td>
+                                                <td><%= wishEquipmentApproved.getLocation()%></td>
+
+                                               
+                                                <td><%= wishEquipmentApproved.getStatus()%></td>
+                                                <td>
+
+
+                                                    <form action="AddWishList" method="get">
+                                                        <input type="hidden" name="action" value="AddWishList"> <!-- Added hidden field for action -->
+                                                       <button type="submit" class="btn btn-warning btn-sm">
+                                                            <i class="fas fa-plus"></i>
+                                                            
+                                                             <input type="hidden" name="equipmentID" id="equipmentID" value="<%= wishEquipmentApproved.getEquipmentequipmentID()%>">
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <%
+
+                                                }%>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <!-- Modal -->
+
+
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
-        <script>
-         
-        </script>
-        <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
-        <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
-        <script src="<c:url value='/assets/js/script.js' />"></script>
-    </body>
+    </div>
+    <script>
+     
+    </script>
+    <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
+    <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
+    <script src="<c:url value='/assets/js/script.js' />"></script>
+</body>
 
 </html>
