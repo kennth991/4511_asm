@@ -5,6 +5,7 @@
 --%>
 <%@page import="ict.bean.EquipmentRequestBean"%>
 <%@page import="ict.bean.User"%>
+<%@page import="ict.servlet.EquipmentRequestServlet"%>
 <%@page import="ict.bean.EquipmentBean"%>
 <%@page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -42,6 +43,8 @@
                     <li><a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a></li>
                     <li><a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a></li>
                     <li><a href="damage_reporting.html"><i class="fas fa-exclamation-triangle"></i> Damage Reporting</a></li>
+                    <li><a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a></li>
+
                     <li><a href="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </nav>
@@ -81,97 +84,6 @@
                                             <table class="table table-hover">
 
 
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%
-                                                    // Retrieve the "equipments" attribute from the request
-                                                    ArrayList<EquipmentBean> equipments = (ArrayList<EquipmentBean>) request.getAttribute("equipments");
-                                                %>
-                                                <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
-                                                <%
-                                                    for (EquipmentBean equipment : equipments) {%>
-                                                <tr>
-                                                    <td><%= equipment.getEquipmentID()%></td>
-                                                    <td><%= equipment.getName()%></td>
-                                                    <td><%= equipment.getLocation()%></td>
-                                                    <td><%= equipment.getDescription()%></td>
-                                                    <td><%= equipment.getStatus()%></td>
-                                                    <td><%= equipment.getCategory()%></td>
-
-
-                                                    <td>
-                                                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>', '<%= equipment.getIsStaff()%>')">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                            
-                                                            
-                                                    </td>
-                                                </tr>
-                                                <%
-
-                                                    }%>
-                                            </tbody>
-                                        </table>
-                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Create Equipment</a></button>
-                                    </div>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form action="Equipment" method="get">
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="action" value="deleteEquipment">
-
-
-                                                        <div class="mb-2">
-                                                            <label for="id" class="form-label">ID:</label>
-                                                            <input id="id" type="number" name="id" class="form-control" readonly>
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="name" class="form-label">Name:</label>
-                                                            <input id="name" name="name" class="form-control" type="text">
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="location" class="form-label">Location:</label>
-                                                            <input id="location" name="location" class="form-control" type="text">
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="description" class="form-label">Description:</label>
-                                                            <input id="description" name="description" class="form-control" type="text">
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="status" class="form-label">Status:</label>
-                                                            <input id="status" name="status" class="form-control" type="text">
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="category" class="form-label">Category:</label>
-                                                            <input id="category" name="category" class="form-control" type="text">
-                                                        </div>
-
-                                                        <src id="imgSrc" name="imgSrc">
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Confirm Delete</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-
                                                 <thead>
                                                     <tr>
                                                         <th>Equipment ID</th>
@@ -184,7 +96,10 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <% for (EquipmentBean equipment : equipments) {%>
+
+                                                    <%-- Use JSP scriptlet to iterate over the list of equipment objects --%>
+                                                    <%
+                                                        for (EquipmentBean equipment : equipments) {%>
                                                     <tr>
                                                         <td><%= equipment.getEquipmentID()%></td>
                                                         <td><%= equipment.getName()%></td>
@@ -192,172 +107,123 @@
                                                         <td><%= equipment.getDescription()%></td>
                                                         <td><%= equipment.getStatus()%></td>
                                                         <td><%= equipment.getCategory()%></td>
+
+
                                                         <td>
-                                                            <!-- Buttons for actions like edit or delete -->
+                                                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="displayEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>', '<%= equipment.getIsStaff()%>')">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
+                                                                <i class="fa-solid fa-trash"></i>
+                                                            </button>
+
+
                                                         </td>
                                                     </tr>
-                                                    <% } %>
+                                                    <%
+
+                                                        }%>
                                                 </tbody>
                                             </table>
-
                                         </div>
                                     </div>
                                 </div>
-                                <div id="returnsManagementView" style="display: none;">
-                                    <div class="card">
-                                        <div class="card-header">Returned Equipment List</div>
-                                        <div class="card-body">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Request ID</th>
-                                                        <th>Requester</th>
-                                                        <th>Date</th>
-                                                        <th>Status</th>
-                                                        <th>Item Name</th>
-                                                        <th>Location</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-
-
-                                                        <div class="mb-2">
-                                                            <label for="editid" class="form-label">ID:</label>
-                                                            <input id="editid" type="number" name="id" class="form-control" readonly>
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="editname" class="form-label">Name:</label>
-                                                            <input id="editname" name="name" class="form-control" type="text">
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="editlocation" class="form-label">Location:</label>
-                                                            <input id="editlocation" name="location" class="form-control" type="text">
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="editdescription" class="form-label">Description:</label>
-                                                            <input id="editdescription" name="description" class="form-control" type="text">
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="editStatus" class="form-label">Status:</label>
-                                                            <select id="editStatus" name="status" class="form-select" required>
-                                                                <option value="available">Available</option>
-                                                                <option value="unavailable">Unavailable</option>
-                                                            </select>
-                                                        </div>
-
-
-                                                        <div class="mb-2">
-                                                            <label for="editcategory" class="form-label">Category:</label>
-                                                            <input id="editcategory" name="category" class="form-control" type="text">
-                                                        </div>
-                                                        <div class="mb-2">
-                                                            <label for="editIsStaffDropdown" class="form-label">Role:</label>
-                                                            <select id="editIsStaffDropdown" name="editIsStaffDropdown" class="form-select">
-                                                                <option value="user">For User</option>
-                                                                <option value="staff">Staff only</option>
-
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Understood</button>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Create Equipment</a></button>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                    </div>
-                                    <div class="modal fade" id="createModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Equipment</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <form action="Equipment" method="get">
+                                            <div class="modal-body">
+                                                <input type="hidden" name="action" value="deleteEquipment">
+
+
+                                                <div class="mb-2">
+                                                    <label for="id" class="form-label">ID:</label>
+                                                    <input id="id" type="number" name="id" class="form-control" readonly>
                                                 </div>
-                                                <form action="Equipment" method="get">
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="action" value="createEquipment">
 
-                                                        <div class="mb-2">
-                                                            <label for="createName" class="form-label">Name:</label>
-                                                            <input id="createName" name="name" class="form-control" type="text" required>
-                                                        </div>
+                                                <div class="mb-2">
+                                                    <label for="name" class="form-label">Name:</label>
+                                                    <input id="name" name="name" class="form-control" type="text">
+                                                </div>
 
-                                                        <div class="mb-2">
-                                                            <label for="createLocation" class="form-label">Location:</label>
-                                                            <select id="createLocation" name="location" class="form-select" required>
-                                                                <option value="">Select Location</option>
-                                                                <option value="TY">TY</option>
-                                                                <option value="TM">TM</option>
-                                                                <option value="LWL">LWL</option>
-                                                                <option value="CW">CW</option>
-                                                                <option value="ST">ST</option>
-                                                            </select>
-                                                        </div>
+                                                <div class="mb-2">
+                                                    <label for="location" class="form-label">Location:</label>
+                                                    <input id="location" name="location" class="form-control" type="text">
+                                                </div>
 
-                                                        <div class="mb-2">
-                                                            <label for="createDescription" class="form-label">Description:</label>
-                                                            <input id="createDescription" name="description" class="form-control" type="text" required>
-                                                        </div>
+                                                <div class="mb-2">
+                                                    <label for="description" class="form-label">Description:</label>
+                                                    <input id="description" name="description" class="form-control" type="text">
+                                                </div>
 
-                                                        <div class="mb-2">
-                                                            <label for="createStatus" class="form-label">Status:</label>
-                                                            <select id="createStatus" name="status" class="form-select" required>
-                                                                <option value="available">Available</option>
-                                                                <option value="unavailable">Unavailable</option>
-                                                            </select>
-                                                        </div>
+                                                <div class="mb-2">
+                                                    <label for="status" class="form-label">Status:</label>
+                                                    <input id="status" name="status" class="form-control" type="text">
+                                                </div>
 
-                                                        <div class="mb-2">
-                                                            <label for="createCategory" class="form-label">Category:</label>
-                                                            <input id="createCategory" name="category" class="form-control" type="text" required>
-                                                        </div>
+                                                <div class="mb-2">
+                                                    <label for="category" class="form-label">Category:</label>
+                                                    <input id="category" name="category" class="form-control" type="text">
+                                                </div>
 
-                                                        <div class="mb-2">
-                                                            <label for="createIsStaffDropdown" class="form-label">Role:</label>
-                                                            <select id="createIsStaffDropdown" name="createIsStaffDropdown" class="form-select" required>
-                                                                <option value="">Select Role</option>
-                                                                <option value="user">For User</option>
-                                                                <option value="staff">Staff only</option>
+                                                <src id="imgSrc" name="imgSrc">
 
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Create</button>
-                                                    </div>
-                                                </form>
                                             </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Confirm Delete</button>
+                                            </div>
+                                        </form>
+                                    </div>
 
-                                                <tbody>
-                                                    <%-- Check if returnRequests is not null and has elements before iterating --%>
-                                                    <% if (returnRequests != null && !returnRequests.isEmpty()) { %>
-                                                    <%-- Iterate over each equipmentRequest in the returnRequests list --%>
-                                                    <% for (EquipmentRequestBean equipmentRequest : returnRequests) {%>
-                                                    <tr>
-                                                        <td><%= equipmentRequest.getRequestID()%></td>
-                                                        <td><%= equipmentRequest.getRequesterName()%></td>
-                                                        <td><%= equipmentRequest.getRequestDateTime()%></td>
-                                                        <td><%= equipmentRequest.getStatus()%></td>
-                                                        <td>
-                                                            <%-- Button to manage the return of the equipment --%>
-                                                            <button type="button" class="btn btn-primary manage-return-btn" data-request-id="<%= equipmentRequest.getRequestID()%>">Manage Return</button>
-                                                        </td>
-                                                    </tr>
-                                                    <% } %>
-                                                    <% } else { %>
-                                                    <%-- Display a message if no return requests are available --%>
-                                                    <tr><td colspan="5">No return requests available.</td></tr>
-                                                    <% }%>
-                                                </tbody>
-                                            </table>
+                                </div>
+                            </div>
+                            <div id="returnsManagementView" style="display: none;">
+                                <div class="card">
+                                    <div class="card-header">Returned Equipment List</div>
+                                    <div class="card-body">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Request ID</th>
+                                                    <th>Requester</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                    <th>Item Name</th>
+                                                    <th>Location</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%-- Check if returnRequests is not null and has elements before iterating --%>
+                                                <% if (returnRequests != null && !returnRequests.isEmpty()) { %>
+                                                <%-- Iterate over each equipmentRequest in the returnRequests list --%>
+                                                <% for (EquipmentRequestBean equipmentRequest : returnRequests) {%>
+                                                <tr>
+                                                    <td><%= equipmentRequest.getRequestID()%></td>
+                                                    <td><%= equipmentRequest.getRequesterName()%></td>
+                                                    <td><%= equipmentRequest.getRequestDateTime()%></td>
+                                                    <td><%= equipmentRequest.getStatus()%></td>
+                                                    <td>
+                                                        <%-- Button to manage the return of the equipment --%>
+                                                        <button type="button" class="btn btn-primary manage-return-btn" data-request-id="<%= equipmentRequest.getRequestID()%>">Manage Return</button>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                                <% } else { %>
+                                                <%-- Display a message if no return requests are available --%>
+                                                <tr><td colspan="5">No return requests available.</td></tr>
+                                                <% }%>
+                                            </tbody>
+                                        </table>
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -365,29 +231,159 @@
                     </div>
                 </div>
             </div>
-            <!-- Modal -->
-            <div class="modal fade" id="manageReturnModal" tabindex="-1" role="dialog" aria-labelledby="manageReturnModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="manageReturnModalLabel">Manage Equipment Return</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
+        </div>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="Equipment" method="get">
                         <div class="modal-body">
-                            <form id="manageReturnForm">
-                                <!-- Equipment items will be dynamically added here by JavaScript -->
-                            </form>
+                            <input type="hidden" name="action" value="editEquipment">
+
+                            <div class="mb-2">
+                                <label for="editid" class="form-label">ID:</label>
+                                <input id="editid" type="number" name="id" class="form-control" readonly>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="editname" class="form-label">Name:</label>
+                                <input id="editname" name="name" class="form-control" type="text">
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="editlocation" class="form-label">Location:</label>
+                                <input id="editlocation" name="location" class="form-control" type="text">
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="editdescription" class="form-label">Description:</label>
+                                <input id="editdescription" name="description" class="form-control" type="text">
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="editstatus" class="form-label">Status:</label>
+                                <input id="editstatus" name="status" class="form-control" type="text">
+                                <label for="editStatus" class="form-label">Status:</label>
+                                <select id="editStatus" name="status" class="form-select" required>
+                                    <option value="available">Available</option>
+                                    <option value="unavailable">Unavailable</option>
+                                </select>
+                            </div>
+
+
+                            <div class="mb-2">
+                                <label for="editcategory" class="form-label">Category:</label>
+                                <input id="editcategory" name="category" class="form-control" type="text">
+                            </div>
+                            <div class="mb-2">
+                                <label for="editIsStaffDropdown" class="form-label">Role:</label>
+                                <select id="editIsStaffDropdown" name="editIsStaffDropdown" class="form-select">
+                                    <option value="user">For User</option>
+                                    <option value="staff">Staff only</option>
+
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" onclick="submitReturnManagement()">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Understood</button>
                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="createModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Equipment</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="Equipment" method="get">
+                        <div class="modal-body">
+                            <input type="hidden" name="action" value="createEquipment">
+
+                            <div class="mb-2">
+                                <label for="createName" class="form-label">Name:</label>
+                                <input id="createName" name="name" class="form-control" type="text" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="createLocation" class="form-label">Location:</label>
+                                <select id="createLocation" name="location" class="form-select" required>
+                                    <option value="">Select Location</option>
+                                    <option value="TY">TY</option>
+                                    <option value="TM">TM</option>
+                                    <option value="LWL">LWL</option>
+                                    <option value="CW">CW</option>
+                                    <option value="ST">ST</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="createDescription" class="form-label">Description:</label>
+                                <input id="createDescription" name="description" class="form-control" type="text" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="createStatus" class="form-label">Status:</label>
+                                <select id="createStatus" name="status" class="form-select" required>
+                                    <option value="available">Available</option>
+                                    <option value="unavailable">Unavailable</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="createCategory" class="form-label">Category:</label>
+                                <input id="createCategory" name="category" class="form-control" type="text" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="createIsStaffDropdown" class="form-label">Role:</label>
+                                <select id="createIsStaffDropdown" name="createIsStaffDropdown" class="form-select" required>
+                                    <option value="">Select Role</option>
+                                    <option value="user">For User</option>
+                                    <option value="staff">Staff only</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="manageReturnModal" tabindex="-1" role="dialog" aria-labelledby="manageReturnModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="manageReturnModalLabel">Manage Equipment Return</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="manageReturnForm">
+                            <!-- Equipment items will be dynamically added here by JavaScript -->
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitReturnManagement()">Submit</button>
                     </div>
                 </div>
             </div>
         </div>
+
         <script>
             function displayEquipment(equipmentId, name, location, description, status, category, imgSrc, isStaff) {
                 document.getElementById("editid").value = equipmentId;
@@ -416,7 +412,7 @@
         <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
         <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
         <script src="<c:url value='/assets/js/script.js' />"></script>
-            <script src="<c:url value='/assets/js/equipment.js' />"></script>
-            <script>var baseUrl = "${pageContext.request.contextPath}";</script>
-            </body>
+        <script src="<c:url value='/assets/js/equipment.js' />"></script>
+        <script>var baseUrl = "${pageContext.request.contextPath}";</script>
+    </body>
 </html>
