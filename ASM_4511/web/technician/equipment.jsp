@@ -139,10 +139,8 @@
                                                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
                                                             <i class="fa-solid fa-trash"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="deleteEquipment('<%= equipment.getEquipmentID()%>', '<%= equipment.getName()%>', '<%= equipment.getLocation()%>', '<%= equipment.getDescription()%>', '<%= equipment.getStatus()%>', '<%= equipment.getCategory()%>', '<%= equipment.getImgSrc()%>')">
-                                                            <i class="fa-solid fa-trash"></i></button>
-
-
+                                                            
+                                                            
                                                     </td>
                                                 </tr>
                                                 <%
@@ -238,9 +236,13 @@
                                                         </div>
 
                                                         <div class="mb-2">
-                                                            <label for="editstatus" class="form-label">Status:</label>
-                                                            <input id="editstatus" name="status" class="form-control" type="text">
+                                                            <label for="editStatus" class="form-label">Status:</label>
+                                                            <select id="editStatus" name="status" class="form-select" required>
+                                                                <option value="available">Available</option>
+                                                                <option value="unavailable">Unavailable</option>
+                                                            </select>
                                                         </div>
+
 
                                                         <div class="mb-2">
                                                             <label for="editcategory" class="form-label">Category:</label>
@@ -258,50 +260,6 @@
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary">Understood</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal fade" id="damageReport" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form action="Equipment" method="get">
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="action" value="reportEquipment">
-
-                                                        <div class="mb-2">
-                                                            <label for="reportid" class="form-label">ID:</label>
-                                                            <input id="reportid" type="number" name="reportID" class="form-control" readonly required>
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="reportname" class="form-label">Name:</label>
-                                                            <input id="reportname" name="name" class="form-control" type="text" required>
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="reportlocation" class="form-label">Location:</label>
-                                                            <input id="reportlocation" name="location" class="form-control" type="text" required>
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="reportdescription" class="form-label">Description:</label>
-                                                            <input id="reportdescription" name="description" class="form-control" type="text" required>
-                                                        </div>
-
-                                                        <div class="mb-2">
-                                                            <label for="reportcategory" class="form-label">Category:</label>
-                                                            <input id="reportcategory" name="category" class="form-control" type="text" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Send Report</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -402,15 +360,6 @@
                 document.getElementById("description").value = description;
                 document.getElementById("status").value = status;
             }
-            function damageReport(equipmentId, name, location, description, status, category, imgSrc) {
-
-                document.getElementById("reportid").value = equipmentId;
-                document.getElementById("reportname").value = name;
-                document.getElementById("reportlocation").value = location;
-                document.getElementById("reportdescription").value = description;
-                document.getElementById("reportstatus").value = status;
-            }
-
         </script>
         <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
         <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>

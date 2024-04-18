@@ -64,7 +64,7 @@ public class LoginController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/Equipment");
                 break;
             case "Courier":
-                response.sendRedirect(request.getContextPath() + "/courier/dashboard");
+                response.sendRedirect(request.getContextPath() + "/DeliveryServlet");
                 break;
             case "Admin":
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
