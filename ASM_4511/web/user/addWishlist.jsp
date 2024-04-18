@@ -102,7 +102,7 @@
                                         <div class="col">
                                             <h3>Technician Dashboard</h3>
                                         </div>
-                                       
+
                                     </div>
                                 </div>
                             </div>
@@ -118,12 +118,12 @@
                                     <table class="table table-hover" id="dataTables-example" width="100%">
                                         <thead>
                                             <tr>
-                                             
+
                                                 <th>Serial Number</th>
                                                 <th>Equipment</th>
 
                                                 <th>Location</th>
-                                         
+
                                                 <th>Status</th>
                                                 <th>Add To Wish List</th>
 
@@ -141,22 +141,22 @@
                                                 for (WishListEquipmentBean wishEquipmentApproved : wishEquipmentsApproved) {%>
                                             <tr>
 
-                           
+
                                                 <td><%= wishEquipmentApproved.getEquipmentequipmentID()%></td>
                                                 <td><%= wishEquipmentApproved.getEquipmentName()%></td>
                                                 <td><%= wishEquipmentApproved.getLocation()%></td>
 
-                                               
+
                                                 <td><%= wishEquipmentApproved.getStatus()%></td>
                                                 <td>
 
 
                                                     <form action="AddWishList" method="get">
                                                         <input type="hidden" name="action" value="AddWishList"> <!-- Added hidden field for action -->
-                                                       <button type="submit" class="btn btn-warning btn-sm">
+                                                        <button type="submit" class="btn btn-warning btn-sm">
                                                             <i class="fas fa-plus"></i>
-                                                            
-                                                             <input type="hidden" name="equipmentID" id="equipmentID" value="<%= wishEquipmentApproved.getEquipmentequipmentID()%>">
+
+                                                            <input type="hidden" name="equipmentID" id="equipmentID" value="<%= wishEquipmentApproved.getEquipmentequipmentID()%>">
                                                         </button>
                                                     </form>
                                                 </td>
@@ -173,14 +173,14 @@
 
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-     
+
     </script>
     <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
     <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
