@@ -126,7 +126,7 @@
                         success: function (response) {
                             if (response.status === "success") {
                                 alert(response.message);
-                                window.location.reload(); 
+                                window.location.reload();
                             } else {
                                 alert("Error: " + response.message);
                             }
@@ -137,7 +137,22 @@
                     });
                 }
 
-
+                function returnEquipment(requestId) {
+                    $.ajax({
+                        url: baseUrl + '/returnEquipment',
+                        type: 'POST',
+                        data: {requestId: requestId},
+                        success: function (response) {
+                            alert(response.message);
+                            if (response.status === "success") {
+                                window.location.reload(); // Reload to see the updated status
+                            }
+                        },
+                        error: function () {
+                            alert('Failed to process return request.');
+                        }
+                    });
+                }
             </script>
             <script src="${pageContext.request.contextPath}/assets/vendor/jquery/jquery.min.js"></script>
             <script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

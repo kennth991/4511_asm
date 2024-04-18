@@ -198,56 +198,56 @@ public class EquipmentRequestDB {
         return isSuccess;
     }
 
-   public boolean assignRequestEquipment(int requestID, int equipmentID, int userId) {
-    Connection cnnct = null;
-    PreparedStatement pStmnt = null;
-    boolean isSuccess = false;
-    try {
-        cnnct = getConnection();
+    public boolean assignRequestEquipment(int requestID, int equipmentID, int userId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean isSuccess = false;
+        try {
+            cnnct = getConnection();
 
-        // Retrieve the maximum deliveryID from the delivery table
-        String maxIdQuery = "SELECT MAX(deliveryID) FROM delivery";
-        Statement statement = cnnct.createStatement();
-        ResultSet resultSet = statement.executeQuery(maxIdQuery);
-        int maxId = 0;
-        if (resultSet.next()) {
-            maxId = resultSet.getInt(1);
-        }
-        resultSet.close();
+            // Retrieve the maximum deliveryID from the delivery table
+            String maxIdQuery = "SELECT MAX(deliveryID) FROM delivery";
+            Statement statement = cnnct.createStatement();
+            ResultSet resultSet = statement.executeQuery(maxIdQuery);
+            int maxId = 0;
+            if (resultSet.next()) {
+                maxId = resultSet.getInt(1);
+            }
+            resultSet.close();
 
-        // Update equipmentrequest_equipment table
-        String updateQuery = "UPDATE equipmentrequest_equipment SET DeliverydeliveryID = ?, status = 'assigned' WHERE EquipmentRequestrequestID = ? AND EquipmentequipmentID = ?";
-        pStmnt = cnnct.prepareStatement(updateQuery);
-        pStmnt.setInt(1, maxId);
-        pStmnt.setInt(2, requestID);
-        pStmnt.setInt(3, equipmentID);
+            // Update equipmentrequest_equipment table
+            String updateQuery = "UPDATE equipmentrequest_equipment SET DeliverydeliveryID = ?, status = 'assigned' WHERE EquipmentRequestrequestID = ? AND EquipmentequipmentID = ?";
+            pStmnt = cnnct.prepareStatement(updateQuery);
+            pStmnt.setInt(1, maxId);
+            pStmnt.setInt(2, requestID);
+            pStmnt.setInt(3, equipmentID);
 
-        int rowCount = pStmnt.executeUpdate();
-        pStmnt.close();
+            int rowCount = pStmnt.executeUpdate();
+            pStmnt.close();
 
-        // Update equipmentrequest table
-        String updateRequestQuery = "UPDATE equipmentrequest SET status = 'assigned', responderID = ? WHERE requestID = ?";
-        pStmnt = cnnct.prepareStatement(updateRequestQuery);
-        pStmnt.setInt(1, userId);
-        pStmnt.setInt(2, requestID);
+            // Update equipmentrequest table
+            String updateRequestQuery = "UPDATE equipmentrequest SET status = 'assigned', responderID = ? WHERE requestID = ?";
+            pStmnt = cnnct.prepareStatement(updateRequestQuery);
+            pStmnt.setInt(1, userId);
+            pStmnt.setInt(2, requestID);
 
-        int requestRowCount = pStmnt.executeUpdate();
-        if (requestRowCount >= 1) {
-            isSuccess = true;
-        }
-        pStmnt.close();
-        
-        cnnct.close();
-    } catch (SQLException ex) {
-        while (ex != null) {
+            int requestRowCount = pStmnt.executeUpdate();
+            if (requestRowCount >= 1) {
+                isSuccess = true;
+            }
+            pStmnt.close();
+
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
             ex.printStackTrace();
-            ex = ex.getNextException();
         }
-    } catch (IOException ex) {
-        ex.printStackTrace();
+        return isSuccess;
     }
-    return isSuccess;
-}
 
     public boolean assignRequest(int assignedCourier, int userID) {
         Connection cnnct = null;
@@ -266,7 +266,7 @@ public class EquipmentRequestDB {
                 }
             }
 
-           String preQueryStatement = "INSERT INTO delivery VALUES (?,?,?,'waiting',null,null)";
+            String preQueryStatement = "INSERT INTO delivery VALUES (?,?,?,'waiting',null,null)";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setInt(1, maxId + 1); // Set the next available ID
             pStmnt.setInt(2, assignedCourier);
@@ -285,6 +285,65 @@ public class EquipmentRequestDB {
             }
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+        return isSuccess;
+    }
+
+    public boolean setEquipmentReturnPending(int requestId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean isSuccess = false;
+        try {
+            cnnct = getConnection();
+
+            // Start transaction
+            cnnct.setAutoCommit(false);
+
+            // Update equipmentrequest table
+            String updateRequestSql = "UPDATE equipmentrequest SET status = 'return pending' WHERE requestID = ?";
+            pStmnt = cnnct.prepareStatement(updateRequestSql);
+            pStmnt.setInt(1, requestId);
+            int requestUpdateCount = pStmnt.executeUpdate();
+
+            // Update equipmentrequest_equipment table
+            String updateEquipmentSql = "UPDATE equipmentrequest_equipment SET status = 'return pending' WHERE EquipmentRequestrequestID = ?";
+            pStmnt = cnnct.prepareStatement(updateEquipmentSql);
+            pStmnt.setInt(1, requestId);
+            int equipmentUpdateCount = pStmnt.executeUpdate();
+
+            // Check if both updates were successful
+            if (requestUpdateCount > 0 && equipmentUpdateCount > 0) {
+                cnnct.commit();  // Commit transaction
+                isSuccess = true;
+            } else {
+                cnnct.rollback();  // Rollback transaction if any update fails
+            }
+
+            pStmnt.close();
+            cnnct.setAutoCommit(true); // Reset auto-commit to true
+            cnnct.close();
+        } catch (SQLException ex) {
+            try {
+                if (cnnct != null) {
+                    cnnct.rollback();  // Ensure rollback if exception occurs
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (pStmnt != null) {
+                    pStmnt.close();
+                }
+                if (cnnct != null) {
+                    cnnct.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return isSuccess;
     }
