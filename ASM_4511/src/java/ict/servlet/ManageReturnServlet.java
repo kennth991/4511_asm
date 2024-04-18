@@ -4,16 +4,22 @@
  */
 package ict.servlet;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
@@ -22,64 +28,66 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ManageReturnServlet", urlPatterns = {"/manageReturn"})
 public class ManageReturnServlet extends HttpServlet {
 
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/your_database";
-    private static final String USERNAME = "your_username";
-    private static final String PASSWORD = "your_password";
+    private String jdbcURL = "jdbc:mysql://localhost:3306/4511_asm";
+    private String jdbcUsername = "root";
+    private String jdbcPassword = "";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        // 解析 JSON 数据
         StringBuilder jb = new StringBuilder();
         String line;
         while ((line = request.getReader().readLine()) != null) {
             jb.append(line);
         }
-        JSONObject jsonObject = new JSONObject(jb.toString());
+        JsonReader reader = Json.createReader(new StringReader(jb.toString()));
+        JsonObject jsonObject = reader.readObject();
+        reader.close();
+
         int requestID = jsonObject.getInt("requestID");
-        JSONArray damages = jsonObject.getJSONArray("damages");
+        JsonArray damages = jsonObject.getJsonArray("damages");
 
-        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
-            boolean updateSuccess = updateRequestStatus(conn, requestID, "completed");
-            processDamages(conn, damages);
+        boolean updateSuccess = updateRequestStatus(requestID, "completed");
+        processDamages(damages);
 
-            if (updateSuccess) {
-                response.getWriter().write("{\"status\":\"success\", \"message\":\"Return managed successfully.\"}");
-            } else {
-                response.getWriter().write("{\"status\":\"error\", \"message\":\"Failed to manage return.\"}");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            response.getWriter().write("{\"status\":\"error\", \"message\":\"Database error occurred.\"}");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        if (updateSuccess) {
+            response.getWriter().write("{\"status\":\"success\", \"message\":\"Return managed successfully.\"}");
+        } else {
+            response.getWriter().write("{\"status\":\"error\", \"message\":\"Failed to manage return.\"}");
         }
     }
 
-    private boolean updateRequestStatus(Connection conn, int requestID, String newStatus) throws SQLException {
+    private boolean updateRequestStatus(int requestID, String newStatus) {
         String query = "UPDATE equipmentrequest SET status = ? WHERE requestID = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (Connection conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, newStatus);
             stmt.setInt(2, requestID);
-            return stmt.executeUpdate() > 0;
+            int count = stmt.executeUpdate();
+            return count > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
-    private void processDamages(Connection conn, JSONArray damages) throws SQLException {
-        for (int i = 0; i < damages.length(); i++) {
-            JSONObject damage = damages.getJSONObject(i);
+    private void processDamages(JsonArray damages) {
+        for (JsonObject damage : damages.getValuesAs(JsonObject.class)) {
             int equipmentID = damage.getInt("equipmentID");
             String description = damage.getString("description");
-            createDamageReport(conn, equipmentID, description);
+            createDamageReport(equipmentID, description);
         }
     }
 
-    private void createDamageReport(Connection conn, int equipmentID, String description) throws SQLException {
-        String query = "INSERT INTO damagereport (description, equipmentID, status) VALUES (?, ?, 'damaged')";
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, description);
-            stmt.setInt(2, equipmentID);
+    private void createDamageReport(int equipmentID, String description) {
+        String query = "INSERT INTO damagereport (equipmentID, description) VALUES (?, ?)";
+        try (Connection conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, equipmentID);
+            stmt.setString(2, description);
             stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

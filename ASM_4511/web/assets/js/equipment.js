@@ -143,68 +143,72 @@ function loadReturnsData() {
 }
 
 function manageReturn(requestID) {
-    console.log("Managing return for Request ID:", requestID);
+    console.log("Fetching data for request ID:", requestID);
 
-    // 弹出模态框让用户检查每件设备是否损坏，并填写损坏报告
-    // 假设每个设备的状态和描述都已经在表单中
-    if (confirm('Please confirm management of the return. Check if any equipment is damaged.')) {
-        // 收集设备损坏信息
-        var damages = [];
-        $(`.damage-info[data-request-id="${requestID}"]`).each(function () {
-            var equipmentID = $(this).data('equipment-id');
-            var isDamaged = $(this).find('.damage-status').is(':checked');
-            var damageDescription = $(this).find('.damage-description').val();
+    $.ajax({
+        url: baseUrl + '/fetchEquipmentDetails',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            console.log("Data received for manage return:", data);
+            var form = $('#manageReturnForm');
+            form.empty(); // 清空现有的表单内容
 
-            if (isDamaged && damageDescription) {
-                damages.push({
-                    equipmentID: equipmentID,
-                    description: damageDescription
+            // 找到与给定 requestID 匹配的请求
+            var request = data.requests.find(r => r.requestID == requestID);
+            if (request && request.equipments.length > 0) {
+                request.equipments.forEach(equipment => {
+                    form.append(`
+                        <div class="form-group">
+                            <label>${equipment.name} - ${equipment.location}</label>
+                            <select class="form-control" name="status${equipment.equipmentID}">
+                                <option value="available">Available</option>
+                                <option value="damaged">Damaged</option>
+                            </select>
+                            <input type="text" class="form-control mt-2" name="description${equipment.equipmentID}" placeholder="Describe damage (if any)" required>
+                        </div>
+                    `);
                 });
+                $('#manageReturnModal').modal('show');
+            } else {
+                console.error("No equipment data found for the given request ID:", requestID);
+                alert('No equipment data found for this return request.');
             }
-        });
-
-        // 发起 AJAX 请求处理返回
-        $.ajax({
-            url: baseUrl + '/manageReturn',
-            type: 'POST',
-            contentType: 'application/json', // 发送 JSON 数据
-            data: JSON.stringify({requestID: requestID, damages: damages}),
-            success: function (response) {
-                if (response.status === 'success') {
-                    alert('Return has been successfully managed.');
-                    loadReturnsData(); // 刷新数据
-                } else {
-                    alert('Failed to manage return: ' + response.message);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error managing return:', error);
-                alert('Failed to manage return: ' + xhr.responseText);
-            }
-        });
-    }
-}
-
-function submitReturnConfirmation() {
-    console.log("Submitting return confirmation.");
-    var selectedEquipment = [];
-    $('#equipmentList input:checked').each(function () {
-        selectedEquipment.push($(this).val());
-    });
-
-    var damageDescription = $('#damageDescription').val();
-    var requestData = {
-        equipment: selectedEquipment,
-        damageDescription: damageDescription
-    };
-
-    $.post('/path/to/submitReturnConfirmation', requestData, function (response) {
-        console.log("Return processed successfully:", response);
-        alert('Return processed successfully.');
-        $('#confirmReturnModal').modal('hide');
-        location.reload(); // Reload the page to update the display
-    }).fail(function () {
-        console.error('Failed to process the return.');
+        },
+        error: function (xhr, status, error) {
+            console.error("Error fetching data for manage return:", error);
+            alert('Error fetching return data: ' + xhr.responseText);
+        }
     });
 }
+function submitReturnManagement() {
+    var formData = new FormData(document.getElementById('manageReturnForm'));
+    var jsonObject = {};
+
+    formData.forEach(function (value, key) {
+        // 假设表单中的每个 key 都是唯一的
+        jsonObject[key] = value;
+    });
+
+    // 转换为 JSON 字符串
+    var jsonString = JSON.stringify(jsonObject);
+
+    $.ajax({
+        url: baseUrl + '/manageReturn',
+        type: 'POST',
+        data: jsonString,
+        contentType: 'application/json', // 设置发送数据的格式为 JSON
+        success: function (response) {
+            // 处理响应
+            console.log('Return management submitted successfully:', response);
+            $('#manageReturnModal').modal('hide');
+            alert('Return management submitted successfully.');
+        },
+        error: function (xhr, status, error) {
+            console.error('Failed to submit return management:', error);
+            alert('Failed to submit return management: ' + xhr.responseText);
+        }
+    });
+}
+
 

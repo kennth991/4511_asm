@@ -157,6 +157,30 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="manageReturnModal" tabindex="-1" role="dialog" aria-labelledby="manageReturnModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="manageReturnModalLabel">Manage Equipment Return</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="manageReturnForm">
+                                <!-- Equipment items will be dynamically added here by JavaScript -->
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" onclick="submitReturnManagement()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
             <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
             <script src="<c:url value='/assets/js/equipment.js' />"></script>
