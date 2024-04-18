@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
  */
 function displayEquipment(equipmentId, name, location, description, status, category, imgSrc, isStaff) {
-    console.log("Displaying equipment details:", equipmentId);
     document.getElementById("editid").value = equipmentId;
     document.getElementById("editname").value = name;
     document.getElementById("editlocation").value = location;
@@ -18,9 +17,8 @@ function displayEquipment(equipmentId, name, location, description, status, cate
         dropdown.value = "user";
     }
 }
-
 function deleteEquipment(equipmentId, name, location, description, status, category, imgSrc) {
-    console.log("Preparing to delete equipment:", equipmentId);
+
     document.getElementById("id").value = equipmentId;
     document.getElementById("name").value = name;
     document.getElementById("location").value = location;
@@ -146,7 +144,7 @@ function manageReturn(requestID) {
     console.log("Fetching data for request ID:", requestID);
 
     $.ajax({
-        url: baseUrl + '/fetchEquipmentDetails',
+        url: baseUrl + '/fetchEquipmentDetails', // 此处应确保 URL 正确
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -171,7 +169,7 @@ function manageReturn(requestID) {
                 });
                 $('#manageReturnModal').modal('show');
             } else {
-                console.error("No equipment data found for the given request ID:", requestID);
+                console.error("No equipment data found for the given request ID.");
                 alert('No equipment data found for this return request.');
             }
         },
@@ -181,6 +179,7 @@ function manageReturn(requestID) {
         }
     });
 }
+
 function submitReturnManagement() {
     var formData = new FormData(document.getElementById('manageReturnForm'));
     var jsonObject = {};

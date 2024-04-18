@@ -39,23 +39,33 @@ public class ManageReturnServlet extends HttpServlet {
         while ((line = request.getReader().readLine()) != null) {
             jb.append(line);
         }
-        JsonReader reader = Json.createReader(new StringReader(jb.toString()));
-        JsonObject jsonObject = reader.readObject();
-        reader.close();
+        try (JsonReader reader = Json.createReader(new StringReader(jb.toString()))) {
+            JsonObject jsonObject = reader.readObject();
 
-        int requestID = jsonObject.getInt("requestID");
-        JsonArray damages = jsonObject.getJsonArray("damages");
+            int requestID = jsonObject.getInt("requestID");
+            JsonArray damages = jsonObject.getJsonArray("damages");
+            Integer proposerID = (Integer) request.getSession().getAttribute("userID");  // 假设 userID 存在于会话中
+            if (proposerID == null) {
+                // 处理用户ID不存在的情况，可能是因为用户未登录
+                response.getWriter().write("{\"status\":\"error\", \"message\":\"User ID not found in session.\"}");
+                return;
+            }
 
-        boolean updateSuccess = updateRequestStatus(requestID, "completed");
-        processDamages(damages);
+// 现在可以使用 proposerID ，因为它是一个 int 类型
+            boolean updateSuccess = updateRequestStatus(requestID, "completed");
+            processDamages(damages, proposerID);
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
 
-        if (updateSuccess) {
-            response.getWriter().write("{\"status\":\"success\", \"message\":\"Return managed successfully.\"}");
-        } else {
-            response.getWriter().write("{\"status\":\"error\", \"message\":\"Failed to manage return.\"}");
+            if (updateSuccess) {
+                response.getWriter().write("{\"status\":\"success\", \"message\":\"Return managed successfully.\"}");
+            } else {
+                response.getWriter().write("{\"status\":\"error\", \"message\":\"Failed to manage return.\"}");
+            }
+        } catch (Exception e) {
+            response.getWriter().write("{\"status\":\"error\", \"message\":\"Failed to parse request.\"}");
+            e.printStackTrace();
         }
     }
 
@@ -72,22 +82,27 @@ public class ManageReturnServlet extends HttpServlet {
         }
     }
 
-    private void processDamages(JsonArray damages) {
+    private void processDamages(JsonArray damages, int proposerID) {
         for (JsonObject damage : damages.getValuesAs(JsonObject.class)) {
             int equipmentID = damage.getInt("equipmentID");
             String description = damage.getString("description");
-            createDamageReport(equipmentID, description);
+            createDamageReport(equipmentID, description, proposerID);
         }
     }
 
-    private void createDamageReport(int equipmentID, String description) {
-        String query = "INSERT INTO damagereport (equipmentID, description) VALUES (?, ?)";
+    private void createDamageReport(int equipmentID, String description, int proposerID) {
+        String query = "INSERT INTO damagereport (description, approverID, proposerID, status, reportDateTime, reviewDateTime, EquipmentequipmentID) "
+                + "VALUES (?, NULL, ?, 'damaged', NOW(), NULL, ?)";
+
         try (Connection conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword); PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, equipmentID);
-            stmt.setString(2, description);
+            stmt.setString(1, description);
+            stmt.setInt(2, proposerID);
+            stmt.setInt(3, equipmentID);
+
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 }
