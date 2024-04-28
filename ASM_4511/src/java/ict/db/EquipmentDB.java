@@ -221,7 +221,7 @@ public class EquipmentDB {
 
         try {
             cnnct = getConnection(); // get Connection
-            String preQueryStatement = "SELECT * FROM Equipment WHERE status = 'available'";
+            String preQueryStatement = "SELECT * FROM Equipment WHERE status = 'available' AND isStaff IS NULL";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null; // exeute the query and assign to the result
             rs = pStmnt.executeQuery();
@@ -253,6 +253,46 @@ public class EquipmentDB {
         return equipments;
     }
 
+    public ArrayList<EquipmentBean> getAllAvailableEquipmentS() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        EquipmentBean cb = null;
+        ArrayList<EquipmentBean> equipments = new ArrayList<>();
+
+        try {
+            cnnct = getConnection(); // get Connection
+            String preQueryStatement = "SELECT * FROM Equipment WHERE status = 'available'";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null; // exeute the query and assign to the result
+            rs = pStmnt.executeQuery();
+
+            while (rs.next()) {
+                cb = new EquipmentBean();
+                cb.setEquipmentID(rs.getInt("equipmentID"));
+                cb.setName(rs.getString("name"));
+                cb.setLocation(rs.getString("location"));
+                cb.setDescription(rs.getString("description"));
+                cb.setStatus(rs.getString("status"));
+                cb.setCategory(rs.getString("category"));
+                cb.setImgSrc(rs.getString("imgSrc"));
+
+                equipments.add(cb);
+            }
+
+            rs.close();
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return equipments;
+    }
+    
     public EquipmentBean getEquipmentById(Integer equipmentId) throws SQLException, IOException {
         EquipmentBean equipment = null;
         String sql = "SELECT * FROM equipment WHERE equipmentID = ?";

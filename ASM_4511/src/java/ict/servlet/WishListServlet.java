@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import ict.db.WishListEquipmentDB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
-
+import ict.bean.User;
 @WebServlet(name = "WishListServlet", urlPatterns = "/WishListServlet")
 public class WishListServlet extends HttpServlet {
 
@@ -29,7 +29,7 @@ public class WishListServlet extends HttpServlet {
         request.setAttribute("wishListApproved", allWishListEquipmentApproved);
 
         RequestDispatcher rd;
-        rd = getServletContext().getRequestDispatcher("/user/wishList.jsp");
+        rd = getServletContext().getRequestDispatcher("/" + user.getRole() + "/wishList.jsp");
         rd.forward(request, response);
     }
 

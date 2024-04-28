@@ -44,7 +44,7 @@
                         <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Devices</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/view_venue"><i class="fas fa-history"></i> View Venue</a>
+                        <a href="${pageContext.request.contextPath}/view_venue"><i class="fas fa-history"></i> View Venue</a>
                     </li>
                     <li>
                         <a href="WishListServlet"><i class="fas fa-heart"></i> Wish List</a>

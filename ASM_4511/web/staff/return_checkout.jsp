@@ -11,7 +11,7 @@
 <%@page import="ict.servlet.EquipmentServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    User user = (User) session.getAttribute("user");
+    User user = (User) session.getAttribute("staff");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;

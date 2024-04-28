@@ -54,19 +54,19 @@ public class LoginController extends HttpServlet {
 
     private void redirectBasedOnRole(String role, HttpServletRequest request, HttpServletResponse response) throws IOException {
         switch (role) {
-            case "User":
+            case "user":
                 response.sendRedirect(request.getContextPath() + "/BorrowingRecordServlet");
                 break;
-            case "Staff":
-                response.sendRedirect(request.getContextPath() + "/staff/dashboard");
+            case "staff":
+                response.sendRedirect(request.getContextPath() + "/StaffBorrowingRecordServlet");
                 break;
-            case "Technician":
+            case "technician":
                 response.sendRedirect(request.getContextPath() + "/Equipment");
                 break;
-            case "Courier":
+            case "courier":
                 response.sendRedirect(request.getContextPath() + "/DeliveryServlet");
                 break;
-            case "Admin":
+            case "admin":
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
                 break;
             default:
