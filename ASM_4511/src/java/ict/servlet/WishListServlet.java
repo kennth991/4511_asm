@@ -21,6 +21,7 @@ public class WishListServlet extends HttpServlet {
         String password = "";
         WishListEquipmentDB wEquipDb = new WishListEquipmentDB(url, username, password); // Assuming the EquipmentDB manages its own connections
         HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         ArrayList<WishListEquipmentBean> allWishListEquipmentApproved = wEquipDb.queryWishListApproved(session);
         ArrayList<WishListEquipmentBean> allWishListEquipment = wEquipDb.queryWishList();
 
