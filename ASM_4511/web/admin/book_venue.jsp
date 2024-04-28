@@ -33,15 +33,17 @@
         <div class="wrapper">
             <nav id="sidebar" class="active">
                 <div class="sidebar-header">
-                    <img src="<c:url value='/assets/img/logo.png'/>" alt="logo" class="app-logo" style="height: 60px; width: 60px;">
+                    <img src="assets/img/logo.png" style="height: 45px; width: 140px;" alt="bootraper logo" class="app-logo">
                 </div>
                 <ul class="list-unstyled components text-secondary">
-                    <li><a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a></li>
-                    <li><a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a></li>
-                    <li><a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a></li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/technician/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
+                        <a href="supplier_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="supplier_item.html"><i class="fas fa-table"></i> Item</a>
+                    </li>
+                    <li>
+                        <a href="supplier_report.html"><i class="fas fa-file-alt"></i> Report</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -59,7 +61,7 @@
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
                                     <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-user"></i> <span>${technician.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                        <i class="fas fa-user"></i> <span>${admin.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                         <ul class="nav-list">

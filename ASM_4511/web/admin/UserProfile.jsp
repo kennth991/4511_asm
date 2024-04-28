@@ -6,9 +6,8 @@
 
 <%@page import="ict.bean.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    User user = (User) session.getAttribute("courier");
+    User user = (User) session.getAttribute("admin");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;
@@ -31,14 +30,26 @@
         <div class="wrapper">
             <nav id="sidebar" class="active">
                 <div class="sidebar-header">
-                    <img src="<c:url value='/assets/img/logo.png'/>" style="height: 60px; width: 60px;" alt="bootraper logo" class="app-logo">
+                    <img src="${pageContext.request.contextPath}/assets/img/logo.png" style="height: 60px; width: 60px;" alt="bootraper logo" class="app-logo">
                 </div>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="${pageContext.request.contextPath}/DeliveryServlet"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="${pageContext.request.contextPath}/BorrowingRecordServlet"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/courier/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
+                        <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Devices</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/user/view_venue"><i class="fas fa-history"></i> View Venue</a>
+                    </li>
+                    <li>
+                        <a href="WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/user/return_checkout.jsp"><i class="fas fa-hand-holding"></i>Return / Checkout</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/user/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -57,7 +68,7 @@
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
                                     <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-user"></i> <span>${courier.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                        <i class="fas fa-user"></i> <span>${admin.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                         <ul class="nav-list">

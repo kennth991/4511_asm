@@ -9,7 +9,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    User user = (User) session.getAttribute("technician");
+    User user = (User) session.getAttribute("courier");
     if (user == null) {
       response.sendRedirect(request.getContextPath() + "/login.jsp");
     return;
@@ -26,7 +26,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Technician Dashboard</title>
+        <title>Courier Dashboard</title>
         <link href="<c:url value='/assets/vendor/fontawesome/css/fontawesome.min.css' />" rel="stylesheet">
         <link href="<c:url value='/assets/vendor/fontawesome/css/solid.min.css' />" rel="stylesheet">
         <link href="<c:url value='/assets/vendor/bootstrap/css/bootstrap.min.css' />" rel="stylesheet">
@@ -43,25 +43,13 @@
                 </div>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="${pageContext.request.contextPath}/DeliveryServlet"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="inventory_management.html"><i class="fas fa-clipboard-list"></i> Inventory Management</a>
+                        <a href="${pageContext.request.contextPath}/courier/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
                     </li>
                     <li>
-                        <a href="WishListEquipmentServlet"><i class="fas fa-clipboard-list"></i> Wish List Management</a>
-                    </li>
-                    <li>
-                        <a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a>
-                    </li>
-                    <li>
-                        <a href="damage_reporting.html"><i class="fas fa-exclamation-triangle"></i> Damage Reporting</a>
-                    </li>
-                    <li>
-                        <a href="EquipmentRequestServlet"> <i class="fas fa-calendar-check"></i> Logout</a>
-                    </li>
-                    <li>
-                        <a href="index.html"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
                 </ul>
             </nav>
@@ -94,7 +82,10 @@
                 <div class="content">
                     <div class="container">
                         <div class="page-title">
-                            <h3>Technician Dashboard</h3>
+                            <h3>Courier Dashboard</h3>
+                        </div>
+                        <div class="page-title">
+                            <h3>Welcome, ${user.name}</h3>
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-lg-12">

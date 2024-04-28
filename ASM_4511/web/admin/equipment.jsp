@@ -39,22 +39,21 @@
                     <img src="<c:url value='/assets/img/logo.png'/>" alt="logo" class="app-logo" style="height: 60px; width: 60px;">
                 </div>
                 <ul class="list-unstyled components text-secondary">
-                    <li><a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a></li>
-                    
-                    <li><a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a></li>
-
-               <li><a href="ReturnEquipServlet"><i class="fas fa-exclamation-triangle"></i> Return</a></li>
-
-
-                    <li><a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a></li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/technician/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
+                        <a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a>
+                    </li>
+                    <li>
+                        <a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a>
+                    </li>
+                    <li>
+                        <a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
-
                 </ul>
             </nav>
             <div id="body" class="active">
@@ -64,7 +63,7 @@
                         <ul class="nav navbar-nav ms-auto">
                             <li class="nav-item dropdown">
                                 <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown">
-                                    <i class="fas fa-user"></i> <span>${technician.name}</span> <i class="fas fa-caret-down"></i>
+                                    <i class="fas fa-user"></i> <span>${admin.name}</span> <i class="fas fa-caret-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                     <a href="profile.html" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a>
@@ -81,12 +80,14 @@
                             <h3>Technician Dashboard</h3>
                         </div>
                         <div class="page-title">
-                            <h2>Welcome, ${technician.name}</h2>
+                            <h2>Welcome, ${admin.name}</h2>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                
-                               
+                                <select class="form-select mb-4" id="viewSelector" onchange="toggleView(this.value);">
+                                    <option value="equipmentList">Equipment List</option>
+                                    <option value="returnsManagement">Returns Management</option>
+                                </select>
                                 <div id="equipmentListView">
                                     <div class="card">
                                         <div class="card-header">Equipment List</div>
@@ -369,7 +370,6 @@
         </div>
 
 
-
         <!-- Modal -->
         <div class="modal fade" id="manageReturnModal" tabindex="-1" role="dialog" aria-labelledby="manageReturnModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -391,7 +391,6 @@
                 </div>
             </div>
         </div>
-
         <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
         <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
         <script src="<c:url value='/assets/js/script.js' />"></script>

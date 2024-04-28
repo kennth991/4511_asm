@@ -72,7 +72,7 @@
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
                                     <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-user"></i> <span>${user.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                        <i class="fas fa-user"></i> <span>${staff.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                         <ul class="nav-list">
@@ -88,7 +88,7 @@
                 <div class="content">
                     <div class="container">
                         <div class="page-title">
-                            <h3>Welcome, ${user.name}</h3>
+                            <h3>Welcome, ${staff.name}</h3>
                         </div>
                         <select id="returnType" class="form-control mb-3" onchange="showOptions(this.value);">
                             <option value="">Select Return Type</option>
