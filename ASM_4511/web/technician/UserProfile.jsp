@@ -7,7 +7,7 @@
 <%@page import="ict.bean.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    User user = (User) session.getAttribute("user");
+    User user = (User) session.getAttribute("technician");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;
@@ -30,26 +30,15 @@
         <div class="wrapper">
             <nav id="sidebar" class="active">
                 <div class="sidebar-header">
-                    <img src="${pageContext.request.contextPath}/assets/img/logo.png" style="height: 60px; width: 60px;" alt="bootraper logo" class="app-logo">
+                    <img src="<c:url value='/assets/img/logo.png'/>" alt="logo" class="app-logo" style="height: 60px; width: 60px;">
                 </div>
                 <ul class="list-unstyled components text-secondary">
+                    <li><a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a></li>
+                    <li><a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a></li>
+                    <li><a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a></li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/BorrowingRecordServlet"><i class="fas fa-home"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Devices</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/user/view_venue"><i class="fas fa-history"></i> View Venue</a>
-                    </li>
-                    <li>
-                        <a href="WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/user/return_checkout.jsp"><i class="fas fa-hand-holding"></i>Return / Checkout</a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/user/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
+                        <a href="${pageContext.request.contextPath}/technician/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -68,7 +57,7 @@
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
                                     <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-user"></i> <span>${user.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                        <i class="fas fa-user"></i> <span>${technician.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                         <ul class="nav-list">

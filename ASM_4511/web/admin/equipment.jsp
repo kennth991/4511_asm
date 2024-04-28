@@ -39,12 +39,17 @@
                     <img src="<c:url value='/assets/img/logo.png'/>" alt="logo" class="app-logo" style="height: 60px; width: 60px;">
                 </div>
                 <ul class="list-unstyled components text-secondary">
-                    <li><a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a></li>
-                    <li><a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a></li>
-                    <li><a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a></li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/technician/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
+                        <a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a>
+                    </li>
+                    <li>
+                        <a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a>
+                    </li>
+                    <li>
+                        <a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -58,7 +63,7 @@
                         <ul class="nav navbar-nav ms-auto">
                             <li class="nav-item dropdown">
                                 <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown">
-                                    <i class="fas fa-user"></i> <span>${technician.name}</span> <i class="fas fa-caret-down"></i>
+                                    <i class="fas fa-user"></i> <span>${admin.name}</span> <i class="fas fa-caret-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                     <a href="profile.html" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a>
@@ -75,7 +80,7 @@
                             <h3>Technician Dashboard</h3>
                         </div>
                         <div class="page-title">
-                            <h2>Welcome, ${technician.name}</h2>
+                            <h2>Welcome, ${admin.name}</h2>
                         </div>
                         <div class="row">
                             <div class="col-md-12">

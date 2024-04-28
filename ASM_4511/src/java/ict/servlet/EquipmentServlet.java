@@ -20,10 +20,8 @@ public class EquipmentServlet extends HttpServlet {
         String password = "";
         EquipmentDB equipDb = new EquipmentDB(url, username, password); // Assuming the EquipmentDB manages its own connections
         ArrayList<EquipmentBean> allEquipment = equipDb.queryEquip();
-
         // Set the equipments attribute in the request
         request.setAttribute("equipments", allEquipment);
-
         RequestDispatcher rd;
         rd = getServletContext().getRequestDispatcher("/technician/equipment.jsp");
         rd.forward(request, response);
