@@ -4,7 +4,7 @@
  */
 package ict.servlet;
 
-import ict.db.VenueBookingDAO;
+import ict.db.VenueBookingDB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +24,7 @@ public class ReturnVenueServlet extends HttpServlet {
         int bookingId = Integer.parseInt(request.getParameter("bookingId"));
         System.out.println("Booking ID received: " + bookingId);
 
-        VenueBookingDAO bookingDAO = new VenueBookingDAO();
+        VenueBookingDB bookingDAO = new VenueBookingDB();
 
         // Call the method to update the status of the booking
         boolean isUpdated = bookingDAO.updateBookingStatus(bookingId, "return pending", null);

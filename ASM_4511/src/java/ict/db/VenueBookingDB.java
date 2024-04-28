@@ -13,7 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VenueBookingDAO {
+public class VenueBookingDB {
 
     private String jdbcURL = "jdbc:mysql://localhost:3306/4511_asm";
     private String jdbcUsername = "root";

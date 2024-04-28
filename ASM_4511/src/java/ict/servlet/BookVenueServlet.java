@@ -2,7 +2,7 @@ package ict.servlet;
 
 import ict.bean.User;
 import ict.bean.VenueBooking;
-import ict.db.VenueBookingDAO;
+import ict.db.VenueBookingDB;
 import java.io.IOException;
 import java.time.LocalTime;
 import javax.servlet.ServletException;
@@ -15,10 +15,10 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/BookVenueServlet")
 public class BookVenueServlet extends HttpServlet {
 
-    private VenueBookingDAO bookingDAO;
+    private VenueBookingDB bookingDAO;
 
     public void init() {
-        bookingDAO = new VenueBookingDAO(); // Assume VenueBookingDAO is your data access object for bookings
+        bookingDAO = new VenueBookingDB(); // Assume VenueBookingDAO is your data access object for bookings
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
