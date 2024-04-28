@@ -70,6 +70,7 @@ function loadEquipmentDetails(requestId) {
                     </td>
                 </tr>`);
             });
+            
         },
         error: function (xhr, status, error) {
             console.error('Failed to load equipment details:', error);
@@ -100,6 +101,8 @@ function submitDamageReport(equipmentID) {
         }
     });
 }
+ 
+
 function loadReturnsData() {
     var url = baseUrl + '/fetchEquipmentDetails';
     console.log("Request URL:", url); // Confirm the request URL

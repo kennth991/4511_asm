@@ -39,11 +39,9 @@
                 </div>
                 <ul class="list-unstyled components text-secondary">
                     <li><a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="inventory_management.html"><i class="fas fa-clipboard-list"></i> Inventory Management</a></li>
                     <li><a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a></li>
                     <li><a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a></li>
-                    <li><a href="damage_reporting.html"><i class="fas fa-exclamation-triangle"></i> Damage Reporting</a></li>
-                    <li><a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a></li>
+                  <li><a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a></li>
 
                     <li><a href="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
@@ -371,13 +369,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="manageReturnForm">
+                        <form id="manageReturnForm" action="fetchReturnDetails" method="get">
                             <!-- Equipment items will be dynamically added here by JavaScript -->
-                        </form>
+                  
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" onclick="submitReturnManagement()">Submit</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                           </form>
                     </div>
                 </div>
             </div>
