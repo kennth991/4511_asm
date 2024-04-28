@@ -12,6 +12,7 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+
             <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/bean/EquipmentBean.java</file>
             <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/FetchBookingsServlet.java</file>
             <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/db/UserDB.java</file>
@@ -59,6 +60,7 @@
             <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/bean/WishListEquipmentBean.java</file>
             <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/src/java/ict/servlet/LoginController.java</file>
             <file>file:/C:/Users/SmartCity_TY/Documents/GitHub/4511_asm/ASM_4511/web/technician/book_venue.jsp</file>
+
         </group>
     </open-files>
 </project-private>

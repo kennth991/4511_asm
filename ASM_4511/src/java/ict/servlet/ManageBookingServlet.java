@@ -4,7 +4,7 @@
  */
 package ict.servlet;
 
-import ict.db.VenueBookingDAO;
+import ict.db.VenueBookingDB;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -29,7 +29,7 @@ public class ManageBookingServlet extends HttpServlet {
                 return;
             }
 
-            VenueBookingDAO bookingDAO = new VenueBookingDAO();
+            VenueBookingDB bookingDAO = new VenueBookingDB();
             boolean success;
 
             if ("approved".equals(action) || "declined".equals(action)) {

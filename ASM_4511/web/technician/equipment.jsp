@@ -71,6 +71,9 @@
                         <div class="page-title">
                             <h3>Technician Dashboard</h3>
                         </div>
+                        <div class="page-title">
+                            <h2>Welcome, ${user.name}</h2>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <select class="form-select mb-4" id="viewSelector" onchange="toggleView(this.value);">
@@ -82,8 +85,6 @@
                                         <div class="card-header">Equipment List</div>
                                         <div class="card-body">
                                             <table class="table table-hover">
-
-
                                                 <thead>
                                                     <tr>
                                                         <th>Equipment ID</th>
@@ -125,10 +126,10 @@
                                                         }%>
                                                 </tbody>
                                             </table>
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Create Equipment</a></button>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">Create Equipment</a></button>
                             </div>
                             <!-- Modal -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -367,9 +368,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="manageReturnModalLabel">Manage Equipment Return</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="manageReturnForm">
@@ -383,32 +382,6 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            function displayEquipment(equipmentId, name, location, description, status, category, imgSrc, isStaff) {
-                document.getElementById("editid").value = equipmentId;
-                document.getElementById("editname").value = name;
-                document.getElementById("editlocation").value = location;
-                document.getElementById("editdescription").value = description;
-                document.getElementById("editstatus").value = status;
-                document.getElementById("editcategory").value = category;
-
-                var dropdown = document.getElementById("editIsStaffDropdown");
-                if (isStaff === "staff") {
-                    dropdown.value = "staff";
-                } else {
-                    dropdown.value = "user";
-                }
-            }
-            function deleteEquipment(equipmentId, name, location, description, status, category, imgSrc) {
-
-                document.getElementById("id").value = equipmentId;
-                document.getElementById("name").value = name;
-                document.getElementById("location").value = location;
-                document.getElementById("description").value = description;
-                document.getElementById("status").value = status;
-            }
-        </script>
         <script src="<c:url value='/assets/vendor/jquery/jquery.min.js' />"></script>
         <script src="<c:url value='/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' />"></script>
         <script src="<c:url value='/assets/js/script.js' />"></script>

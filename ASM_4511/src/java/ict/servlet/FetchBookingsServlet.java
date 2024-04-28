@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 
-import ict.db.VenueBookingDAO;
+import ict.db.VenueBookingDB;
 import ict.bean.VenueBooking;
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +26,7 @@ public class FetchBookingsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            VenueBookingDAO bookingDAO = new VenueBookingDAO();
+            VenueBookingDB bookingDAO = new VenueBookingDB();
             List<VenueBooking> bookings = bookingDAO.listAllBookings();
             request.setAttribute("bookings", bookings);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/technician/view_booking.jsp");

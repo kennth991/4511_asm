@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
  */
 function displayEquipment(equipmentId, name, location, description, status, category, imgSrc, isStaff) {
-    console.log("Displaying equipment details:", equipmentId);
     document.getElementById("editid").value = equipmentId;
     document.getElementById("editname").value = name;
     document.getElementById("editlocation").value = location;
@@ -18,9 +17,8 @@ function displayEquipment(equipmentId, name, location, description, status, cate
         dropdown.value = "user";
     }
 }
-
 function deleteEquipment(equipmentId, name, location, description, status, category, imgSrc) {
-    console.log("Preparing to delete equipment:", equipmentId);
+
     document.getElementById("id").value = equipmentId;
     document.getElementById("name").value = name;
     document.getElementById("location").value = location;
@@ -142,36 +140,45 @@ function loadReturnsData() {
     });
 }
 
+// 更新 manageReturn 函数来动态使能或禁用描述输入
 function manageReturn(requestID) {
     console.log("Fetching data for request ID:", requestID);
 
     $.ajax({
         url: baseUrl + '/fetchEquipmentDetails',
         type: 'GET',
-        dataType: 'json',
+        data: {requestID: requestID},
         success: function (data) {
             console.log("Data received for manage return:", data);
             var form = $('#manageReturnForm');
-            form.empty(); // 清空现有的表单内容
+            form.empty();
 
-            // 找到与给定 requestID 匹配的请求
             var request = data.requests.find(r => r.requestID == requestID);
             if (request && request.equipments.length > 0) {
                 request.equipments.forEach(equipment => {
                     form.append(`
                         <div class="form-group">
                             <label>${equipment.name} - ${equipment.location}</label>
-                            <select class="form-control" name="status${equipment.equipmentID}">
+                            <select class="form-control status-select" id="status${equipment.equipmentID}" name="status${equipment.equipmentID}">
                                 <option value="available">Available</option>
                                 <option value="damaged">Damaged</option>
                             </select>
-                            <input type="text" class="form-control mt-2" name="description${equipment.equipmentID}" placeholder="Describe damage (if any)" required>
+                            <input type="text" class="form-control mt-2 description-input" id="description${equipment.equipmentID}" name="description${equipment.equipmentID}" placeholder="Describe damage (if any)" disabled required>
                         </div>
                     `);
+
+                    // Add event listener to enable/disable description input based on status
+                    $(`#status${equipment.equipmentID}`).change(function () {
+                        if (this.value === 'damaged') {
+                            $(`#description${equipment.equipmentID}`).prop('disabled', false);
+                        } else {
+                            $(`#description${equipment.equipmentID}`).prop('disabled', true).val('');
+                        }
+                    });
                 });
                 $('#manageReturnModal').modal('show');
             } else {
-                console.error("No equipment data found for the given request ID:", requestID);
+                console.error("No equipment data found for the given request ID.");
                 alert('No equipment data found for this return request.');
             }
         },
@@ -181,28 +188,40 @@ function manageReturn(requestID) {
         }
     });
 }
+
+
 function submitReturnManagement() {
     var formData = new FormData(document.getElementById('manageReturnForm'));
-    var jsonObject = {};
+    var jsonObject = {
+        requestID: formData.get('requestID'), // Assuming there's an input named 'requestID'
+        damages: []
+    };
 
-    formData.forEach(function (value, key) {
-        // 假设表单中的每个 key 都是唯一的
-        jsonObject[key] = value;
+    formData.forEach((value, key) => {
+        if (key.startsWith('status')) {
+            var equipmentID = key.substring(6); // Assuming key format is 'status123'
+            var status = value;
+            var description = formData.get('description' + equipmentID);
+            jsonObject.damages.push({
+                equipmentID: equipmentID,
+                description: description,
+                status: status
+            });
+        }
     });
 
-    // 转换为 JSON 字符串
-    var jsonString = JSON.stringify(jsonObject);
+    console.log("Final JSON being sent:", JSON.stringify(jsonObject));
 
     $.ajax({
         url: baseUrl + '/manageReturn',
         type: 'POST',
-        data: jsonString,
-        contentType: 'application/json', // 设置发送数据的格式为 JSON
+        data: JSON.stringify(jsonObject),
+        contentType: 'application/json',
         success: function (response) {
-            // 处理响应
             console.log('Return management submitted successfully:', response);
             $('#manageReturnModal').modal('hide');
             alert('Return management submitted successfully.');
+            loadReturnsData(); // 重新加载退货管理数据
         },
         error: function (xhr, status, error) {
             console.error('Failed to submit return management:', error);
@@ -210,5 +229,3 @@ function submitReturnManagement() {
         }
     });
 }
-
-
