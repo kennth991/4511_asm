@@ -9,11 +9,11 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    //User user = (User) session.getAttribute("technician");
-    //if (user == null) {
-    //  response.sendRedirect(request.getContextPath() + "/login.jsp");
-    //return;
-    //}
+    User user = (User) session.getAttribute("technician");
+    if (user == null) {
+      response.sendRedirect(request.getContextPath() + "/login.jsp");
+    return;
+    }
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -77,7 +77,7 @@
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
                                     <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-user"></i> <span>Alex Lo</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                        <i class="fas fa-user"></i> <span>${user.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                         <ul class="nav-list">

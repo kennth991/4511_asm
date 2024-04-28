@@ -1,7 +1,7 @@
 package ict.servlet;
 
 import ict.bean.Venue;
-import ict.db.VenueDB;
+import ict.db.VenueDAO;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -11,10 +11,10 @@ import java.util.List;
 @WebServlet(name = "VenueServlet", urlPatterns = "/viewVenue")
 public class VenueServlet extends HttpServlet {
 
-    private VenueDB venueDAO;
+    private VenueDAO venueDAO;
 
     public void init() {
-        venueDAO = new VenueDB();
+        venueDAO = new VenueDAO();
     }
 
     @Override

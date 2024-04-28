@@ -71,6 +71,9 @@
                         <div class="page-title">
                             <h3>Technician Dashboard</h3>
                         </div>
+                        <div class="page-title">
+                            <h2>Welcome, ${user.name}</h2>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <select class="form-select mb-4" id="viewSelector" onchange="toggleView(this.value);">
