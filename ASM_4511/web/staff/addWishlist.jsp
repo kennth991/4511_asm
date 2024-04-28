@@ -11,11 +11,11 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    //User user = (User) session.getAttribute("technician");
-    //if (user == null) {
-    //  response.sendRedirect(request.getContextPath() + "/login.jsp");
-    //return;
-    //}
+    User user = (User) session.getAttribute("staff");
+    if (user == null) {
+      response.sendRedirect(request.getContextPath() + "/login.jsp");
+    return;
+    }
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

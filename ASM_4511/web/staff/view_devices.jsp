@@ -8,7 +8,7 @@ Author     : kenneth
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    User user = (User) session.getAttribute("user");
+    User user = (User) session.getAttribute("staff");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;
@@ -49,19 +49,19 @@ Author     : kenneth
                         <a href="${pageContext.request.contextPath}/BorrowingRecordServlet"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Devices</a>
+                        <a href="${pageContext.request.contextPath}/staff/view_devices"><i class="fas fa-laptop"></i> View Devices</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/view_venue"><i class="fas fa-history"></i> View Venue</a>
+                        <a href="${pageContext.request.contextPath}/staff/view_venue"><i class="fas fa-history"></i> View Venue</a>
                     </li>
                     <li>
                         <a href="WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/return_checkout.jsp"><i class="fas fa-hand-holding"></i>Return / Checkout</a>
+                        <a href="${pageContext.request.contextPath}/staff/return_checkout.jsp"><i class="fas fa-hand-holding"></i>Return / Checkout</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
+                        <a href="${pageContext.request.contextPath}/staff/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>

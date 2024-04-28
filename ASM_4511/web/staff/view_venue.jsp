@@ -9,7 +9,7 @@ Author     : kenneth
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="ict.bean.User"%>
 <%
-    User user = (User) session.getAttribute("user");
+    User user = (User) session.getAttribute("staff");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;

@@ -14,7 +14,7 @@ import java.util.List;
  * @author kenneth
  */
 
-public class VenueDAO {
+public class VenueDB {
 
     private String jdbcURL = "jdbc:mysql://localhost:3306/4511_asm";
     private String jdbcUsername = "root";
@@ -22,7 +22,7 @@ public class VenueDAO {
 
     private static final String SELECT_ALL_VENUES = "SELECT * FROM venue WHERE status = 'open'";
 
-    public VenueDAO() {
+    public VenueDB() {
     }
 
     protected Connection getConnection() {

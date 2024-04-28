@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "ViewDevicesServlet", urlPatterns = {"/view_devices"})
-public class ViewDevicesServlet extends HttpServlet {
+@WebServlet(name = "StaffViewDevicesServlet", urlPatterns = {"/s_view_devices"})
+public class StaffViewDevicesServlet extends HttpServlet {
 
     private EquipmentDB equipmentDB;
     String url = "jdbc:mysql://localhost:3306/4511_asm";
@@ -27,9 +27,9 @@ public class ViewDevicesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            List<EquipmentBean> availableEquipment = equipmentDB.getAllAvailableEquipment();
+            List<EquipmentBean> availableEquipment = equipmentDB.getAllAvailableEquipmentS();
             request.setAttribute("availableEquipment", availableEquipment);
-            request.getRequestDispatcher("/user/view_devices.jsp").forward(request, response);
+            request.getRequestDispatcher("/staff/view_devices.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");

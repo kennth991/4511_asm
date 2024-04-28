@@ -6,9 +6,17 @@
         <servlet-name>ViewDevicesServlet</servlet-name>
         <servlet-class>ict.servlet.ViewDevicesServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StaffViewDevicesServlet</servlet-name>
+        <servlet-class>ict.servlet.StaffViewDevicesServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ViewDevicesServlet</servlet-name>
         <url-pattern>/user/view_devices</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffViewDevicesServlet</servlet-name>
+        <url-pattern>/staff/s_view_devices</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>CheckoutController</servlet-name>
@@ -24,7 +32,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>VenueServlet</servlet-name>
-        <url-pattern>/user/view_venue</url-pattern>
+        <url-pattern>/view_venue</url-pattern>
     </servlet-mapping>
 
     <session-config>
