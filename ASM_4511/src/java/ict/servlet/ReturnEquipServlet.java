@@ -30,48 +30,44 @@ public class ReturnEquipServlet extends HttpServlet {
         rd.forward(request, response);
     }
 
-protected void returnEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String url = "jdbc:mysql://localhost:3306/4511_asm";
-    String username = "root";
-    String password = "";
+    protected void returnEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String url = "jdbc:mysql://localhost:3306/4511_asm";
+        String username = "root";
+        String password = "";
 
-    // Retrieve the selected equipment IDs and their corresponding values
-    String requestID = request.getParameter("requestID");
-    String[] equipmentIds = request.getParameterValues("equipmentId");
-    String[] returnStatuses = request.getParameterValues("returnStatus");
-    HttpSession session = request.getSession();
-    ReturnEquipmentDB equipDb = new ReturnEquipmentDB(url, username, password);
+        // Retrieve the selected equipment IDs and their corresponding values
+        String requestID = request.getParameter("requestID");
+        String[] equipmentIds = request.getParameterValues("equipmentId");
+        String[] returnStatuses = request.getParameterValues("returnType");
+        HttpSession session = request.getSession();
+        ReturnEquipmentDB equipDb = new ReturnEquipmentDB(url, username, password);
 
-    for (int i = 0; i < equipmentIds.length; i++) {
-        String equipmentId = equipmentIds[i];
-        String returnStatus = returnStatuses[i];
-       
-        // Check if the return status is "damage" and retrieve the damage report value
-        if (returnStatus.equals("damage")) {
-            String damageReport = request.getParameter("damageReportText" + equipmentId);
- 
-          
-          equipDb.damageRecord(damageReport,equipmentId,session);
+        for (int i = 0; i < equipmentIds.length; i++) {
+            String equipmentId = equipmentIds[i];
+            String returnStatus = returnStatuses[i];
+
+            // Check if the return status is "damage" and retrieve the damage report value
+            if (returnStatus.equals("damage")) {
+                String damageReport = request.getParameter("damageReportInput" + equipmentId);
+                equipDb.damageRecord(damageReport, equipmentId, session);
+            }
+
+            // Perform other operations as necessary
+            equipDb.editRecord(requestID, equipmentId, returnStatus, session); // Pass each equipment ID and return status to the editRecord method
         }
+        equipDb.finishRecord(requestID);
 
-        // Perform other operations as necessary
-
-        equipDb.editRecord(requestID, equipmentIds, returnStatuses, session); // Pass the equipment IDs and return statuses to the editRecord method
+        response.sendRedirect(request.getContextPath() + "/ReturnEquipServlet");
     }
-
-    response.sendRedirect(request.getContextPath() + "/ReturnEquipServlet");
-}
-
-  
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
         if ("returnEquipment".equals(action)) {
-          
+            returnEquipment(request, response);
         } else if ("deleteEquipment".equals(action)) {
-           
+
         } else {
             processRequest(request, response);
         }

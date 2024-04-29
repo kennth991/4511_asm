@@ -141,28 +141,29 @@
                                                                 <h5 class="modal-title" id="returnModalLabel">Return Confirmation Request<%= firstEquipment.getRequestId()%></h5>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <form action="/ReturnEquipServlet" method="get">
+                                                            <form action="ReturnEquipServlet" method="get">
                                                                 <input type="hidden" name="action" value="returnEquipment">
                                                                 <div class="modal-body">
                                                                     <%-- Iterate over the equipment in the current request list to display dropdowns --%>
                                                                     <% for (ReturnEquipmentBean equipment : requestList) {%>
                                                                     <div class="mb-3">
                                                                         <label for="returnStatus<%= equipment.getEquipmentId()%>" class="form-label">Equipment: <%= equipment.getEquipmentName()%></label>
-                                                                        <input type="hidden" name="requestID" value="<%= equipment.getEquipmentId()%>">
-                                                                        <select class="form-select" id="returnStatus<%= equipment.getEquipmentId()%>" onchange="showTextInput(this)">
+                                                                        <input type="hidden" name="requestID" value="<%= equipment.getRequestId()%>">
+                                                                        <input type="hidden" name="equipmentId" value="<%= equipment.getEquipmentId()%>">
+                                                                        <select class="form-select" name="returnType" id="returnStatus<%= equipment.getEquipmentId()%>" onchange="showTextInput(this)">
                                                                             <option value="confirm">Confirm Return</option>
                                                                             <option value="damage">Damage Report</option>
                                                                         </select>
                                                                         <div id="damageReportInput<%= equipment.getEquipmentId()%>" class="mt-3" style="display: none;">
                                                                             <label for="damageReportText<%= equipment.getEquipmentId()%>" class="form-label">Damage Report:</label>
-                                                                            <textarea class="form-control" id="damageReportText<%= equipment.getEquipmentId()%>" name="damageReportText<%= equipment.getEquipmentId()%>"></textarea>
+                                                                            <textarea name="damageReportInput<%= equipment.getEquipmentId()%>" class="form-control" id="damageReportText<%= equipment.getEquipmentId()%>" name="damageReportText<%= equipment.getEquipmentId()%>"></textarea>
                                                                         </div>
                                                                     </div>
                                                                     <% } %>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                                    <button type="submit" class="btn btn-primary">Save changes</button>
                                                                 </div>
                                                             </form>
                                                         </div>

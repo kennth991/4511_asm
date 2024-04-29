@@ -4,7 +4,7 @@
  */
 package ict.db;
 
-import com.mysql.cj.Session;
+
 import java.io.IOException;
 import java.sql.*;
 
@@ -95,63 +95,88 @@ public class ReturnEquipmentDB {
         }
         return requestList;
     }
+public boolean editRecord(String requestID, String equipmentId, String returnStatus, HttpSession session) {
+    Connection cnnct = null;
+    PreparedStatement pStmnt = null;
+    boolean updateSuccessful = false;
 
-    public boolean editRecord(String requestID, String[] equipmentIds, String[] returnStatuses, HttpSession session) {
-        Connection cnnct = null;
-        PreparedStatement pStmnt = null;
-        boolean updateSuccessful = false;
+    try {
+        cnnct = getConnection(); // get Connection
+        userid = (int) session.getAttribute("userId");
 
-        try {
-            cnnct = getConnection(); // get Connection
+        String query = "UPDATE equipmentrequest_equipment SET status = ? WHERE EquipmentRequestrequestID = ? AND EquipmentequipmentID = ?";
+        pStmnt = cnnct.prepareStatement(query);
+        pStmnt.setString(1, returnStatus);
+        pStmnt.setString(2, requestID);
+        pStmnt.setString(3, equipmentId);
 
-            for (int i = 0; i < equipmentIds.length; i++) {
-                String equipmentId = equipmentIds[i];
-                String returnStatus = returnStatuses[i];
-                userid = (int) session.getAttribute("userId");
-
-                String query = "UPDATE equipmentrequest_equipment SET status = ? WHERE EquipmentRequestrequestID = ? AND EquipmentequipmentID = ?";
-                pStmnt = cnnct.prepareStatement(query);
-                pStmnt.setString(1, returnStatus);
-                pStmnt.setString(2, requestID);
-                pStmnt.setString(3, equipmentId);
-
-                int rowCount = pStmnt.executeUpdate();
-                if (rowCount >= 1) {
-                    updateSuccessful = true;
-                }
-
-                pStmnt.close();
-            }
-
-            cnnct.close();
-        } catch (SQLException ex) {
-            while (ex != null) {
-                ex.printStackTrace();
-                ex = ex.getNextException();
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        int rowCount = pStmnt.executeUpdate();
+        if (rowCount >= 1) {
+            updateSuccessful = true;
         }
-        return updateSuccessful;
-    }
 
-   public void damageRecord(String damageReport, String equipmentId, HttpSession session) {
+        pStmnt.close();
+        cnnct.close();
+    } catch (SQLException ex) {
+        while (ex != null) {
+            ex.printStackTrace();
+            ex = ex.getNextException();
+        }
+    } catch (IOException ex) {
+        ex.printStackTrace();
+    }
+    return updateSuccessful;
+}
+
+public boolean finishRecord(String requestID ) {
+    Connection cnnct = null;
+    PreparedStatement pStmnt = null;
+    boolean updateSuccessful = false;
+
+    try {
+        cnnct = getConnection(); // get Connection
+        
+        String query = "UPDATE equipmentrequest SET status = ? WHERE requestID = ? ";
+        pStmnt = cnnct.prepareStatement(query);
+        pStmnt.setString(1, "returned");
+        pStmnt.setString(2, requestID);
+       
+
+        int rowCount = pStmnt.executeUpdate();
+        if (rowCount >= 1) {
+            updateSuccessful = true;
+        }
+
+        pStmnt.close();
+        cnnct.close();
+    } catch (SQLException ex) {
+        while (ex != null) {
+            ex.printStackTrace();
+            ex = ex.getNextException();
+        }
+    } catch (IOException ex) {
+        ex.printStackTrace();
+    }
+    return updateSuccessful;
+}
+public void damageRecord(String damageReport, String equipmentId, HttpSession session) {
     Connection cnnct = null;
     PreparedStatement pStmnt = null;
 
     try {
-        cnnct = getConnection(); // get Connection
+        cnnct = getConnection(); // Get connection
         int userId = (int) session.getAttribute("userId");
 
         // Insert new damage report
         int reportId = getMaxDamageReportId(cnnct) + 1;
-        String damageReportQuery = "INSERT INTO damagereport (reportID, proposerID, status, reportDateTime, EquipmentequipmentID, reportText) VALUES (?, ?, ?, NOW(), ?, ?)";
+        String damageReportQuery = "INSERT INTO damagereport (reportID, description, proposerID, status, reportDateTime, EquipmentequipmentID) VALUES (?, ?, ?, ?, NOW(), ?)";
         pStmnt = cnnct.prepareStatement(damageReportQuery);
         pStmnt.setInt(1, reportId);
-        pStmnt.setInt(2, userId);
-        pStmnt.setString(3, "reporting");
-        pStmnt.setString(4, equipmentId);
-        pStmnt.setString(5, damageReport);
+        System.out.print(reportId);
+        pStmnt.setString(2, damageReport);
+        pStmnt.setInt(3, userId);
+        pStmnt.setString(4, "reporting");
+        pStmnt.setString(5, equipmentId);
 
         int insertedRows = pStmnt.executeUpdate();
         if (insertedRows >= 1) {
@@ -164,21 +189,26 @@ public class ReturnEquipmentDB {
         pStmnt.setString(1, "unavailable");
         pStmnt.setString(2, equipmentId);
 
-
         int updatedRows = pStmnt.executeUpdate();
         if (updatedRows >= 1) {
             System.out.println("Equipment status updated successfully.");
         }
 
-        pStmnt.close();
-        cnnct.close();
     } catch (SQLException ex) {
-        while (ex != null) {
-            ex.printStackTrace();
-            ex = ex.getNextException();
-        }
+        ex.printStackTrace();
     } catch (IOException ex) {
         ex.printStackTrace();
+    }finally {
+        try {
+            if (pStmnt != null) {
+                pStmnt.close();
+            }
+            if (cnnct != null) {
+                cnnct.close();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }
     private int getMaxDamageReportId(Connection cnnct) throws SQLException {

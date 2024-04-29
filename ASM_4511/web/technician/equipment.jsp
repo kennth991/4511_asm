@@ -47,8 +47,9 @@
                <li><a href="ReturnEquipServlet"><i class="fas fa-exclamation-triangle"></i> Return</a></li>
 
 
-                    <li><a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a></li>
-                    <li>
+               <li><a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a></li>
+               
+               <li>
                         <a href="${pageContext.request.contextPath}/technician/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
                     </li>
                     <li>

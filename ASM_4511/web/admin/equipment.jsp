@@ -51,6 +51,9 @@
                     <li>
                         <a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a>
                     </li>
+                       <li>
+                        <a href="ApproveDamageReport"><i class="fas fa-exclamation-triangle"></i> Damage Report</a>
+                    </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/admin/CreateAccount.jsp"><i class="fas fa-exclamation-triangle"></i> Approved</a>
                     </li>
