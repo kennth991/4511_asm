@@ -10,11 +10,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
-    User user = (User) session.getAttribute("technician");
-    if (user == null) {
-        response.sendRedirect(request.getContextPath() + "/login.jsp");
-        return;
-    }
+//    User user = (User) session.getAttribute("technician");
+//    if (user == null) {
+//        response.sendRedirect(request.getContextPath() + "/login.jsp");
+//        return;
+//    }
     List<VenueBooking> bookings = (List<VenueBooking>) request.getAttribute("bookings"); // Ensure this matches the attribute name set in the servlet
 %>
 

@@ -36,9 +36,10 @@
                     <img src="<c:url value='/assets/img/logo.png'/>" alt="logo" class="app-logo" style="height: 60px; width: 60px;">
                 </div>
                 <ul class="list-unstyled components text-secondary">
-                    <li><a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="/Equipment"><i class="fas fa-home"></i> Dashboard</a></li>
                     <li><a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a></li>
                     <li><a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a></li>
+                    <li><a href="ReturnEquipServlet"><i class="fas fa-exclamation-triangle"></i> Return</a></li>
                     <li><a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a></li>
                     <li>
                         <a href="${pageContext.request.contextPath}/technician/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
