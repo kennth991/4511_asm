@@ -17,6 +17,9 @@ import ict.bean.User;
 
 public class UserDB {
 
+    public UserDB(String url, String username, String password) {
+    }
+
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/4511_asm";
     private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "";
@@ -54,13 +57,36 @@ public class UserDB {
         } finally {
             // Close database resources
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
         return user;
+    }
+
+    public boolean createUser(User user) {
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
+            String query = "INSERT INTO user (name, userName, location, role, password) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, user.getName());
+            pstmt.setString(2, user.getuserName());
+            pstmt.setString(3, user.getLocation());
+            pstmt.setString(4, user.getRole());
+            pstmt.setString(5, user.getPassword());
+            int result = pstmt.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

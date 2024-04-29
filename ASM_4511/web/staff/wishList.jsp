@@ -49,13 +49,13 @@
                         <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Devices</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/view_venue"><i class="fas fa-history"></i> View Venue</a>
+                        <a href="${pageContext.request.contextPath}/s_view_venue"><i class="fas fa-history"></i> View Venue</a>
                     </li>
                     <li>
-                        <a href="WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
+                        <a href="${pageContext.request.contextPath}/StaffWishListServlet"><i class="fas fa-heart"></i> Wish List</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/return_checkout.jsp"><i class="fas fa-hand-holding"></i>Return / Checkout</a>
+                        <a href="${pageContext.request.contextPath}/staff/return_checkout.jsp"><i class="fas fa-hand-holding"></i>Return / Checkout</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/user/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
@@ -77,7 +77,7 @@
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
                                     <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-user"></i> <span>${user.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                        <i class="fas fa-user"></i> <span>${staff.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                         <ul class="nav-list">
@@ -101,7 +101,7 @@
                                             <h3>Technician Dashboard</h3>
                                         </div>
                                         <div class="col text-right">
-                                            <a href="AddWishList" class="btn btn-info mb-3">Add Wish List</a>
+                                            <a href="StaffAddWishList" class="btn btn-info mb-3">Add Wish List</a>
                                         </div>
                                     </div>
                                 </div>
@@ -151,7 +151,7 @@
                                                 <td>
 
 
-                                                    <form action="WishListServlet" method="get">
+                                                    <form action="StaffWishListServlet" method="get">
                                                         <input type="hidden" name="action" value="confirm"> <!-- Added hidden field for action -->
                                                         <input type="hidden" id="wishListwishID" name="wishListwishID" value="<%= wishEquipmentApproved.getWishListwishID()%>">
                                                         <input type="hidden" name="equipmentID" id="equipmentID" value="<%= wishEquipmentApproved.getEquipmentequipmentID()%>">
@@ -231,7 +231,7 @@
                                                 <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form action="WishListServlet" method="get">
+                                            <form action="StaffWishListServlet" method="get">
                                                 <div class="modal-body">
                                                     Do you confirm to remove?
                                                     <input type="hidden" name="action" value="remove"> <!-- Added hidden field for action -->

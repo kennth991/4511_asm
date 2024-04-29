@@ -229,7 +229,6 @@ public class WishListEquipmentDB {
                     + "FROM equipment "
                     + "JOIN wishlist_equipment ON wishlist_equipment.EquipmentequipmentID = equipment.equipmentID "
                     + "JOIN wishlist ON wishlist_equipment.WishListwishlistID = wishlist.whislistID "
-                  
                     + "WHERE wishlist.requesterID = ? AND wishlist_equipment.status = 'pending'";
             pStmnt = cnnct.prepareStatement(sql);
             pStmnt.setInt(1, userid);
@@ -246,7 +245,7 @@ public class WishListEquipmentDB {
                 cb.setStatus(rs.getString("status"));
                 cb.setRequestDateTime(rs.getString("requestDateTime"));
                 //cb.setRespondDateTime(rs.getString("respondDateTime"));
-               
+
                 cb.setEquipmentName(rs.getString("equipment"));
                 cb.setLocation(rs.getString("location"));
                 equipments.add(cb);
@@ -267,6 +266,51 @@ public class WishListEquipmentDB {
     }
 
     public ArrayList<WishListEquipmentBean> queryAddWishList(HttpSession session) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        WishListEquipmentBean cb = null;
+        ArrayList<WishListEquipmentBean> equipments = new ArrayList<>();
+
+        userid = (int) session.getAttribute("userId");
+
+        try {
+            cnnct = getConnection(); // get Connection
+            // Retrieve the userId from the session
+
+            String sql = "SELECT * FROM Equipment WHERE status = 'unavailable' AND isStaff IS NULL AND equipmentID NOT IN (SELECT EquipmentequipmentID FROM wishlist_equipment WHERE WishListwishlistID IN (SELECT whislistID FROM wishlist WHERE requesterID = ?))";
+            pStmnt = cnnct.prepareStatement(sql);
+            pStmnt.setInt(1, userid);
+
+            ResultSet rs = null; // exeute the query and assign to the result
+            rs = pStmnt.executeQuery();
+
+            while (rs.next()) {
+
+                cb = new WishListEquipmentBean();
+                cb.setEquipmentequipmentID(rs.getInt("equipmentID"));
+                //cb.setResponderID(rs.getInt("responderID"));
+                cb.setStatus(rs.getString("status"));
+                //cb.setRespondDateTime(rs.getString("respondDateTime"));
+                cb.setEquipmentName(rs.getString("name"));
+                cb.setLocation(rs.getString("location"));
+                equipments.add(cb);
+            }
+
+            rs.close();
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return equipments;
+    }
+
+    public ArrayList<WishListEquipmentBean> sQueryAddWishList(HttpSession session) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         WishListEquipmentBean cb = null;

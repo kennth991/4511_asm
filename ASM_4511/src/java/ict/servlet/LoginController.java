@@ -20,9 +20,12 @@ public class LoginController extends HttpServlet {
     private UserDB userDB;
 
     public void init() {
-        // Initialize UserDB with connection settings or obtain it from Servlet Context if globally available
-        userDB = new UserDB();
+        String url = "jdbc:mysql://localhost:3306/4511_asm";
+        String username = "root";
+        String password = "";
+        userDB = new UserDB(url, username, password);
     }
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -67,7 +70,7 @@ public class LoginController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/DeliveryServlet");
                 break;
             case "admin":
-                response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+                response.sendRedirect(request.getContextPath() + "/AdminEquipment");
                 break;
             default:
                 request.getSession().invalidate();
