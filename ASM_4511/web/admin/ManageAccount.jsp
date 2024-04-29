@@ -1,11 +1,12 @@
 <%-- 
-    Document   : CreateAccount
-    Created on : 2024年4月29日, 上午10:24:37
+    Document   : ManageAccount
+    Created on : 2024年4月29日, 下午12:57:28
     Author     : kenneth
 --%>
 
 <%@page import="ict.bean.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
     User user = (User) session.getAttribute("admin");
     if (user == null) {
@@ -19,7 +20,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Create User Account</title>
+        <title>Manage User Accounts</title>
         <link href="${pageContext.request.contextPath}/assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -87,42 +88,36 @@
                 <div class="content">
                     <div class="container">
                         <div class="container mt-5">
-                            <h2>Create User Account</h2>
-                            <form action="${pageContext.request.contextPath}/CreateAccountServlet" method="POST">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="userName" class="form-label">Login ID</label>
-                                    <input type="text" class="form-control" id="userName" name="userName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="location" class="form-label">Location</label>
-                                    <select class="form-control" id="location" name="location">
-                                        <option value="TY">TY</option>
-                                        <option value="ST">ST</option>
-                                        <option value="TM">TM</option>
-                                        <option value="CW">CW</option>
-                                        <option value="LWL">LWL</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Role</label>
-                                    <select class="form-control" id="role" name="role">
-                                        <option value="user">User</option>
-                                        <option value="technician">Technician</option>
-                                        <option value="staff">Staff</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="courier">Courier</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Create Account</button>
-                            </form>
+                            <h2>Manage User Accounts</h2>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>Name</th>
+                                        <th>Login ID</th>
+                                        <th>Location</th>
+                                        <th>Role</th>
+                                        <th>Password</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="user" items="${users}">
+                                        <tr>
+                                            <td>${user.userID}</td>
+                                            <td>${user.name}</td>
+                                            <td>${user.userName}</td>
+                                            <td>${user.location}</td>
+                                            <td>${user.role}</td>
+                                            <td>${user.password}</td>
+                                            <td>
+                                                <a href="${pageContext.request.contextPath}/EditUserServlet?userID=${user.userID}" class="btn btn-primary">Edit</a>
+                                                <a href="${pageContext.request.contextPath}/DeleteUserServlet?userID=${user.userID}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

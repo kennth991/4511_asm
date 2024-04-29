@@ -10,7 +10,6 @@
 <%@page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-//    String role = (String) session.getAttribute("role");
     User user = (User) session.getAttribute("admin");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
@@ -52,7 +51,13 @@
                         <a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/admin/CreateAccount.jsp"><i class="fas fa-exclamation-triangle"></i> Approved</a>
+                        <a href="${pageContext.request.contextPath}/admin/CreateAccount.jsp"><i class="fas fa-exclamation-triangle"></i> Create Account</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/admin/ManageAccount.jsp"><i class="fas fa-exclamation-triangle"></i> Manage Account</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/admin/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>

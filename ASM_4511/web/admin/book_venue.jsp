@@ -33,17 +33,29 @@
         <div class="wrapper">
             <nav id="sidebar" class="active">
                 <div class="sidebar-header">
-                    <img src="assets/img/logo.png" style="height: 45px; width: 140px;" alt="bootraper logo" class="app-logo">
+                    <img src="<c:url value='/assets/img/logo.png'/>" alt="logo" class="app-logo" style="height: 60px; width: 60px;">
                 </div>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="supplier_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="${pageContext.request.contextPath}/AdminEquipment"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="supplier_item.html"><i class="fas fa-table"></i> Item</a>
+                        <a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a>
                     </li>
                     <li>
-                        <a href="supplier_report.html"><i class="fas fa-file-alt"></i> Report</a>
+                        <a href="<c:url value='/view_booking'/>"><i class="fas fa-calendar-check"></i> Booking Management</a>
+                    </li>
+                    <li>
+                        <a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/admin/CreateAccount.jsp"><i class="fas fa-exclamation-triangle"></i> Create Account</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/admin/ManageAccount.jsp"><i class="fas fa-exclamation-triangle"></i> Manage Account</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/technician/UserProfile.jsp"><i class="fas fa-exclamation-triangle"></i> Manage Account</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>

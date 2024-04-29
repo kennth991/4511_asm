@@ -9,8 +9,6 @@ import java.io.IOException;
 import ict.bean.DeliveryBean;
 import ict.db.DeliveryDB;
 import java.util.ArrayList;
-import ict.db.EquipmentRequestDB;
-import ict.db.WishListEquipmentDB;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;

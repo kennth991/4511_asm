@@ -89,4 +89,45 @@ public class UserDB {
             return false;
         }
     }
+    
+    public User getUserByID(int userID) throws SQLException {
+        User user = null;
+        String query = "SELECT * FROM user WHERE userID = ?";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, userID);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                user = new User(rs.getInt("userID"), rs.getString("name"), rs.getString("userName"),
+                                rs.getString("location"), rs.getString("role"), rs.getString("password"));
+            }
+        }
+        return user;
+    }
+
+    public boolean updateUser(User user) throws SQLException {
+        String updateSQL = "UPDATE user SET name = ?, userName = ?, location = ?, role = ?, password = ? WHERE userID = ?";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+            pstmt.setString(1, user.getName());
+            pstmt.setString(2, user.getuserName());
+            pstmt.setString(3, user.getLocation());
+            pstmt.setString(4, user.getRole());
+            pstmt.setString(5, user.getPassword());
+            pstmt.setInt(6, user.getUserID());
+            int result = pstmt.executeUpdate();
+            return result > 0;
+        }
+    }
+
+    public boolean deleteUser(int userID) throws SQLException {
+        String deleteSQL = "DELETE FROM user WHERE userID = ?";
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(deleteSQL)) {
+            pstmt.setInt(1, userID);
+            int result = pstmt.executeUpdate();
+            return result > 0;
+        }
+    }
+    
 }
