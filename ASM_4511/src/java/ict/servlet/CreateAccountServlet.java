@@ -45,10 +45,10 @@ public class CreateAccountServlet extends HttpServlet {
 
         boolean isCreated = userDB.createUser(newUser);
         if (isCreated) {
-            response.sendRedirect(request.getContextPath() + "/admin/user_management.jsp");
+            response.sendRedirect(request.getContextPath() + "/admin/CreateAccount.jsp");
         } else {
             request.setAttribute("error", "Failed to create user account.");
-            request.getRequestDispatcher("/admin/create_account.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/CreateAccount.jsp").forward(request, response);
         }
     }
 }
