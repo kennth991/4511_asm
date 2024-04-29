@@ -12,18 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/technician/equipment.jsp</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/user/addWishlist.jsp</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/EquipmentRequestServlet.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/user/return_checkout.jsp</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/LoginController.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/nbproject/build-impl.xml</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/FetchEquipmentDetailsServlet.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/technician/UserProfile.jsp</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/courier/delivery.jsp</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/assets/js/equipment.js</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/FetchBookingsServlet.java</file>
-            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/bean/User.java</file>
+            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/WishListServlet.java</file>
+            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/servlet/VenueServlet.java</file>
+            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/src/java/ict/db/WishListDB.java</file>
+            <file>file:/Users/kenneth/Desktop/4511_asm/ASM_4511/web/staff/dashboard.jsp</file>
         </group>
     </open-files>
 </project-private>

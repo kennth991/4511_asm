@@ -9,8 +9,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "VenueServlet", urlPatterns = "/view_venue")
-public class VenueServlet extends HttpServlet {
+@WebServlet(name = "StaffVenueServlet", urlPatterns = "/s_view_venue")
+public class StaffVenueServlet extends HttpServlet {
 
     private VenueDB venueDAO;
 
@@ -25,10 +25,10 @@ public class VenueServlet extends HttpServlet {
 
     private void listVenues(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("staff");
         List<Venue> listVenue = venueDAO.listAllVenues();
         request.setAttribute("listVenue", listVenue);
-        String test = "/user/view_venue.jsp";
+        String test = "/staff/view_venue.jsp";
         System.out.println(test);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/" + user.getRole() + "/view_venue.jsp");
         dispatcher.forward(request, response);

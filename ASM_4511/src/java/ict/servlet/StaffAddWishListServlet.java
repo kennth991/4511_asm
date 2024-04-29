@@ -12,8 +12,8 @@ import ict.db.WishListEquipmentDB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "AddWishListServlet", urlPatterns = "/AddWishList")
-public class AddWishListServlet extends HttpServlet {
+@WebServlet(name = "StaffAddWishListServlet", urlPatterns = "/StaffAddWishList")
+public class StaffAddWishListServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = "jdbc:mysql://localhost:3306/4511_asm";
@@ -21,11 +21,11 @@ public class AddWishListServlet extends HttpServlet {
         String password = "";
         WishListEquipmentDB wEquipDb = new WishListEquipmentDB(url, username, password); // Assuming the EquipmentDB manages its own connections
         HttpSession session = request.getSession();
-        ArrayList<WishListEquipmentBean> allWishListEquipment = wEquipDb.queryAddWishList(session);
+        ArrayList<WishListEquipmentBean> allWishListEquipment = wEquipDb.sQueryAddWishList(session);
         // Set the equipments attribute in the request
         request.setAttribute("wishListAdd", allWishListEquipment);
         RequestDispatcher rd;
-        rd = getServletContext().getRequestDispatcher("/user/addWishlist.jsp");
+        rd = getServletContext().getRequestDispatcher("/staff/addWishlist.jsp");
         rd.forward(request, response);
     }
 
@@ -39,7 +39,7 @@ public class AddWishListServlet extends HttpServlet {
 
         WishListEquipmentDB wEquipDb = new WishListEquipmentDB(url, username, password);
         wEquipDb.addToWishList(wishListId, equipmentId); // Assuming you have a method to delete records
-        response.sendRedirect(request.getContextPath() + "/AddWishList");
+        response.sendRedirect(request.getContextPath() + "/StaffAddWishList");
     }
 
     @Override

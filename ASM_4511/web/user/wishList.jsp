@@ -9,7 +9,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    User user = (User) session.getAttribute("technician");
+    User user = (User) session.getAttribute("user");
     if (user == null) {
       response.sendRedirect(request.getContextPath() + "/login.jsp");
     return;
@@ -49,10 +49,10 @@
                         <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Devices</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/user/view_venue"><i class="fas fa-history"></i> View Venue</a>
+                        <a href="${pageContext.request.contextPath}/view_venue"><i class="fas fa-history"></i> View Venue</a>
                     </li>
                     <li>
-                        <a href="WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
+                        <a href="${pageContext.request.contextPath}/WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/user/return_checkout.jsp"><i class="fas fa-hand-holding"></i>Return / Checkout</a>

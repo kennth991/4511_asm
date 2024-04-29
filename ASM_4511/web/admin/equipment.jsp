@@ -11,7 +11,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 //    String role = (String) session.getAttribute("role");
-    User user = (User) session.getAttribute("technician");
+    User user = (User) session.getAttribute("admin");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;
@@ -40,7 +40,7 @@
                 </div>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="technician_index.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="${pageContext.request.contextPath}/AdminEquipment"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="WishListEquipmentServlet"><i class="fas fa-heart"></i> Wish List Management</a>
@@ -50,6 +50,9 @@
                     </li>
                     <li>
                         <a href="EquipmentRequestServlet"><i class="fas fa-exclamation-triangle"></i> Approved</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/admin/CreateAccount.jsp"><i class="fas fa-exclamation-triangle"></i> Approved</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>

@@ -1,13 +1,13 @@
 <%-- 
-    Document   : UserProfile
-    Created on : 2024年4月16日, 下午11:58:33
+    Document   : CreateAccount
+    Created on : 2024年4月29日, 上午10:24:37
     Author     : kenneth
 --%>
 
 <%@page import="ict.bean.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    User user = (User) session.getAttribute("staff");
+    User user = (User) session.getAttribute("admin");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/login.jsp");
         return;
@@ -19,7 +19,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>User Dashboard</title>
+        <title>Create User Account</title>
         <link href="${pageContext.request.contextPath}/assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -34,22 +34,22 @@
                 </div>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="${pageContext.request.contextPath}/StaffBorrowingRecordServlet"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="${pageContext.request.contextPath}/BorrowingRecordServlet"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/staff/s_view_devices"><i class="fas fa-laptop"></i> View Devices</a>
+                        <a href="${pageContext.request.contextPath}/user/view_devices"><i class="fas fa-laptop"></i> View Devices</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/s_view_venue"><i class="fas fa-history"></i> View Venue</a>
+                        <a href="${pageContext.request.contextPath}/user/view_venue"><i class="fas fa-history"></i> View Venue</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/StaffWishListServlet"><i class="fas fa-heart"></i> Wish List</a>
+                        <a href="WishListServlet"><i class="fas fa-heart"></i> Wish List</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/staff/return_checkout.jsp"><i class="fas fa-hand-holding"></i>Return / Checkout</a>
+                        <a href="${pageContext.request.contextPath}/user/return_checkout.jsp"><i class="fas fa-hand-holding"></i>Return / Checkout</a>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath}/staff/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
+                        <a href="${pageContext.request.contextPath}/user/UserProfile.jsp"><i class="fas fa-user-cog"></i> Personal Information</a>
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet"> <i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -68,7 +68,7 @@
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
                                     <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-user"></i> <span>${staff.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                        <i class="fas fa-user"></i> <span>${admin.name}</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                         <ul class="nav-list">
@@ -84,41 +84,41 @@
                 <div class="content">
                     <div class="container">
                         <div class="container mt-5">
-                            <h2>User Profile</h2>
-                            <form action="${pageContext.request.contextPath}/UserProfile" method="POST">
+                            <h2>Create User Account</h2>
+                            <form action="${pageContext.request.contextPath}/CreateAccountServlet" method="POST">
                                 <div class="mb-3">
-                                    <label for="userID" class="form-label">User ID</label>
-                                    <input type="text" class="form-control" id="userID" name="userID" value="<%= user.getUserID()%>" readonly>
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="userName" class="form-label">Login ID</label>
-                                    <input type="text" class="form-control" id="userName" name="userName" value="<%= user.getuserName()%>" required>
+                                    <input type="text" class="form-control" id="userName" name="userName" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="Role" class="form-label">Your Role</label>
-                                    <input type="text" class="form-control" id="Role" name="Role" value="<%= user.getRole()%>" readonly>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="<%= user.getName()%>" readonly>
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="location" class="form-label">Location</label>
-                                    <input type="text" class="form-control" id="location" name="location" value="<%= user.getLocation()%>" readonly>
+                                    <select class="form-control" id="location" name="location">
+                                        <option value="TY">TY</option>
+                                        <option value="ST">ST</option>
+                                        <option value="TM">TM</option>
+                                        <option value="CW">CW</option>
+                                        <option value="LWL">LWL</option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="oldPassword" class="form-label">Old Password (required for any changes)</label>
-                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
+                                    <label for="role" class="form-label">Role</label>
+                                    <select class="form-control" id="role" name="role">
+                                        <option value="user">User</option>
+                                        <option value="technician">Technician</option>
+                                        <option value="staff">Staff</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="courier">Courier</option>
+                                    </select>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="newPassword" class="form-label">New Password (optional)</label>
-                                    <input type="password" class="form-control" id="newPassword" name="newPassword">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirmNewPassword" class="form-label">Confirm New Password (optional)</label>
-                                    <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                                <button type="submit" class="btn btn-primary">Create Account</button>
                             </form>
                         </div>
                     </div>
@@ -129,14 +129,6 @@
         <script src="${pageContext.request.contextPath}/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/UserProfile.js"></script>
-        <script>
-            $(document).ready(function () {
-            <% if (session.getAttribute("message") != null) {%>
-                alert('<%= session.getAttribute("message")%>');
-            <% session.removeAttribute("message"); %> // Remove attribute after displaying to avoid repeat alerts
-            <% }%>
-            });
-        </script>
     </body>
 
 </html>

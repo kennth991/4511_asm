@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import ict.db.WishListEquipmentDB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
-@WebServlet(name = "WishListServlet", urlPatterns = "/WishListServlet")
-public class WishListServlet extends HttpServlet {
+
+@WebServlet(name = "StaffWishListServlet", urlPatterns = "/StaffWishListServlet")
+public class StaffWishListServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = "jdbc:mysql://localhost:3306/4511_asm";
@@ -28,7 +29,7 @@ public class WishListServlet extends HttpServlet {
         request.setAttribute("wishListApproved", allWishListEquipmentApproved);
 
         RequestDispatcher rd;
-        rd = getServletContext().getRequestDispatcher("/user/wishList.jsp");
+        rd = getServletContext().getRequestDispatcher("/staff/wishList.jsp");
         rd.forward(request, response);
     }
 
@@ -39,34 +40,35 @@ public class WishListServlet extends HttpServlet {
         int wishListId = Integer.parseInt(request.getParameter("wishListwishID"));
         int equipmentId = Integer.parseInt(request.getParameter("equipmentID"));
         WishListEquipmentDB wEquipDb = new WishListEquipmentDB(url, username, password);
-        wEquipDb.deleteWishListEquipment(wishListId,equipmentId); // Assuming you have a method to delete records
-        response.sendRedirect(request.getContextPath() + "/WishListServlet");
+        wEquipDb.deleteWishListEquipment(wishListId, equipmentId); // Assuming you have a method to delete records
+        response.sendRedirect(request.getContextPath() + "/StaffWishListServlet");
     }
-     protected void removeWishEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    protected void removeWishEquipment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = "jdbc:mysql://localhost:3306/4511_asm";
         String username = "root";
         String password = "";
         int wishListId = Integer.parseInt(request.getParameter("removeWishListwishID"));
         int equipmentId = Integer.parseInt(request.getParameter("removeEquipmentID"));
         WishListEquipmentDB wEquipDb = new WishListEquipmentDB(url, username, password);
-        wEquipDb.deleteWishListEquipment(wishListId,equipmentId); // Assuming you have a method to delete records
-        response.sendRedirect(request.getContextPath() + "/WishListServlet");
+        wEquipDb.deleteWishListEquipment(wishListId, equipmentId); // Assuming you have a method to delete records
+        response.sendRedirect(request.getContextPath() + "/StaffWishListServlet");
     }
 
     @Override
-   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String action = request.getParameter("action");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
 
-    if ("confirm".equals(action)) {
-        System.out.println("confirmWishEquipment method is running.");
-        confirmWishEquipment(request, response);
-    } else if ("remove".equals(action)) {
-       removeWishEquipment(request, response);
-        System.out.println("confirmWishEquipment method is running.");
-    } else {
-        processRequest(request, response);
+        if ("confirm".equals(action)) {
+            System.out.println("confirmWishEquipment method is running.");
+            confirmWishEquipment(request, response);
+        } else if ("remove".equals(action)) {
+            removeWishEquipment(request, response);
+            System.out.println("confirmWishEquipment method is running.");
+        } else {
+            processRequest(request, response);
+        }
     }
-}
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

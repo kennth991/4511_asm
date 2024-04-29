@@ -34,7 +34,14 @@
         <servlet-name>VenueServlet</servlet-name>
         <url-pattern>/view_venue</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>StaffVenueServlet</servlet-name>
+        <servlet-class>ict.servlet.StaffVenueServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StaffVenueServlet</servlet-name>
+        <url-pattern>/s_view_venue</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>15</session-timeout> <!-- Session timeout in minutes -->
     </session-config>
